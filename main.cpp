@@ -15,9 +15,7 @@ int main(int argc, char *argv[])
 
     Eigen::VectorXi J;
     igl::copyleft::cgal::mesh_boolean(V0, F0, V1, F1, igl::MeshBooleanType::MESH_BOOLEAN_TYPE_INTERSECT, V2, F2, J);
-
-    std::cout << V2 << std::endl;
-
+    
     // Plot the mesh
     igl::opengl::glfw::Viewer viewer;
     viewer.data().set_mesh(V2, F2);
