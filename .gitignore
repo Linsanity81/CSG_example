@@ -33,3 +33,4 @@
 
 build/*
 cmake-build-release/*
+Cmake-build-debug/*
