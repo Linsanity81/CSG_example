@@ -10,6 +10,11 @@
 #include <igl/volume.h>
 class MeshVoxel {
 public:
+    const int dX[6] = {-1, 1, 0, 0, 0, 0};
+    const int dY[6] = {0, 0, -1, 1, 0, 0};
+    const int dZ[6] = {0, 0, 0, 0, -1, 1};
+
+public:
 
     Eigen::MatrixXd meshV_;
 
@@ -32,9 +37,15 @@ public:
 
 public:
 
-    double intersec(Eigen::Vector3i index, Eigen::MatrixXd &V, Eigen::MatrixXi &F);
+    void voxelization(int M);
 
-    void voxel(Eigen::Vector3i index, Eigen::MatrixXd &V, Eigen::MatrixXi &F);
+    std::vector<double> compute_contacts(Eigen::Vector3i index,
+                                         const Eigen::MatrixXd &V,
+                                         const Eigen::MatrixXi &F);
+
+    double compute_intersec(Eigen::Vector3i index, Eigen::MatrixXd &V, Eigen::MatrixXi &F);
+
+    void compute_voxel(Eigen::Vector3i index, Eigen::MatrixXd &V, Eigen::MatrixXi &F);
 };
 
 
