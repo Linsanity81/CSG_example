@@ -35,4 +35,5 @@ build/*
 cmake-build-release/*
 Cmake-build-debug/*
 cmake-build-release-remote-host/*
+cmake-build-debug-remote-host/*
 output/*

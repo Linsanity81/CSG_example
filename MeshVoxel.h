@@ -37,6 +37,26 @@ public:
 
 public:
 
+    Eigen::Vector3i to_xyz(int id, int M){
+        int ix = id % M;
+        int iy = ((id - ix) / M) % M;
+        int iz = (id - ix - iy * M) / (M * M);
+        return Eigen::Vector3i(ix, iy, iz);
+    }
+    int to_index(Eigen::Vector3i index, int M)
+    {
+        int ix = index[0];
+        int iy = index[1];
+        int iz = index[2];
+        if(ix >= 0 && ix < M && iy >= 0 && iy < M && iz >= 0 && iz < M){
+            return ix + iy * M + iz * M * M;
+        }
+        else{
+            return -1;
+        }
+
+    }
+
     void voxelization(int M);
 
     std::vector<double> compute_contacts(Eigen::Vector3i index,

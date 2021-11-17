@@ -13,9 +13,18 @@ include(libigl)
 #tbb
 add_subdirectory(ext/tbb)
 
-# Add your project files
-file(GLOB SRC_FILES *.cpp)
-add_executable(${PROJECT_NAME} ${SRC_FILES})
-target_link_libraries(${PROJECT_NAME} PUBLIC
+#catch2
+add_subdirectory(ext/Catch2)
+
+# main code
+set(SRC_FILES MeshVoxel.cpp MeshVoxel.h)
+add_executable(MeshVoxel ${SRC_FILES} main.cpp)
+target_link_libraries(MeshVoxel PUBLIC
         igl::core igl::opengl_glfw igl::cgal
         tbb tbbmalloc)
+
+# test
+add_executable(MeshVoxelTest ${SRC_FILES} test.cpp)
+target_link_libraries(MeshVoxelTest PUBLIC
+        igl::core igl::opengl_glfw igl::cgal
+        tbb tbbmalloc Catch2::Catch2WithMain)

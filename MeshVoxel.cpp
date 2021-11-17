@@ -13,28 +13,75 @@ void MeshVoxel::readMesh(std::string filename) {
 void MeshVoxel::voxelization(int M)
 {
     int num_of_voxels = M * M * M;
-    std::vector<double> volume(num_of_voxels);
+    std::vector<double> volumes(num_of_voxels);
+    std::vector<std::vector<double>> areas(num_of_voxels);
     tbb::parallel_for( tbb::blocked_range<int>(0, num_of_voxels),
                        [&](tbb::blocked_range<int> r) {
                            for (int id = r.begin(); id < r.end(); ++id)
                            {
                                Eigen::MatrixXd V;
                                Eigen::MatrixXi F;
-                               int ix = id % 5;
-                               int iy = ((id - ix) / 5) % 5;
-                               int iz = (id - ix - iy * 5) / 25;
-                               volume[id] = compute_intersec(Eigen::Vector3i(ix, iy, iz), V, F);
+                               Eigen::Vector3i index = to_xyz(id, M);
+                               volumes[id] = compute_intersec(index, V, F);
+                               areas[id] = compute_contacts(index, V, F);
                            }
                        });
 
+    double min_volume = 1E-6;
+    double min_contact = grids_width_ * grids_width_ * 0.3;
+
     for (int id = 0; id < num_of_voxels; ++id) {
-        Eigen::MatrixXd V;
-        Eigen::MatrixXi F;
-        int ix = id % 5;
-        int iy = ((id - ix) / 5) % 5;
-        int iz = (id - ix - iy * 5) / 25;
-        std::cout << ix << " " << iy << " " << iz << ": " << volume[id] << std::endl;
+        Eigen::Vector3i index = to_xyz(id, M);
+        std::cout << id << "\t" << index.transpose() << "\t" << volumes[id] << std::endl;
     }
+
+    for(int id = 0; id < num_of_voxels; id++)
+    {
+        Eigen::Vector3i index = to_xyz(id, M);
+        for(int jd = 0; jd < 6; jd++)
+        {
+            Eigen::Vector3i nindex = index + Eigen::Vector3i(dX[jd], dY[jd], dZ[jd]);
+            int nid = to_index(nindex, M);
+            if(nid > id)
+            {
+                std::cout << id << "\t" << nid << "\t" << areas[id][jd] << std::endl;
+            }
+        }
+    }
+}
+
+std::vector<double> MeshVoxel::compute_contacts(Eigen::Vector3i index,
+                                     const Eigen::MatrixXd &V,
+                                     const Eigen::MatrixXi &F){
+    std::vector<double> area;
+    area.resize(6, 0);
+    double eps = 1E-5;
+    for(int id = 0; id < 6; id++)
+    {
+        Eigen::Vector3i curr_index = index + Eigen::Vector3i((dX[id] + 1) / 2,
+                                                             (dY[id] + 1) / 2,
+                                                             (dZ[id] + 1) / 2);
+        Eigen::Vector3d offset = curr_index.cast<double>();
+        offset *= grids_width_;
+        Eigen::Vector3d origin = grids_origin_ + offset;
+        Eigen::Vector3d normal(dX[id], dY[id], dZ[id]);
+        for(int jd = 0; jd < F.rows(); jd++){
+            Eigen::Vector3d v0 = V.row(F(jd, 0));
+            Eigen::Vector3d v1 = V.row(F(jd, 1));
+            Eigen::Vector3d v2 = V.row(F(jd, 2));
+            Eigen::Vector3d fn = (v1 - v0).cross(v2 - v0);
+            if(fn.norm() > eps)
+            {
+                double angle = fn.normalized().dot(normal);
+                double distance = std::abs((v0 - origin).dot(normal));
+                if(angle > 1 - eps && distance < eps){
+                    area[id] += fn.norm() * 0.5;
+                }
+            }
+        }
+    }
+
+    return area;
 }
 
 double MeshVoxel::compute_intersec(Eigen::Vector3i index, Eigen::MatrixXd &V, Eigen::MatrixXi &F)
