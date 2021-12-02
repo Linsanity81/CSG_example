@@ -10,44 +10,60 @@ void MeshVoxel::readMesh(std::string filename) {
     igl::readOBJ(filename, meshV_, meshF_);
 }
 
-void MeshVoxel::voxelization(int M)
+void MeshVoxel::voxelization(vector<Eigen::MatrixXd> &Vs,
+                             vector<Eigen::MatrixXi> &Fs,
+                             vector<double> &volumes,
+                             vector<vector<double>> &areas,
+                             vector<Eigen::Vector3i> &voxel_indices)
 {
-    int num_of_voxels = M * M * M;
-    std::vector<double> volumes(num_of_voxels);
-    std::vector<std::vector<double>> areas(num_of_voxels);
+    int num_of_voxels = grids_size_ * grids_size_ * grids_size_;
+
+    Vs.resize(num_of_voxels);
+    Fs.resize(num_of_voxels);
+
+    volumes.resize(num_of_voxels);
+    areas.resize(num_of_voxels);
+    voxel_indices.resize(num_of_voxels);
+
     tbb::parallel_for( tbb::blocked_range<int>(0, num_of_voxels),
                        [&](tbb::blocked_range<int> r) {
                            for (int id = r.begin(); id < r.end(); ++id)
                            {
                                Eigen::MatrixXd V;
                                Eigen::MatrixXi F;
-                               Eigen::Vector3i index = to_xyz(id, M);
+                               Eigen::Vector3i index = digit_to_index(id);
                                volumes[id] = compute_intersec(index, V, F);
+                               Vs[id] = V;
+                               Fs[id] = F;
                                areas[id] = compute_contacts(index, V, F);
+                               voxel_indices[id] = index;
                            }
                        });
 
     double min_volume = 1E-6;
-    double min_contact = grids_width_ * grids_width_ * 0.3;
 
-    for (int id = 0; id < num_of_voxels; ++id) {
-        Eigen::Vector3i index = to_xyz(id, M);
-        std::cout << id << "\t" << index.transpose() << "\t" << volumes[id] << std::endl;
-    }
+    vector<Eigen::MatrixXd> Vs_tmp;
+    vector<Eigen::MatrixXi> Fs_tmp;
+    vector<double> volumes_tmp;
+    vector<vector<double>> areas_tmp;
+    vector<Eigen::Vector3i> voxel_indices_tmp;
 
-    for(int id = 0; id < num_of_voxels; id++)
-    {
-        Eigen::Vector3i index = to_xyz(id, M);
-        for(int jd = 0; jd < 6; jd++)
-        {
-            Eigen::Vector3i nindex = index + Eigen::Vector3i(dX[jd], dY[jd], dZ[jd]);
-            int nid = to_index(nindex, M);
-            if(nid > id)
-            {
-                std::cout << id << "\t" << nid << "\t" << areas[id][jd] << std::endl;
-            }
+    for(int id = 0; id < Vs.size(); id++){
+        if(volumes[id] > min_volume){
+            Vs_tmp.push_back(Vs[id]);
+            Fs_tmp.push_back(Fs[id]);
+            volumes_tmp.push_back(volumes[id]);
+            areas_tmp.push_back(areas[id]);
+            voxel_indices_tmp.push_back(voxel_indices[id]);
         }
     }
+    Vs = Vs_tmp;
+    Fs = Fs_tmp;
+    volumes = volumes_tmp;
+    areas = areas_tmp;
+    voxel_indices = voxel_indices_tmp;
+
+    return;
 }
 
 std::vector<double> MeshVoxel::compute_contacts(Eigen::Vector3i index,

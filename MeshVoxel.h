@@ -8,6 +8,8 @@
 #include <igl/readOBJ.h>
 #include <igl/copyleft/cgal/mesh_boolean.h>
 #include <igl/volume.h>
+#include <vector>
+using std::vector;
 class MeshVoxel {
 public:
     const int dX[6] = {-1, 1, 0, 0, 0, 0};
@@ -24,11 +26,14 @@ public:
 
     double grids_width_;
 
+    int grids_size_;
+
 public:
 
-    MeshVoxel(Eigen::Vector3d ori, double width){
+    MeshVoxel(Eigen::Vector3d ori, double width, int size){
         grids_origin_ = ori;
         grids_width_ = width;
+        grids_size_ = size;
     }
 
 public:
@@ -37,19 +42,20 @@ public:
 
 public:
 
-    Eigen::Vector3i to_xyz(int id, int M){
-        int ix = id % M;
-        int iy = ((id - ix) / M) % M;
-        int iz = (id - ix - iy * M) / (M * M);
+    Eigen::Vector3i digit_to_index(int digit){
+        int ix = digit % grids_size_;
+        int iy = ((digit - ix) / grids_size_) % grids_size_;
+        int iz = (digit - ix - iy * grids_size_) / (grids_size_ * grids_size_);
         return Eigen::Vector3i(ix, iy, iz);
     }
-    int to_index(Eigen::Vector3i index, int M)
+
+    int index_to_digit(Eigen::Vector3i index)
     {
         int ix = index[0];
         int iy = index[1];
         int iz = index[2];
-        if(ix >= 0 && ix < M && iy >= 0 && iy < M && iz >= 0 && iz < M){
-            return ix + iy * M + iz * M * M;
+        if(ix >= 0 && ix < grids_size_ && iy >= 0 && iy < grids_size_ && iz >= 0 && iz < grids_size_){
+            return ix + iy * grids_size_ + iz * grids_size_ * grids_size_;
         }
         else{
             return -1;
@@ -57,7 +63,11 @@ public:
 
     }
 
-    void voxelization(int M);
+    void voxelization(vector<Eigen::MatrixXd> &Vs,
+                      vector<Eigen::MatrixXi> &Fs,
+                      vector<double> &volumes,
+                      vector<vector<double>> &areas,
+                      vector<Eigen::Vector3i> &voxel_indices);
 
     std::vector<double> compute_contacts(Eigen::Vector3i index,
                                          const Eigen::MatrixXd &V,
