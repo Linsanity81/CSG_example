@@ -1,18 +1,3 @@
-//#include <igl/opengl/glfw/Viewer.h>
-//#include <igl/readOBJ.h>
-//#include <igl/copyleft/cgal/mesh_boolean.h>
-//#include "MeshVoxel.h"
-//int main(int argc, char *argv[])
-//{
-//    std::string mesh_obj_str = "../data/Bunny_12x12x9.obj";
-//    std::string puzzle_piece_str = "../data/grid1_piece1.obj";
-//
-//    MeshVoxel mesh(Eigen::Vector3d(-1, -1, -1), 0.4);
-//    mesh.readMesh(mesh_obj_str);
-//    mesh.voxelization(5);
-//    return 0;
-//}
-
 #include <igl/opengl/glfw/Viewer.h>
 #include <igl/copyleft/tetgen/tetrahedralize.h>
 #include <igl/readOBJ.h>
@@ -21,6 +6,7 @@
 #include <vector>
 #include "MeshVoxel.h"
 #include "MeshVoxelOpt.h"
+#include "LBFGS.h"
 
 using std::vector;
 
@@ -95,34 +81,43 @@ int main(int argc, char *argv[])
     grids_size = 6;
     grids_width = 2.0 / grids_size;
 
-//    MeshVoxel meshVoxel(grids_origin, grids_width, grids_size);
-//
-//    // Load a surface mesh
-//    meshVoxel.readMesh("../data/Bunny_12x12x9.obj");
-//    //voxelization
-//    meshVoxel.voxelization(Vs, Fs, volumes, areas, voxel_indices);
-//    for(int id = 0; id < volumes.size(); id++){
-//        std::cout << voxel_indices[id].transpose() << ":\t" << volumes[id] << std::endl;
-//    }
-
     MeshVoxelOpt meshVoxelOpt(grids_origin, grids_width, grids_size, 0.1);
     meshVoxelOpt.readMesh("../data/Bunny_12x12x9.obj", "pa0.0001q1.41Y");
     meshVoxelOpt.approxVoxelization(Vs, Fs, volumes, voxel_indices);
-    vector<Eigen::Vector3i> selected_voxel_indices;
-    meshVoxelOpt.computeSelectedVoxels(volumes, selected_voxel_indices);
-    double distance;
-    Eigen::MatrixXd gradient;
-    meshVoxelOpt.computeDiffDistanceToSelectedVoxels(meshVoxelOpt.TV_,
-                                                     selected_voxel_indices,
-                                                     distance,
-                                                     gradient);
+    meshVoxelOpt.computeSelectedVoxels(volumes);
+    for(int id = 0; id < meshVoxelOpt.selected_voxel_indices.size(); id++){
+        std::cout << meshVoxelOpt.selected_voxel_indices[id].transpose() << std::endl;
+    }
 
-    std::cout << meshVoxelOpt.TV_.rows() << std::endl;
+    LBFGSpp::LBFGSParam<double> param;
+    param.epsilon = 1e-6;
+    param.max_iterations = 1000;
+    param.max_linesearch = 100;
+
+    // Create solver and function object
+    LBFGSpp::LBFGSSolver<double> solver(param);
+
+    // Initial guess
+
+    Eigen::VectorXd x;
+    Eigen::MatrixXd tv;
+    meshVoxelOpt.flatten(meshVoxelOpt.TV_, x);
+    // x will be overwritten to be the best point found
+    double fx;
+    int niter = solver.minimize(meshVoxelOpt, x, fx);
+
+    std::cout << niter << " iterations" << std::endl;
+    std::cout << "f(x) = " << fx << std::endl;
+//
+//    return 0;
+
+    meshVoxelOpt.reshape(x, tv);
 
 
     // Plot the generated mesh
     igl::opengl::glfw::Viewer viewer;
-    viewer.callback_key_down = &key_down;
-    key_down(viewer,'9',0);
+    viewer.data().set_mesh(tv, meshVoxelOpt.TF_);
+    //viewer.callback_key_down = &key_down;
+    //key_down(viewer,'9',0);
     viewer.launch();
 }

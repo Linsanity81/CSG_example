@@ -7,6 +7,9 @@
 
 #include "MeshVoxel.h"
 #include <map>
+#include <vector>
+#include <iostream>
+using std::vector;
 
 class MeshVoxelOpt: public MeshVoxel{
 public:
@@ -24,11 +27,16 @@ public:
 
 public:
 
+    double weight_shape_energy;
+
+    vector<Eigen::Vector3i> selected_voxel_indices;
+
 public:
 
     MeshVoxelOpt(Eigen::Vector3d ori, double width, int size, double ratio)
     : MeshVoxel(ori, width, size){
         minimum_volume_ = width * width * width * ratio;
+        weight_shape_energy = 0.0;
     }
 
 public:
@@ -46,8 +54,7 @@ public:
                             vector<double> &volumes,
                             vector<Eigen::Vector3i> &voxel_indices);
 
-    void computeSelectedVoxels(vector<double> &selected_voxel_volumes,
-                               vector<Eigen::Vector3i> &selected_voxel_indices);
+    void computeSelectedVoxels(vector<double> &selected_voxel_volumes);
 
     int computeDistanceVoxelToVoxel(Eigen::Vector3i voxelA, Eigen::Vector3i voxelB);
 
@@ -57,7 +64,6 @@ public:
                                          Eigen::Vector3d &gradient);
 
     void computeDiffDistanceToSelectedVoxels(const Eigen::MatrixXd &tv,
-                                             const vector<Eigen::Vector3i> &selected_voxel_indices,
                                              double &distance,
                                              Eigen::MatrixXd &gradient);
 
@@ -65,6 +71,25 @@ public:
                                 double &energy,
                                 Eigen::MatrixXd &gradient);
 
+    double operator()(const Eigen::VectorXd& x, Eigen::VectorXd& grad);
+
+    void flatten(const Eigen::MatrixXd &mat, Eigen::VectorXd &vec){
+        vec = Eigen::VectorXd::Zero(mat.rows() * 3);
+        for(int id = 0; id < mat.rows(); id++){
+            vec[3 * id] = mat(id, 0);
+            vec[3 * id + 1] = mat(id, 1);
+            vec[3 * id + 2] = mat(id, 2);
+        }
+    };
+
+    void reshape(const Eigen::VectorXd &vec, Eigen::MatrixXd &mat){
+        mat = Eigen::MatrixXd(vec.size() / 3, 3);
+        for(int id = 0; id < vec.rows() / 3; id++){
+            mat(id, 0) = vec[3 * id];
+            mat(id, 1) = vec[3 * id + 1];
+            mat(id, 2) = vec[3 * id + 2];
+        }
+    }
 };
 
 

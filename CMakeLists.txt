@@ -17,6 +17,9 @@ add_subdirectory(ext/tbb)
 #catch2
 add_subdirectory(ext/Catch2)
 
+#lbfgs
+include_directories(ext/LBFGSpp/include)
+
 # main code
 set(SRC_FILES MeshVoxel.cpp MeshVoxel.h MeshVoxelOpt.h MeshVoxelOpt.cpp)
 add_executable(MeshVoxel ${SRC_FILES} main.cpp)

@@ -59,11 +59,6 @@ void MeshVoxelOpt::approxVoxelization(vector<Eigen::MatrixXd> &Vs,
             volumes[voxel_index] += tet_volume;
             tet_vers[voxel_index].insert(tet_vers[voxel_index].end(), points.begin(), points.end());
         }
-//        for(auto it = voxel_indices_set.begin(); it != voxel_indices_set.end(); it++){
-//            int voxel_index = *it;
-//            volumes[voxel_index] += tet_volume;
-//            //tet_vers[voxel_index].insert(tet_vers[voxel_index].end(), points.begin(), points.end());
-//        }
     }
 
     double nonempty_minimum_volume_requirement = 1E-6;
@@ -99,9 +94,10 @@ void MeshVoxelOpt::approxVoxelization(vector<Eigen::MatrixXd> &Vs,
     }
 }
 
-void MeshVoxelOpt::computeSelectedVoxels(vector<double> &selected_voxel_volumes,
-                                         vector<Eigen::Vector3i> &selected_voxel_indices)
+void MeshVoxelOpt::computeSelectedVoxels(vector<double> &selected_voxel_volumes)
 {
+    selected_voxel_indices.clear();
+
     vector<Eigen::MatrixXd> Vs;
     vector<Eigen::MatrixXi> Fs;
     vector<double> volumes;
@@ -159,9 +155,8 @@ void MeshVoxelOpt::computeDiffDistancePointToVoxel(Eigen::Vector3d pt,
 }
 
 void MeshVoxelOpt::computeDiffDistanceToSelectedVoxels(const Eigen::MatrixXd &tv,
-                                         const vector<Eigen::Vector3i> &selected_voxel_indices,
-                                         double &distance,
-                                         Eigen::MatrixXd &gradient){
+                                                       double &distance,
+                                                       Eigen::MatrixXd &gradient){
 
     std::map<int, bool> map_voxel_selected;
     for(int id = 0; id < selected_voxel_indices.size(); id++)
@@ -176,7 +171,6 @@ void MeshVoxelOpt::computeDiffDistanceToSelectedVoxels(const Eigen::MatrixXd &tv
     {
         Eigen::Vector3i voxel_index = point_to_voxel_index(tv.row(id));
         int voxel_digit = index_to_digit(voxel_index);
-        std::cout << voxel_index.transpose() << std::endl;
         if(!map_voxel_selected[voxel_digit]){
             map_voxel_points[voxel_digit].push_back(id);
         }
@@ -225,9 +219,6 @@ void MeshVoxelOpt::computeDiffDistanceToSelectedVoxels(const Eigen::MatrixXd &tv
                                                 selected_voxel_index,
                                                 curr_point_voxel_distance,
                                                 curr_point_voxel_distance_graident);
-
-                std::cout << point_id << ", " << selected_voxel_index.transpose() << ", " << curr_point_voxel_distance << std::endl;
-
                 if(curr_point_voxel_distance < point_distance){
                     point_distance = curr_point_voxel_distance;
                     point_graident = curr_point_voxel_distance_graident;
@@ -269,4 +260,20 @@ void MeshVoxelOpt::computeDiffShapeEnegry(const Eigen::MatrixXd &tv,
     }
 
     return;
+}
+
+double MeshVoxelOpt::operator()(const Eigen::VectorXd &x, Eigen::VectorXd &grad)
+{
+
+    Eigen::MatrixXd tv;
+    reshape(x, tv);
+
+    double distance_energy, shape_energy;
+    Eigen::MatrixXd distance_gradient, shape_gradient;
+    computeDiffDistanceToSelectedVoxels(tv, distance_energy, distance_gradient);
+    computeDiffShapeEnegry(tv, shape_energy, shape_gradient);
+    Eigen::MatrixXd gradient = distance_gradient + weight_shape_energy * shape_gradient;
+
+    flatten(gradient, grad);
+    return distance_energy + weight_shape_energy * shape_energy;
 }

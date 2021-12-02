@@ -5,6 +5,7 @@
     <mapping directory="$PROJECT_DIR$/cmake-build-debug/_deps/libigl-src" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/cmake-build-release/_deps/libigl-src" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/ext/Catch2" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/ext/LBFGSpp" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/ext/tbb" vcs="Git" />
   </component>
 </project>
