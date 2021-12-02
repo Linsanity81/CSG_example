@@ -7,6 +7,7 @@
 #include "MeshVoxel.h"
 #include "MeshVoxelOpt.h"
 #include "LBFGS.h"
+#include <igl/writeOBJ.h>
 
 using std::vector;
 
@@ -81,13 +82,10 @@ int main(int argc, char *argv[])
     grids_size = 6;
     grids_width = 2.0 / grids_size;
 
-    MeshVoxelOpt meshVoxelOpt(grids_origin, grids_width, grids_size, 0.1);
+    MeshVoxelOpt meshVoxelOpt(grids_origin, grids_width, grids_size, 0.01);
     meshVoxelOpt.readMesh("../data/Bunny_12x12x9.obj", "pa0.0001q1.41Y");
     meshVoxelOpt.approxVoxelization(Vs, Fs, volumes, voxel_indices);
     meshVoxelOpt.computeSelectedVoxels(volumes);
-    for(int id = 0; id < meshVoxelOpt.selected_voxel_indices.size(); id++){
-        std::cout << meshVoxelOpt.selected_voxel_indices[id].transpose() << std::endl;
-    }
 
     LBFGSpp::LBFGSParam<double> param;
     param.epsilon = 1e-6;
@@ -95,7 +93,7 @@ int main(int argc, char *argv[])
     param.max_linesearch = 100;
 
     // Create solver and function object
-    LBFGSpp::LBFGSSolver<double> solver(param);
+    LBFGSpp::LBFGSSolver<double, LBFGSpp::LineSearchBracketing> solver(param);
 
     // Initial guess
 
@@ -113,11 +111,12 @@ int main(int argc, char *argv[])
 
     meshVoxelOpt.reshape(x, tv);
 
+    igl::writeOBJ("../bunny.obj", tv, meshVoxelOpt.TF_);
 
     // Plot the generated mesh
-    igl::opengl::glfw::Viewer viewer;
-    viewer.data().set_mesh(tv, meshVoxelOpt.TF_);
+    //igl::opengl::glfw::Viewer viewer;
+    //viewer.data().set_mesh(tv, meshVoxelOpt.TF_);
     //viewer.callback_key_down = &key_down;
     //key_down(viewer,'9',0);
-    viewer.launch();
+    //viewer.launch();
 }

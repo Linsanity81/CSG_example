@@ -36,7 +36,7 @@ public:
     MeshVoxelOpt(Eigen::Vector3d ori, double width, int size, double ratio)
     : MeshVoxel(ori, width, size){
         minimum_volume_ = width * width * width * ratio;
-        weight_shape_energy = 0.0;
+        weight_shape_energy = 0.1;
     }
 
 public:
