@@ -20,19 +20,28 @@ add_subdirectory(ext/Catch2)
 #lbfgs
 include_directories(ext/LBFGSpp/include)
 
+#Kintro
+find_package(Knitro QUIET)
+include_directories(${KNITRO_INCLUDE_DIRS})
+
 # main code
-set(SRC_FILES MeshVoxel.cpp MeshVoxel.h MeshVoxelOpt.h MeshVoxelOpt.cpp)
+set(SRC_FILES
+        MeshVoxel.cpp MeshVoxel.h
+        MeshVoxelOpt.h MeshVoxelOpt.cpp
+        MeshVoxelARAP.cpp MeshVoxelARAP.h)
 add_executable(MeshVoxel ${SRC_FILES} main.cpp)
 target_link_libraries(MeshVoxel PUBLIC
         igl::core
         igl::opengl_glfw
         igl::cgal
         igl::tetgen
-        tbb tbbmalloc)
+        tbb tbbmalloc
+        ${KNITRO_LIBRARIES})
 
 # test
 add_executable(MeshVoxelTest ${SRC_FILES} test.cpp)
 target_link_libraries(MeshVoxelTest PUBLIC
         igl::core igl::opengl_glfw igl::cgal
         tbb tbbmalloc Catch2::Catch2WithMain
-        igl::tetgen)
+        igl::tetgen
+        ${KNITRO_LIBRARIES})

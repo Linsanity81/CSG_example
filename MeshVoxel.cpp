@@ -162,3 +162,82 @@ void MeshVoxel::compute_voxel(Eigen::Vector3i index, Eigen::MatrixXd &V, Eigen::
 
     return;
 }
+
+double MeshVoxel::computeDistanceVoxelToVoxel(Eigen::Vector3i voxelA, Eigen::Vector3i voxelB) const{
+    Eigen::Vector3i distance = voxelA - voxelB;
+    double minimum_distance = 0;
+    for(int kd = 0; kd < 3; kd++){
+        double d = std::abs(distance[kd]);
+        minimum_distance += d > 0 ? pow((d - 1) * grids_width_, 2): 0;
+    }
+    return minimum_distance;
+}
+
+void MeshVoxel::computeDiffDistancePointToVoxel(Eigen::Vector3d pt,
+                                                   Eigen::Vector3i voxel_index,
+                                                   double &distance,
+                                                   Eigen::Vector3d &gradient) const{
+    distance = 0;
+    gradient = Eigen::Vector3d(0, 0, 0);
+    for(int kd = 0; kd < 3; kd++)
+    {
+        double max_voxel_coord = grids_origin_[kd] + (voxel_index[kd] + 1) * grids_width_;
+        double min_voxel_coord = grids_origin_[kd] + voxel_index[kd] * grids_width_;
+
+        if(pt[kd] > max_voxel_coord)
+        {
+            distance += pow(pt[kd] - max_voxel_coord, 2.0);
+            gradient[kd] = 2 * (pt[kd] - max_voxel_coord);
+        }
+        else if(pt[kd] < min_voxel_coord){
+
+            distance += pow(min_voxel_coord - pt[kd], 2.0);
+            gradient[kd] = 2 * (pt[kd] - min_voxel_coord);
+        }
+    }
+}
+
+void MeshVoxel::computeSelectedVoxels(vector<double> &volumes, vector<Eigen::Vector3i> &voxel_indices)
+{
+    selected_voxel_indices_.clear();
+    for(int id = 0; id < volumes.size(); id++){
+        if(volumes[id] > minimum_volume_){
+            selected_voxel_indices_.push_back(voxel_indices[id]);
+        }
+    }
+
+    return;
+}
+
+
+void MeshVoxel::computeDiffDistanceToSelectedVoxels(const Eigen::MatrixXd &tv,
+                                                       double &distance,
+                                                       Eigen::MatrixXd &gradient) const{
+    distance = 0;
+    gradient = Eigen::MatrixXd::Zero(tv.rows(), 3);
+    for(int id = 0; id < tv.rows(); id++)
+    {
+        int point_id = id;
+        Eigen::Vector3d pt = tv.row(point_id);
+        double point_distance = std::numeric_limits<double>::max();
+        Eigen::Vector3d point_gradient;
+        for(int jd = 0; jd < selected_voxel_indices_.size(); jd++)
+        {
+
+            Eigen::Vector3i selected_voxel_index = selected_voxel_indices_[jd];
+            double curr_point_voxel_distance;
+            Eigen::Vector3d curr_point_voxel_distance_graident;
+            computeDiffDistancePointToVoxel(pt,
+                                            selected_voxel_index,
+                                            curr_point_voxel_distance,
+                                            curr_point_voxel_distance_graident);
+
+            if(curr_point_voxel_distance < point_distance){
+                point_distance = curr_point_voxel_distance;
+                point_gradient = curr_point_voxel_distance_graident;
+            }
+            distance += point_distance;
+            gradient.row(point_id) = point_gradient;
+        }
+    }
+}
