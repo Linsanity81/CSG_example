@@ -87,11 +87,11 @@ void MeshVoxelARAP::compute_shape_enegry(const Eigen::MatrixXd &meshV1,
                 Eigen::Vector3d pj = meshV_.row(jv);
                 derivative += 4 * abs(-it.value()) * ((pi_prime - pj_prime) - 0.5 * (Rs[iv] + Rs[jv]) * (pi - pj));
 
-                if(((pi_prime - pj_prime) - Rs[iv] * (pi - pj)).squaredNorm() > 1E-5){
-                    std::cout << Rs[iv] << std::endl;
-                    std::cout << (pi - pj).transpose() << std::endl;
-                    std::cout << (pi_prime - pj_prime).transpose() << std::endl;
-                }
+//                if(((pi_prime - pj_prime) - Rs[iv] * (pi - pj)).squaredNorm() > 1E-5){
+//                    std::cout << Rs[iv] << std::endl;
+//                    std::cout << (pi - pj).transpose() << std::endl;
+//                    std::cout << (pi_prime - pj_prime).transpose() << std::endl;
+//                }
 
                 E += ((pi_prime - pj_prime) - Rs[iv] * (pi - pj)).squaredNorm() * abs(-it.value());
             }

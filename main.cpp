@@ -126,16 +126,17 @@ int main(){
         meshVoxelArap->selected_voxel_indices_.push_back(Eigen::Vector3i(x, y, z));
     }
 
-    int num_iters = 1;
+    int num_iters = 2;
     Eigen::MatrixXd meshV1 = meshVoxelArap->meshV_;
     vector<Eigen::MatrixXd> Rs;
-    double learning_rate = 0.0001;
+    double learning_rate = 0.001;
+    Rs.resize(meshV1.rows(), Eigen::MatrixXd::Identity(3, 3));
     while(num_iters --){
-        meshVoxelArap->compute_rotation_matrices(meshV1, Rs);
         double E;
         Eigen::MatrixXd gradient;
         meshVoxelArap->compute_energy(meshV1, Rs, E, gradient);
         meshV1 = meshV1 - learning_rate * gradient;
+        meshVoxelArap->compute_rotation_matrices(meshV1, Rs);
         std::cout << E << std::endl;
     }
 

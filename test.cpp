@@ -21,7 +21,9 @@ TEST_CASE("Mesh"){
     std::shared_ptr<MeshVoxelARAP> meshVoxelARAP
     = std::make_shared<MeshVoxelARAP>(grids_origin, grids_width, grids_size, 0.3);
 
-    meshVoxelARAP->readMesh("../data/plane_dense.obj");
+    std::string filename = "../data/Model/Organic/Duck";
+    meshVoxelARAP->readMesh(filename + ".obj");
+
     Eigen::MatrixXd meshV = meshVoxelARAP->meshV_;
     Eigen::VectorXi b(2);
     b << 0, meshV.rows() - 1;
