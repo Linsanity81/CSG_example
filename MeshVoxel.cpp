@@ -186,13 +186,16 @@ void MeshVoxel::computeDiffDistancePointToVoxel(Eigen::Vector3d pt,
 
         if(pt[kd] > max_voxel_coord)
         {
-            distance += pow(pt[kd] - max_voxel_coord, 2.0);
-            gradient[kd] = 2 * (pt[kd] - max_voxel_coord);
+//            distance += pow(pt[kd] - max_voxel_coord, 2.0);
+//            gradient[kd] = 2 * (pt[kd] - max_voxel_coord);
+            distance += pt[kd] - max_voxel_coord;
+            gradient[kd] = 1;
         }
         else if(pt[kd] < min_voxel_coord){
-
-            distance += pow(min_voxel_coord - pt[kd], 2.0);
-            gradient[kd] = 2 * (pt[kd] - min_voxel_coord);
+//            distance += pow(min_voxel_coord - pt[kd], 2.0);
+//            gradient[kd] = 2 * (pt[kd] - min_voxel_coord);
+            distance += min_voxel_coord - pt[kd];
+            gradient[kd] = -1;
         }
     }
 }
@@ -236,8 +239,9 @@ void MeshVoxel::computeDiffDistanceToSelectedVoxels(const Eigen::MatrixXd &tv,
                 point_distance = curr_point_voxel_distance;
                 point_gradient = curr_point_voxel_distance_graident;
             }
-            distance += point_distance;
-            gradient.row(point_id) = point_gradient;
         }
+
+        distance += point_distance;
+        gradient.row(point_id) = point_gradient;
     }
 }

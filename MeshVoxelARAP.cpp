@@ -66,6 +66,40 @@ void MeshVoxelARAP::compute_rotation_matrices(const Eigen::MatrixXd &meshV1, vec
     }
 }
 
+void MeshVoxelARAP::compute_shape_enegry(const Eigen::MatrixXd &meshV1,
+                          const vector<Eigen::MatrixXd> &Rs,
+                          double &E,
+                          Eigen::MatrixXd &gradient){
+
+    gradient = Eigen::MatrixXd::Zero(meshV_.rows(), 3);
+
+    E = 0;
+    for(int iv = 0; iv < meshV_.rows(); iv++)
+    {
+        Eigen::Vector3d derivative(0, 0, 0);
+        for(Eigen::SparseMatrix<double, Eigen::RowMajor>::InnerIterator it(L_, iv); it; ++it)
+        {
+            if(it.col() != iv){
+                int jv = it.col();
+                Eigen::Vector3d pi_prime = meshV1.row(iv);
+                Eigen::Vector3d pj_prime = meshV1.row(jv);
+                Eigen::Vector3d pi = meshV_.row(iv);
+                Eigen::Vector3d pj = meshV_.row(jv);
+                derivative += 4 * abs(-it.value()) * ((pi_prime - pj_prime) - 0.5 * (Rs[iv] + Rs[jv]) * (pi - pj));
+
+                if(((pi_prime - pj_prime) - Rs[iv] * (pi - pj)).squaredNorm() > 1E-5){
+                    std::cout << Rs[iv] << std::endl;
+                    std::cout << (pi - pj).transpose() << std::endl;
+                    std::cout << (pi_prime - pj_prime).transpose() << std::endl;
+                }
+
+                E += ((pi_prime - pj_prime) - Rs[iv] * (pi - pj)).squaredNorm() * abs(-it.value());
+            }
+        }
+        gradient.row(iv) = derivative;
+    }
+}
+
 void MeshVoxelARAP::compute_rhs_vectors(const vector<Eigen::MatrixXd> &Rs, Eigen::MatrixXd &rhs) {
     rhs = Eigen::MatrixXd::Zero(meshV_.rows(), 3);
     for(int iv = 0; iv < meshV_.rows(); iv++)
@@ -182,4 +216,21 @@ Eigen::MatrixXd MeshVoxelARAP::deform(Eigen::VectorXi b, Eigen::MatrixXd bc, int
     }
 
     return meshV1;
+}
+
+void MeshVoxelARAP::compute_energy(const Eigen::MatrixXd &meshV1,
+                                   const vector<Eigen::MatrixXd> &Rs,
+                                   double &E,
+                                   Eigen::MatrixXd &gradient) {
+    Eigen::MatrixXd gradientDistance;
+    double distance = 0;
+    computeDiffDistanceToSelectedVoxels(meshV1, distance, gradientDistance);
+
+    Eigen::MatrixXd gradientShape;
+    double shape = 0;
+    compute_shape_enegry(meshV1, Rs, shape, gradientShape);
+
+    E = shape * shape_weight_ + distance;
+    std::cout << shape << ", " << distance << std::endl;
+    gradient = gradientShape * shape_weight_ + gradientDistance;
 }

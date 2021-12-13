@@ -97,7 +97,6 @@ public:
 
     void compute_voxel(Eigen::Vector3i index, Eigen::MatrixXd &V, Eigen::MatrixXi &F);
 
-
 };
 
 

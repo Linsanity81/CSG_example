@@ -5,15 +5,11 @@
 #include <igl/edges.h>
 #include <vector>
 #include "MeshVoxel.h"
-#include "MeshVoxelOpt.h"
+#include "MeshVoxelARAP.h"
 #include "LBFGS.h"
 #include <igl/writeOBJ.h>
-#include "knitro.h"
-#include "KNSolver.h"
-#include "KNProblem.h"
 
 using std::vector;
-using namespace knitro;
 
 vector<Eigen::MatrixXd> Vs;
 
@@ -25,20 +21,15 @@ vector<vector<double>> areas;
 
 vector<Eigen::Vector3i> voxel_indices;
 
-Eigen::Vector3d grids_origin;
+std::shared_ptr<MeshVoxelARAP> meshVoxelArap;
 
-double grids_width;
-
-int grids_size;
-
-std::shared_ptr<MeshVoxelOpt> meshVoxelOpt;
-
-
-void add_edges(igl::opengl::glfw::Viewer& viewer){
-    for(int id = 0; id < meshVoxelOpt->selected_voxel_indices.size(); id++){
+void add_edges(igl::opengl::glfw::Viewer& viewer)
+{
+    for(int id = 0; id < meshVoxelArap->selected_voxel_indices_.size(); id++)
+    {
         Eigen::MatrixXd V;
         Eigen::MatrixXi F;
-        meshVoxelOpt->compute_voxel(meshVoxelOpt->selected_voxel_indices[id], V, F);
+        meshVoxelArap->compute_voxel(meshVoxelArap->selected_voxel_indices_[id], V, F);
 
         Eigen::MatrixXi E;
         igl::edges(F, E);
@@ -53,6 +44,7 @@ void add_edges(igl::opengl::glfw::Viewer& viewer){
         viewer.data().add_edges(P1, P2, Eigen::RowVector3d(1, 1, 1));
     }
 }
+
 
 // This function is called every time a keyboard button is pressed
 bool key_down(igl::opengl::glfw::Viewer& viewer, unsigned char key, int modifier)
@@ -97,196 +89,65 @@ bool key_down(igl::opengl::glfw::Viewer& viewer, unsigned char key, int modifier
         viewer.data().clear();
         viewer.data().set_mesh(V_temp,F_temp);
         viewer.data().set_face_based(true);
-
         add_edges(viewer);
 
     }
     return false;
 }
 
-class ProblemNLP2 : public knitro::KNProblem {
-public:
+int main(){
+    Eigen::Vector3d grids_origin = Eigen::Vector3d(-1, -1, -1);
+    double grids_size = 10;
+    double grids_width = 2.0 / grids_size;
 
-    /*------------------------------------------------------------------*/
-    /*     FUNCTION callbackFCGA                                       */
-    /*------------------------------------------------------------------*/
-    static int callbackFCGA(KN_context_ptr             kc,
-                             CB_context_ptr             cb,
-                             KN_eval_request_ptr const  evalRequest,
-                             KN_eval_result_ptr  const  evalResult,
-                             void              * const  userParams){
+    meshVoxelArap = std::make_shared<MeshVoxelARAP>(grids_origin, grids_width, grids_size, 0.5);
+    //std::string filename = "../data/Bunny_12x12x9";
+    std::string filename = "../data/Model/Organic/Duck";
+    meshVoxelArap->readMesh(filename + ".obj");
+//    meshVoxelArap->voxelization(Vs, Fs, volumes, areas, voxel_indices);
+//    meshVoxelArap->computeSelectedVoxels(volumes, voxel_indices);
+//    std::ofstream fout(filename + "_voxel.txt");
+//    fout << meshVoxelArap->selected_voxel_indices_.size() << std::endl;
+//    for(int id = 0; id < meshVoxelArap->selected_voxel_indices_.size(); id++){
+//        for(int jd = 0; jd < 3; jd++){
+//            fout << meshVoxelArap->selected_voxel_indices_[id][jd] << " ";
+//        }
+//        fout << std::endl;
+//    }
+//    fout.close();
 
-        if (evalRequest->type != KN_RC_EVALFCGA)
-        {
-            printf ("*** callbackEvalH incorrectly called with eval type %d\n",
-                    evalRequest->type);
-            return( -1 );
-        }
-
-        MeshVoxelOpt *mesh = (MeshVoxelOpt *)userParams;
-
-        int num_of_vars = mesh->TV_.size();
-        Eigen::VectorXd x(num_of_vars);
-        for(int id = 0; id < num_of_vars; id++){
-            x(id) = evalRequest->x[id];
-        }
-
-        double obj;
-        Eigen::VectorXd gradient;
-        obj = mesh->operator()(x, gradient);
-
-        *evalResult->obj = obj;
-        for(int id = 0; id < num_of_vars; id++){
-            evalResult->objGrad[id] = gradient[id];
-        }
-
-        return( 0 );
-    }
-
-    void setSolver(KNSolver * solver) {
-        this->getNewPointCallback().setParams(solver);
-    }
-
-
-    ProblemNLP2(int num_of_vars) : KNProblem(num_of_vars,0)
+    std::ifstream fin(filename + "_voxel.txt");
+    int num_voxels;
+    fin >> num_voxels;
+    for(int id = 0; id < num_voxels; id++)
     {
-        /** Plug the callback "callbackEvalFCGA" */
-        this->setObjEvalCallback(&ProblemNLP2::callbackFCGA);
-
-        /** Set minimize or maximize (if not set, assumed minimize) */
-        this->setObjGoal(KN_OBJGOAL_MINIMIZE);
-    }
-};
-
-int main() {
-
-    grids_origin = Eigen::Vector3d(-1, -1, -1);
-    grids_size = 10;
-    grids_width = 2.0 / grids_size;
-
-    meshVoxelOpt = std::make_shared<MeshVoxelOpt>(grids_origin, grids_width, grids_size, 0.3);
-    meshVoxelOpt->readMesh("../data/Bunny_12x12x9.obj", "pa0.0001q1.414Y");
-    //meshVoxelOpt->approxVoxelization(Vs, Fs, volumes, voxel_indices);
-    meshVoxelOpt->voxelization(Vs, Fs, volumes, areas, voxel_indices);
-    meshVoxelOpt->computeSelectedVoxels(volumes, voxel_indices);
-
-//    double distance;
-//    Eigen::VectorXd gradient;
-//    Eigen::VectorXd tv_x;
-//    meshVoxelOpt->flatten(meshVoxelOpt->TV_, tv_x);
-//    distance = meshVoxelOpt->operator()(tv_x, gradient);
-//    std::cout << distance << std::endl;
-
-    // Create a problem instance.
-    ProblemNLP2 instance = ProblemNLP2(meshVoxelOpt->TV_.size());
-    Eigen::VectorXd init_x;
-    meshVoxelOpt->flatten(meshVoxelOpt->TV_, init_x);
-    vector<double> init_x_vec(init_x.array().data(), init_x.array().data() + init_x.rows());
-
-    std::cout << "(1)" << std::endl;
-    instance.setXInitial(init_x_vec);
-
-    std::cout << "(2)" << std::endl;
-
-    // Create a solver
-    knitro::KNSolver solver(&instance);
-    instance.setSolver(&solver);
-
-    std::cout << "(3)" << std::endl;
-
-    /** Set option to print output after every iteration. */
-    solver.setParam(KN_PARAM_OUTLEV, 0);
-    solver.setParam(KN_PARAM_EVAL_FCGA, KN_EVAL_FCGA_YES);
-    solver.setParam(KN_PARAM_HESSOPT, KN_HESSOPT_LBFGS);
-
-    std::cout << "(4)" << std::endl;
-
-    solver.initProblem();
-    solver.setUserParams(meshVoxelOpt.get());
-
-    std::cout << "(5)" << std::endl;
-    solver.solve();
-
-    std::cout << "(6)" << std::endl;
-
-    std::vector<double> x;
-    std::vector<double> lambda;
-    int nStatus = solver.getSolution(x, lambda);
-
-    Eigen::VectorXd result_x(x.size());
-    for(int id = 0; id < x.size(); id++){
-        result_x[id] = x[id];
+        int x, y ,z;
+        fin >> x >> y >> z;
+        meshVoxelArap->selected_voxel_indices_.push_back(Eigen::Vector3i(x, y, z));
     }
 
-    Eigen::MatrixXd tv;
-    meshVoxelOpt->reshape(result_x, tv);
-
-    Eigen::MatrixXi F = meshVoxelOpt->TF_;
-    for(int id = 0; id < F.rows(); id++){
-        std::swap(F(id, 1), F(id, 2));
+    int num_iters = 1;
+    Eigen::MatrixXd meshV1 = meshVoxelArap->meshV_;
+    vector<Eigen::MatrixXd> Rs;
+    double learning_rate = 0.0001;
+    while(num_iters --){
+        meshVoxelArap->compute_rotation_matrices(meshV1, Rs);
+        double E;
+        Eigen::MatrixXd gradient;
+        meshVoxelArap->compute_energy(meshV1, Rs, E, gradient);
+        meshV1 = meshV1 - learning_rate * gradient;
+        std::cout << E << std::endl;
     }
 
-    meshVoxelOpt->meshV_ = tv;
-    meshVoxelOpt->meshF_ = F;
-//    meshVoxelOpt->voxelization(Vs, Fs, volumes, areas, voxel_indices);
+//    meshVoxelArap->meshV_ = meshV1;
+//    meshVoxelArap->voxelization(Vs, Fs, volumes, areas, voxel_indices);
 
-    // Plot the generated mesh
     igl::opengl::glfw::Viewer viewer;
-    viewer.data().set_mesh(tv, F);
+    viewer.data().set_mesh(meshV1, meshVoxelArap->meshF_);
     add_edges(viewer);
-
 //    viewer.callback_key_down = &key_down;
 //    key_down(viewer,'9',0);
     viewer.launch();
 
-    return 0;
-}
 
-//int main(int argc, char *argv[])
-//{
-//    grids_origin = Eigen::Vector3d(-1, -1, -1);
-//    grids_size = 6;
-//    grids_width = 2.0 / grids_size;
-//
-//    MeshVoxelOpt meshVoxelOpt(grids_origin, grids_width, grids_size, 0.01);
-//    meshVoxelOpt.readMesh("../data/Bunny_12x12x9.obj", "pa0.0001q1.41Y");
-//    meshVoxelOpt.approxVoxelization(Vs, Fs, volumes, voxel_indices);
-//    meshVoxelOpt.computeSelectedVoxels(volumes);
-//
-//    LBFGSpp::LBFGSParam<double> param;
-//    param.epsilon = 1e-6;
-//    param.max_iterations = 1000;
-//    param.max_linesearch = 100;
-//
-//    // Create solver and function object
-//    LBFGSpp::LBFGSSolver<double, LBFGSpp::LineSearchBracketing> solver(param);
-//
-//    // Initial guess
-//
-//    Eigen::VectorXd x;
-//    Eigen::MatrixXd tv;
-//    meshVoxelOpt.flatten(meshVoxelOpt.TV_, x);
-//    // x will be overwritten to be the best point found
-//    double fx;
-//    int niter = solver.minimize(meshVoxelOpt, x, fx);
-//
-//    std::cout << niter << " iterations" << std::endl;
-//    std::cout << "f(x) = " << fx << std::endl;
-////
-////    return 0;
-//
-//    meshVoxelOpt.reshape(x, tv);
-//
-//    //igl::writeOBJ("../bunny.obj", tv, meshVoxelOpt.TF_);
-//
-//    // Plot the generated mesh
-//    igl::opengl::glfw::Viewer viewer;
-//    Eigen::MatrixXi F = meshVoxelOpt.TF_;
-//    for(int id = 0; id < F.rows(); id++){
-//        std::swap(F(id, 1), F(id, 2));
-//    }
-//    viewer.data().set_mesh(tv, meshVoxelOpt.TF_);
-////    viewer.callback_key_down = &key_down;
-////    key_down(viewer,'9',0);
-//    viewer.launch();
-//}
+}
