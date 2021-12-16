@@ -9,6 +9,8 @@
 #include "LBFGS.h"
 #include <igl/writeOBJ.h>
 #include <filesystem>
+#include "MeshVoxelARAP_Solver.h"
+#include "knitro.h"
 using std::vector;
 
 vector<Eigen::MatrixXd> Vs;
@@ -95,7 +97,7 @@ bool key_down(igl::opengl::glfw::Viewer& viewer, unsigned char key, int modifier
     return false;
 }
 
-int main(){
+int main() {
     Eigen::Vector3d grids_origin = Eigen::Vector3d(-1, -1, -1.2);
     double grids_size = 8;
     double grids_width = 2.0 / grids_size;
@@ -107,98 +109,97 @@ int main(){
 
     int outer_it = 0;
     Eigen::MatrixXd meshV = meshVoxelArap->meshV_;
-
-
     Eigen::MatrixXd meshV1 = meshVoxelArap->meshV_;
     Eigen::VectorXi b;
     meshVoxelArap->precompute_arap_data(b);
 
-    double obj_tot = 1E-6;
-    while(outer_it < 1){
+    std::cout << "Start Optimization..." << std::endl;
 
+    double obj_tot = 1E-6;
+    while (outer_it < 1)
+    {
         meshVoxelArap->meshV_ = meshV1;
         meshVoxelArap->voxelization(Vs, Fs, volumes, areas, voxel_indices);
         meshVoxelArap->computeSelectedVoxels(volumes, voxel_indices);
         meshVoxelArap->meshV_ = meshV;
 
-        int num_iters = 500;
-        double learning_rate = 0.01;
-        double E_prev = 0;
-        while(num_iters --){
-            double E;
-            Eigen::MatrixXd gradient;
+        int num_iters = 20;
+        // Set up parameters
+        LBFGSpp::LBFGSParam<double> param;
+        param.epsilon = 1e-8;
+        param.max_iterations = 100;
+
+        while (num_iters--) {
             meshVoxelArap->compute_rotation_matrices(meshV1);
-            meshVoxelArap->compute_energy(meshV1,E, gradient);
-            Eigen::MatrixXd p;
-            if(gradient.norm() > 1){
-                p =  -gradient / gradient.norm();
-            }
-            else{
-                p = -gradient;
-            }
 
-            double alpha = meshVoxelArap->line_search( meshV1, p, gradient, 0.1);
-            //double alpha = 0.02;
-            meshV1 = meshV1 + alpha * p;
-            if(std::abs(E_prev - E) < obj_tot){
-                break;
-            }
-            E_prev = E;
+            // Create solver and function object
+            LBFGSpp::LBFGSSolver<double> solver(param);
+
+            // Initial guess
+            Eigen::VectorXd x;
+            meshVoxelArap->flatten(meshV, x);
+
+            double fx;
+            int niter = solver.minimize(*meshVoxelArap, x, fx);
+
+            meshVoxelArap->reshape(x, meshV1);
+
         }
-        igl::writeOBJ("../test1_" + std::to_string(outer_it) + ".obj", meshV1, meshVoxelArap->meshF_);
-        outer_it ++;
-    }
-    meshVoxelArap->meshV_ = meshV1;
-    meshVoxelArap->voxelization(Vs, Fs, volumes, areas, voxel_indices);
-    std::filesystem::remove_all("../output");
-    std::filesystem::create_directory("../output");
-    for(int id = 0; id < Vs.size(); id++){
-        Eigen::Vector3i index = voxel_indices[id];
-        std::string index_str = std::to_string(index[0]) +
-                                "_" + std::to_string(index[1]) +
-                                "_" + std::to_string(index[2]);
-
-        if(volumes[id] > meshVoxelArap->minimum_volume_)
-        {
-            igl::writeOBJ("../output/intersection_" + index_str + ".obj", Vs[id], Fs[id]);
-        }
-        else{
-            igl::writeOBJ("../output/small" + index_str + ".obj", Vs[id], Fs[id]);
-        }
-    }
-
-//std::string filename = "../data/Bunny_12x12x9";
-//    std::ofstream fout(filename + "_voxel.txt");
-//    fout << meshVoxelArap->selected_voxel_indices_.size() << std::endl;
-//    for(int id = 0; id < meshVoxelArap->selected_voxel_indices_.size(); id++){
-//        for(int jd = 0; jd < 3; jd++){
-//            fout << meshVoxelArap->selected_voxel_indices_[id][jd] << " ";
-//        }
-//        fout << std::endl;
-//    }
-//    fout.close();
-
-//    std::ifstream fin(filename + "_voxel.txt");
-//    int num_voxels;
-//    fin >> num_voxels;
-//    for(int id = 0; id < num_voxels; id++)
-//    {
-//        int x, y ,z;
-//        fin >> x >> y >> z;
-//        meshVoxelArap->selected_voxel_indices_.push_back(Eigen::Vector3i(x, y, z));
-//    }
-
-
-
-////    meshVoxelArap->meshV_ = meshV1;
-//    meshVoxelArap->voxelization(Vs, Fs, volumes, areas, voxel_indices);
+//        while (num_iters--) {
 //
-//    igl::opengl::glfw::Viewer viewer;
-//    viewer.data().set_mesh(meshVoxelArap->meshV_, meshVoxelArap->meshF_);
-//    add_edges(viewer);
-////    viewer.callback_key_down = &key_down;
-////    key_down(viewer,'9',0);
-//    viewer.launch();
-
-
+//            std::cout << "Iteration:\t" << num_iters << std::endl;
+//            meshVoxelArap->compute_rotation_matrices(meshV1);
+//
+//            std::cout << "Compute Rotation" << std::endl;
+//
+//            MeshVoxelARAP_Solver instance = MeshVoxelARAP_Solver(meshVoxelArap, meshV1);
+//
+//            std::cout << "Create Instance" << std::endl;
+//
+//            knitro::KNSolver solver(&instance);
+//
+//            /** Set option to print output after every iteration. */
+//            //solver.setParam(KN_PARAM_OUTLEV, KN_OUTLEV_ITER);
+//            solver.setParam(KN_PARAM_EVAL_FCGA, KN_EVAL_FCGA_YES);
+//            solver.setParam(KN_PARAM_HESSOPT, KN_HESSOPT_LBFGS);
+//            solver.setUserParams(meshVoxelArap.get());
+//
+//            std::cout << meshVoxelArap->meshV_.size() << std::endl;
+//
+//            solver.initProblem();
+//            std::cout << "Init Problem.." << std::endl;
+//
+//
+//            int solveStatus = solver.solve();
+//
+//            std::vector<double> x;
+//            std::vector<double> lambda;
+//            int nStatus = solver.getSolution(x, lambda);
+//
+//            Eigen::VectorXd x_vec(x.size());
+//            for(int id = 0; id < x.size(); id ++){
+//                x_vec(id) = x[id];
+//            }
+//
+//            meshVoxelArap->reshape(x_vec, meshV1);
+//        }
+        igl::writeOBJ("../test1_" + std::to_string(outer_it) + ".obj", meshV1, meshVoxelArap->meshF_);
+        outer_it++;
+    }
+//    meshVoxelArap->meshV_ = meshV1;
+//    meshVoxelArap->voxelization(Vs, Fs, volumes, areas, voxel_indices);
+//    std::filesystem::remove_all("../output");
+//    std::filesystem::create_directory("../output");
+//    for (int id = 0; id < Vs.size(); id++) {
+//        Eigen::Vector3i index = voxel_indices[id];
+//        std::string index_str = std::to_string(index[0]) +
+//                                "_" + std::to_string(index[1]) +
+//                                "_" + std::to_string(index[2]);
+//
+//        if (volumes[id] > meshVoxelArap->minimum_volume_) {
+//            igl::writeOBJ("../output/intersection_" + index_str + ".obj", Vs[id], Fs[id]);
+//        } else {
+//            igl::writeOBJ("../output/small" + index_str + ".obj", Vs[id], Fs[id]);
+//        }
+//    }
 }

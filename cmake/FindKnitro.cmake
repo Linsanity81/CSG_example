@@ -13,15 +13,18 @@ FIND_PATH(KNITRO_INCLUDE_DIR knitro.h
 	HINTS
         $ENV{KNITRO_PATH}/include
         $ENV{KNITRODIR}/include
+        /opt/knitro/include
 )
 
 find_library(KNITRO1222_LIBRARY NAMES knitro1222
         PATHS
-        $ENV{KNITRODIR}/lib/)
+        $ENV{KNITRODIR}/lib/
+        /opt/knitro/lib)
 
 find_library(KNITROCPP_LIBRARY NAMES knitrocpp
         PATHS
-        $ENV{KNITRODIR}/examples/C++/build_test)
+        $ENV{KNITRODIR}/examples/C++/build_test
+        /opt/knitro/examples/C++/build_test)
 
 set(KNITRO_LIBRARY ${KNITRO1222_LIBRARY} ${KNITROCPP_LIBRARY})
 message(${KNITRO_LIBRARY})

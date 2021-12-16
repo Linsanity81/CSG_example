@@ -40,7 +40,7 @@ void MeshVoxelARAP::compute_rotation_matrices(const Eigen::MatrixXd &U)
 
 void MeshVoxelARAP::compute_shape_enegry(const Eigen::MatrixXd &meshV1,
                                          double &E,
-                                         Eigen::MatrixXd &gradient){
+                                         Eigen::MatrixXd &gradient) const{
 
     int nV = meshV_.rows();
     Eigen::SparseMatrix<double> Q = -L_;
@@ -79,7 +79,7 @@ void MeshVoxelARAP::compute_rhs_vectors(Eigen::MatrixXd &rhs) {
 
 void MeshVoxelARAP::compute_energy(const Eigen::MatrixXd &meshV1,
                                    double &E,
-                                   Eigen::MatrixXd &gradient) {
+                                   Eigen::MatrixXd &gradient) const {
     Eigen::MatrixXd gradientDistance;
     double distance = 0;
     computeDiffDistanceToSelectedVoxels(meshV1, distance, gradientDistance);
@@ -89,7 +89,7 @@ void MeshVoxelARAP::compute_energy(const Eigen::MatrixXd &meshV1,
     compute_shape_enegry(meshV1, shape, gradientShape);
 
     E = shape * shape_weight_ + distance;
-    std::cout << shape << ", " << distance << std::endl;
+//    std::cout << shape << ", " << distance << std::endl;
     gradient = gradientShape * shape_weight_ + gradientDistance;
 }
 
@@ -117,7 +117,7 @@ double MeshVoxelARAP::line_search(const Eigen::MatrixXd &x,
     return alpha;
 }
 
-double MeshVoxelARAP::operator()(const Eigen::VectorXd& x, Eigen::VectorXd& grad){
+double MeshVoxelARAP::operator()(const Eigen::VectorXd& x, Eigen::VectorXd& grad) const{
     Eigen::MatrixXd tv;
     reshape(x, tv);
 

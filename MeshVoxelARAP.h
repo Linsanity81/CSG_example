@@ -24,7 +24,7 @@ public:
 
     MeshVoxelARAP(Eigen::Vector3d ori, double width, int size, double ratio)
     : MeshVoxel(ori, width, size, ratio){
-        shape_weight_ = 0.0;
+        shape_weight_ = 1.0;
     }
 
 public:
@@ -37,11 +37,11 @@ public:
 
     void compute_shape_enegry(const Eigen::MatrixXd &meshV1,
                               double &E,
-                              Eigen::MatrixXd &gradient);
+                              Eigen::MatrixXd &gradient) const;
 
     void compute_energy(const Eigen::MatrixXd &meshV1,
                         double &E,
-                        Eigen::MatrixXd &gradient);
+                        Eigen::MatrixXd &gradient) const;
 
     double line_search(const Eigen::MatrixXd &x,
                        const Eigen::MatrixXd &p,
@@ -52,7 +52,7 @@ public:
 
     Eigen::MatrixXd solve_arap(Eigen::MatrixXd bc, int num_iters = 10);
 
-    double operator()(const Eigen::VectorXd& x, Eigen::VectorXd& grad);
+    double operator()(const Eigen::VectorXd& x, Eigen::VectorXd& grad) const;
 
 };
 
