@@ -94,13 +94,6 @@ void MeshVoxelOpt::approxVoxelization(vector<Eigen::MatrixXd> &Vs,
     }
 }
 
-Eigen::Vector3i MeshVoxelOpt::point_to_voxel_index(Eigen::Vector3d pt) const{
-    int nx = std::floor((pt[0] - grids_origin_[0]) / grids_width_);
-    int ny = std::floor((pt[1] - grids_origin_[1]) / grids_width_);
-    int nz = std::floor((pt[2] - grids_origin_[2]) / grids_width_);
-    return Eigen::Vector3i(nx, ny, nz);
-}
-
 void MeshVoxelOpt::computeDiffShapeEnergy(const Eigen::MatrixXd &tv,
                                           double &energy,
                                           Eigen::MatrixXd &gradient) const{

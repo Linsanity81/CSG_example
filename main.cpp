@@ -8,7 +8,7 @@
 #include "MeshVoxelARAP.h"
 #include "LBFGS.h"
 #include <igl/writeOBJ.h>
-
+#include <filesystem>
 using std::vector;
 
 vector<Eigen::MatrixXd> Vs;
@@ -96,16 +96,78 @@ bool key_down(igl::opengl::glfw::Viewer& viewer, unsigned char key, int modifier
 }
 
 int main(){
-    Eigen::Vector3d grids_origin = Eigen::Vector3d(-1, -1, -1);
-    double grids_size = 10;
+    Eigen::Vector3d grids_origin = Eigen::Vector3d(-1, -1, -1.2);
+    double grids_size = 8;
     double grids_width = 2.0 / grids_size;
 
-    meshVoxelArap = std::make_shared<MeshVoxelARAP>(grids_origin, grids_width, grids_size, 0.5);
-    //std::string filename = "../data/Bunny_12x12x9";
-    std::string filename = "../data/Model/Organic/Duck";
+    meshVoxelArap = std::make_shared<MeshVoxelARAP>(grids_origin, grids_width, grids_size, 0.3);
+    std::string filename = "../data/Model/Organic/Squirrel";
+//    std::string filename = "../test1_0";
     meshVoxelArap->readMesh(filename + ".obj");
-//    meshVoxelArap->voxelization(Vs, Fs, volumes, areas, voxel_indices);
-//    meshVoxelArap->computeSelectedVoxels(volumes, voxel_indices);
+
+    int outer_it = 0;
+    Eigen::MatrixXd meshV = meshVoxelArap->meshV_;
+
+
+    Eigen::MatrixXd meshV1 = meshVoxelArap->meshV_;
+    Eigen::VectorXi b;
+    meshVoxelArap->precompute_arap_data(b);
+
+    double obj_tot = 1E-6;
+    while(outer_it < 1){
+
+        meshVoxelArap->meshV_ = meshV1;
+        meshVoxelArap->voxelization(Vs, Fs, volumes, areas, voxel_indices);
+        meshVoxelArap->computeSelectedVoxels(volumes, voxel_indices);
+        meshVoxelArap->meshV_ = meshV;
+
+        int num_iters = 500;
+        double learning_rate = 0.01;
+        double E_prev = 0;
+        while(num_iters --){
+            double E;
+            Eigen::MatrixXd gradient;
+            meshVoxelArap->compute_rotation_matrices(meshV1);
+            meshVoxelArap->compute_energy(meshV1,E, gradient);
+            Eigen::MatrixXd p;
+            if(gradient.norm() > 1){
+                p =  -gradient / gradient.norm();
+            }
+            else{
+                p = -gradient;
+            }
+
+            double alpha = meshVoxelArap->line_search( meshV1, p, gradient, 0.1);
+            //double alpha = 0.02;
+            meshV1 = meshV1 + alpha * p;
+            if(std::abs(E_prev - E) < obj_tot){
+                break;
+            }
+            E_prev = E;
+        }
+        igl::writeOBJ("../test1_" + std::to_string(outer_it) + ".obj", meshV1, meshVoxelArap->meshF_);
+        outer_it ++;
+    }
+    meshVoxelArap->meshV_ = meshV1;
+    meshVoxelArap->voxelization(Vs, Fs, volumes, areas, voxel_indices);
+    std::filesystem::remove_all("../output");
+    std::filesystem::create_directory("../output");
+    for(int id = 0; id < Vs.size(); id++){
+        Eigen::Vector3i index = voxel_indices[id];
+        std::string index_str = std::to_string(index[0]) +
+                                "_" + std::to_string(index[1]) +
+                                "_" + std::to_string(index[2]);
+
+        if(volumes[id] > meshVoxelArap->minimum_volume_)
+        {
+            igl::writeOBJ("../output/intersection_" + index_str + ".obj", Vs[id], Fs[id]);
+        }
+        else{
+            igl::writeOBJ("../output/small" + index_str + ".obj", Vs[id], Fs[id]);
+        }
+    }
+
+//std::string filename = "../data/Bunny_12x12x9";
 //    std::ofstream fout(filename + "_voxel.txt");
 //    fout << meshVoxelArap->selected_voxel_indices_.size() << std::endl;
 //    for(int id = 0; id < meshVoxelArap->selected_voxel_indices_.size(); id++){
@@ -116,39 +178,27 @@ int main(){
 //    }
 //    fout.close();
 
-    std::ifstream fin(filename + "_voxel.txt");
-    int num_voxels;
-    fin >> num_voxels;
-    for(int id = 0; id < num_voxels; id++)
-    {
-        int x, y ,z;
-        fin >> x >> y >> z;
-        meshVoxelArap->selected_voxel_indices_.push_back(Eigen::Vector3i(x, y, z));
-    }
+//    std::ifstream fin(filename + "_voxel.txt");
+//    int num_voxels;
+//    fin >> num_voxels;
+//    for(int id = 0; id < num_voxels; id++)
+//    {
+//        int x, y ,z;
+//        fin >> x >> y >> z;
+//        meshVoxelArap->selected_voxel_indices_.push_back(Eigen::Vector3i(x, y, z));
+//    }
 
-    int num_iters = 2;
-    Eigen::MatrixXd meshV1 = meshVoxelArap->meshV_;
-    vector<Eigen::MatrixXd> Rs;
-    double learning_rate = 0.001;
-    Rs.resize(meshV1.rows(), Eigen::MatrixXd::Identity(3, 3));
-    while(num_iters --){
-        double E;
-        Eigen::MatrixXd gradient;
-        meshVoxelArap->compute_energy(meshV1, Rs, E, gradient);
-        meshV1 = meshV1 - learning_rate * gradient;
-        meshVoxelArap->compute_rotation_matrices(meshV1, Rs);
-        std::cout << E << std::endl;
-    }
 
-//    meshVoxelArap->meshV_ = meshV1;
+
+////    meshVoxelArap->meshV_ = meshV1;
 //    meshVoxelArap->voxelization(Vs, Fs, volumes, areas, voxel_indices);
-
-    igl::opengl::glfw::Viewer viewer;
-    viewer.data().set_mesh(meshV1, meshVoxelArap->meshF_);
-    add_edges(viewer);
-//    viewer.callback_key_down = &key_down;
-//    key_down(viewer,'9',0);
-    viewer.launch();
+//
+//    igl::opengl::glfw::Viewer viewer;
+//    viewer.data().set_mesh(meshVoxelArap->meshV_, meshVoxelArap->meshF_);
+//    add_edges(viewer);
+////    viewer.callback_key_down = &key_down;
+////    key_down(viewer,'9',0);
+//    viewer.launch();
 
 
 }

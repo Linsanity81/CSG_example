@@ -84,10 +84,20 @@ public:
 
     double computeDistanceVoxelToVoxel(Eigen::Vector3i voxelA, Eigen::Vector3i voxelB) const;
 
+    Eigen::Vector3i point_to_voxel_index(Eigen::Vector3d pt) const;
+
     void computeDiffDistancePointToVoxel(Eigen::Vector3d pt,
                                          Eigen::Vector3i voxel_index,
                                          double &distance,
                                          Eigen::Vector3d &gradient) const;
+
+    void cluster_points_to_voxel_groups(const Eigen::MatrixXd &tv,
+                                        vector<vector<int>> &group_pts,
+                                        vector<Eigen::Vector3i> &group_voxel_indices) const;
+
+    void sort_selected_voxel_given_voxel_group(Eigen::Vector3i voxel_group_index,
+                                               vector<Eigen::Vector3i> &sorted_selected_voxels,
+                                               vector<double> &distance) const;
 
     void computeDiffDistanceToSelectedVoxels(const Eigen::MatrixXd &tv,
                                              double &distance,
@@ -97,6 +107,14 @@ public:
 
     void compute_voxel(Eigen::Vector3i index, Eigen::MatrixXd &V, Eigen::MatrixXi &F);
 
+    void subdivide_triangle(Eigen::MatrixXd base_tri,
+                            Eigen::MatrixXd curr_tri_bary_coords,
+                            vector<Eigen::Vector3d> &bary_coords);
+
+
+    void flatten(const Eigen::MatrixXd &mat, Eigen::VectorXd &vec) const;
+
+    void reshape(const Eigen::VectorXd &vec, Eigen::MatrixXd &mat) const;
 };
 
 
