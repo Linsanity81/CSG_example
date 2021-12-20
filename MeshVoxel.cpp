@@ -287,9 +287,9 @@ void MeshVoxel::sort_selected_voxel_given_voxel_group(Eigen::Vector3i voxel_grou
     return;
 }
 
-void MeshVoxel::computeDiffDistanceToSelectedVoxels(const Eigen::MatrixXd &tv,
-                                                    double &distance,
-                                                    Eigen::MatrixXd &gradient) const{
+void MeshVoxel::compute_point_to_selected_voxels_distance(const Eigen::MatrixXd &tv,
+                                                          double &distance,
+                                                          Eigen::MatrixXd &gradient) const{
 
     vector<vector<int>> group_pts;
     vector<Eigen::Vector3i> group_voxel_indices;
@@ -350,15 +350,19 @@ Eigen::Vector3i MeshVoxel::point_to_voxel_index(Eigen::Vector3d pt) const{
     return Eigen::Vector3i(nx, ny, nz);
 }
 
-void MeshVoxel::subdivide_triangle(Eigen::MatrixXd base_tri,
+void MeshVoxel::subdivide_triangle(int faceID,
+                                   const Eigen::MatrixXd& meshV1,
                                    Eigen::MatrixXd curr_tri_bary_coords,
-                                   vector<Eigen::Vector3d> &bary_coords) {
+                                   vector<Eigen::Vector3d> &bary_coords,
+                                   vector<int> &bary_coords_faceID) const{
     Eigen::MatrixXd curr_tri = Eigen::MatrixXd::Zero(3, 3);
     for(int id = 0; id < 3; id++)
     {
         Eigen::Vector3d pt(0, 0, 0);
-        for(int jd = 0; jd < 3; jd++) {
-            pt += base_tri.row(jd) * curr_tri_bary_coords(id, jd);
+        for(int jd = 0; jd < 3; jd++)
+        {
+            int vID = meshF_(faceID, jd);
+            pt += meshV1.row(vID) * curr_tri_bary_coords(id, jd);
         }
         curr_tri.row(id) = pt;
     }
@@ -366,7 +370,7 @@ void MeshVoxel::subdivide_triangle(Eigen::MatrixXd base_tri,
     Eigen::Vector3d e1 = curr_tri.row(1) - curr_tri.row(0);
     Eigen::Vector3d e2 = curr_tri.row(2) - curr_tri.row(0);
     double area = (e1.cross(e2)).norm() * 0.5;
-    if(area < 1E-3){
+    if(area < 1E-4){
         return;
     }
 
@@ -376,7 +380,10 @@ void MeshVoxel::subdivide_triangle(Eigen::MatrixXd base_tri,
             {1, 2},
             {2, 0}
     };
+
     bary_coords.push_back(center_coord);
+    bary_coords_faceID.push_back(faceID);
+
     for(int id = 0; id < 3; id++){
         Eigen::MatrixXd next_tri_bary_coords(3, 3);
         next_tri_bary_coords.row(0) = center_coord;
@@ -385,7 +392,11 @@ void MeshVoxel::subdivide_triangle(Eigen::MatrixXd base_tri,
             int index = indices[id][jd];
             next_tri_bary_coords.row(jd + 1) = curr_tri_bary_coords.row(index);
         }
-        subdivide_triangle(base_tri, next_tri_bary_coords, bary_coords);
+        subdivide_triangle(faceID,
+                           meshV1,
+                           next_tri_bary_coords,
+                           bary_coords,
+                           bary_coords_faceID);
     }
 }
 
@@ -404,6 +415,55 @@ void MeshVoxel::flatten(const Eigen::MatrixXd &mat, Eigen::VectorXd &vec) const 
         vec[3 * id] = mat(id, 0);
         vec[3 * id + 1] = mat(id, 1);
         vec[3 * id + 2] = mat(id, 2);
+    }
+}
+
+void MeshVoxel::compute_triangle_to_selected_voxels_distance(const Eigen::MatrixXd &meshV1,
+                                                             double &distance,
+                                                             Eigen::MatrixXd &gradient) const {
+    vector<Eigen::Vector3d> bary_coords;
+    vector<int> bary_coords_faceID;
+    for(int id = 0; id < meshF_.rows(); id++){
+        Eigen::MatrixXd bary_coord(3, 3);
+
+        bary_coord << 1, 0, 0,
+                0, 1, 0,
+                0, 0, 1;
+
+        subdivide_triangle(id,
+                           meshV1,
+                           bary_coord,
+                           bary_coords,
+                           bary_coords_faceID);
+    }
+
+    Eigen::MatrixXd tv(bary_coords.size(), 3);
+    for(int id = 0;id < bary_coords.size(); id++)
+    {
+        Eigen::Vector3d pt(0, 0, 0);
+        for(int jd = 0; jd < 3; jd++)
+        {
+            int fID = bary_coords_faceID[id];
+            int vID = meshF_(fID, jd);
+            pt += meshV1.row(vID) * bary_coords[id][jd];
+        }
+        tv.row(id) = pt;
+    }
+
+    distance = 0;
+    Eigen::MatrixXd grad_wrt_bary;
+    compute_point_to_selected_voxels_distance(tv, distance, grad_wrt_bary);
+
+    gradient = Eigen::MatrixXd::Zero(meshV1.rows(), 3);
+
+    for(int id = 0; id < bary_coords.size(); id++)
+    {
+        for(int jd = 0; jd < 3; jd++)
+        {
+            int fID = bary_coords_faceID[id];
+            int vID = meshF_(fID, jd);
+            gradient.row(vID) += grad_wrt_bary.row(id) * bary_coords[id][jd];
+        }
     }
 }
 

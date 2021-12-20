@@ -99,18 +99,24 @@ public:
                                                vector<Eigen::Vector3i> &sorted_selected_voxels,
                                                vector<double> &distance) const;
 
-    void computeDiffDistanceToSelectedVoxels(const Eigen::MatrixXd &tv,
-                                             double &distance,
-                                             Eigen::MatrixXd &gradient) const;
+    void compute_point_to_selected_voxels_distance(const Eigen::MatrixXd &tv,
+                                                   double &distance,
+                                                   Eigen::MatrixXd &gradient) const;
+
+    void compute_triangle_to_selected_voxels_distance(const Eigen::MatrixXd &meshV1,
+                                                      double &distance,
+                                                      Eigen::MatrixXd &gradient) const;
+
 
     double compute_intersec(Eigen::Vector3i index, Eigen::MatrixXd &V, Eigen::MatrixXi &F);
 
     void compute_voxel(Eigen::Vector3i index, Eigen::MatrixXd &V, Eigen::MatrixXi &F);
 
-    void subdivide_triangle(Eigen::MatrixXd base_tri,
+    void subdivide_triangle(int faceID,
+                            const Eigen::MatrixXd& meshV1,
                             Eigen::MatrixXd curr_tri_bary_coords,
-                            vector<Eigen::Vector3d> &bary_coords);
-
+                            vector<Eigen::Vector3d> &bary_coords,
+                            vector<int> &bary_coords_faceID) const;
 
     void flatten(const Eigen::MatrixXd &mat, Eigen::VectorXd &vec) const;
 

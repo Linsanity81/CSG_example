@@ -133,7 +133,7 @@ double MeshVoxelOpt::operator()(const Eigen::VectorXd &x, Eigen::VectorXd &grad)
 
     double distance_energy, shape_energy;
     Eigen::MatrixXd distance_gradient, shape_gradient;
-    computeDiffDistanceToSelectedVoxels(tv, distance_energy, distance_gradient);
+    compute_point_to_selected_voxels_distance(tv, distance_energy, distance_gradient);
     computeDiffShapeEnergy(tv, shape_energy, shape_gradient);
     Eigen::MatrixXd gradient = distance_gradient + weight_shape_energy * shape_gradient;
 

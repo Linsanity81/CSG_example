@@ -24,7 +24,7 @@ public:
 
     MeshVoxelARAP(Eigen::Vector3d ori, double width, int size, double ratio)
     : MeshVoxel(ori, width, size, ratio){
-        shape_weight_ = 1.0;
+        shape_weight_ = 10.0;
     }
 
 public:

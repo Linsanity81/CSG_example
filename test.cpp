@@ -67,7 +67,7 @@ TEST_CASE("Compute Distance"){
 
     double distance;
     Eigen::MatrixXd gradient;
-    meshVoxelARAP->computeDiffDistanceToSelectedVoxels(tv, distance, gradient);
+    meshVoxelARAP->compute_point_to_selected_voxels_distance(tv, distance, gradient);
 
 
 

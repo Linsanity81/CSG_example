@@ -80,17 +80,24 @@ void MeshVoxelARAP::compute_rhs_vectors(Eigen::MatrixXd &rhs) {
 void MeshVoxelARAP::compute_energy(const Eigen::MatrixXd &meshV1,
                                    double &E,
                                    Eigen::MatrixXd &gradient) const {
-    Eigen::MatrixXd gradientDistance;
-    double distance = 0;
-    computeDiffDistanceToSelectedVoxels(meshV1, distance, gradientDistance);
+    Eigen::MatrixXd pt_gradientDistance;
+    double pt_distance = 0;
+    compute_point_to_selected_voxels_distance(meshV1, pt_distance, pt_gradientDistance);
+
+    Eigen::MatrixXd tri_gradientDistance;
+    double tri_distance = 0;
+    compute_triangle_to_selected_voxels_distance(meshV1, tri_distance, tri_gradientDistance);
 
     Eigen::MatrixXd gradientShape;
     double shape = 0;
     compute_shape_enegry(meshV1, shape, gradientShape);
 
-    E = shape * shape_weight_ + distance;
-//    std::cout << shape << ", " << distance << std::endl;
-    gradient = gradientShape * shape_weight_ + gradientDistance;
+    //E = shape * shape_weight_ + pt_distance;
+    E = shape * shape_weight_ + pt_distance + tri_distance;
+    std::cout << shape << ", " << pt_distance << ", " << tri_distance << std::endl;
+
+    //gradient = gradientShape * shape_weight_ + pt_gradientDistance;
+    gradient = gradientShape * shape_weight_ + pt_gradientDistance + tri_gradientDistance;
 }
 
 double MeshVoxelARAP::line_search(const Eigen::MatrixXd &x,

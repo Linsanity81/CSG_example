@@ -10,7 +10,7 @@
 #include <igl/writeOBJ.h>
 #include <filesystem>
 #include "MeshVoxelARAP_Solver.h"
-#include "knitro.h"
+#include <igl/fast_winding_number.h>
 using std::vector;
 
 vector<Eigen::MatrixXd> Vs;
@@ -99,7 +99,7 @@ bool key_down(igl::opengl::glfw::Viewer& viewer, unsigned char key, int modifier
 
 int main() {
     Eigen::Vector3d grids_origin = Eigen::Vector3d(-1, -1, -1.2);
-    double grids_size = 8;
+    double grids_size = 15;
     double grids_width = 2.0 / grids_size;
 
     meshVoxelArap = std::make_shared<MeshVoxelARAP>(grids_origin, grids_width, grids_size, 0.3);
@@ -108,81 +108,83 @@ int main() {
     meshVoxelArap->readMesh(filename + ".obj");
 
     int outer_it = 0;
+
     Eigen::MatrixXd meshV = meshVoxelArap->meshV_;
     Eigen::MatrixXd meshV1 = meshVoxelArap->meshV_;
     Eigen::VectorXi b;
     meshVoxelArap->precompute_arap_data(b);
+    igl::FastWindingNumberBVH bvh;
+    igl::fast_winding_number(meshV1, meshVoxelArap->meshF_, 2, bvh);
 
-    std::cout << "Start Optimization..." << std::endl;
+    //for(int iG = 0; iG < grids_size * grids_size * grids_size; iG++){
+    int iG = 300;
+    Eigen::Vector3i index = meshVoxelArap->digit_to_index(iG);
+    int N = 10;
+    Eigen::Vector3d corner(
+            index[0] * grids_width + grids_origin[0],
+            index[1] * grids_width + grids_origin[1],
+            index[2] * grids_width + grids_origin[2]);
 
-    double obj_tot = 1E-6;
-    while (outer_it < 1)
+    Eigen::MatrixXd query_points(N * N * N, 3);
+    for(int ix = 0; ix < N; ix++)
+    {
+        for(int iy = 0; iy < N; iy++)
+        {
+            for(int iz = 0; iz < N; iz++)
+            {
+                Eigen::Vector3d pt =
+                        corner + Eigen::Vector3d(ix * grids_width / N,
+                                                 iy * grids_width / N,
+                                                 iz * grids_width / N);
+                query_points.row(iz + iy * N + ix * N * N) = pt;
+            }
+        }
+    }
+
+    Eigen::VectorXd winding;
+    igl::fast_winding_number(bvh, 2, query_points, winding);
+
+    double count = 0;
+    for(int id = 0; id < winding.size(); id++){
+        count += winding(id) > 0 ? 1: 0;
+    }
+    std::cout << count / N / N / N << std::endl;
+
+    //}
+
+    while (outer_it < 0)
     {
         meshVoxelArap->meshV_ = meshV1;
         meshVoxelArap->voxelization(Vs, Fs, volumes, areas, voxel_indices);
         meshVoxelArap->computeSelectedVoxels(volumes, voxel_indices);
         meshVoxelArap->meshV_ = meshV;
 
-        int num_iters = 20;
+        int num_iters = 5;
         // Set up parameters
         LBFGSpp::LBFGSParam<double> param;
         param.epsilon = 1e-8;
         param.max_iterations = 100;
+        param.max_linesearch = 100;
 
         while (num_iters--) {
             meshVoxelArap->compute_rotation_matrices(meshV1);
 
             // Create solver and function object
-            LBFGSpp::LBFGSSolver<double> solver(param);
+            LBFGSpp::LBFGSSolver<double,
+            LBFGSpp::LineSearchBacktracking> solver(param);
 
             // Initial guess
             Eigen::VectorXd x;
-            meshVoxelArap->flatten(meshV, x);
+            meshVoxelArap->flatten(meshV1, x);
 
             double fx;
             int niter = solver.minimize(*meshVoxelArap, x, fx);
-
             meshVoxelArap->reshape(x, meshV1);
 
+            Eigen::MatrixXd gradient;
+            meshVoxelArap->compute_point_to_selected_voxels_distance(meshV1, fx, gradient);
+            std::cout << fx << std::endl;
         }
-//        while (num_iters--) {
-//
-//            std::cout << "Iteration:\t" << num_iters << std::endl;
-//            meshVoxelArap->compute_rotation_matrices(meshV1);
-//
-//            std::cout << "Compute Rotation" << std::endl;
-//
-//            MeshVoxelARAP_Solver instance = MeshVoxelARAP_Solver(meshVoxelArap, meshV1);
-//
-//            std::cout << "Create Instance" << std::endl;
-//
-//            knitro::KNSolver solver(&instance);
-//
-//            /** Set option to print output after every iteration. */
-//            //solver.setParam(KN_PARAM_OUTLEV, KN_OUTLEV_ITER);
-//            solver.setParam(KN_PARAM_EVAL_FCGA, KN_EVAL_FCGA_YES);
-//            solver.setParam(KN_PARAM_HESSOPT, KN_HESSOPT_LBFGS);
-//            solver.setUserParams(meshVoxelArap.get());
-//
-//            std::cout << meshVoxelArap->meshV_.size() << std::endl;
-//
-//            solver.initProblem();
-//            std::cout << "Init Problem.." << std::endl;
-//
-//
-//            int solveStatus = solver.solve();
-//
-//            std::vector<double> x;
-//            std::vector<double> lambda;
-//            int nStatus = solver.getSolution(x, lambda);
-//
-//            Eigen::VectorXd x_vec(x.size());
-//            for(int id = 0; id < x.size(); id ++){
-//                x_vec(id) = x[id];
-//            }
-//
-//            meshVoxelArap->reshape(x_vec, meshV1);
-//        }
         igl::writeOBJ("../test1_" + std::to_string(outer_it) + ".obj", meshV1, meshVoxelArap->meshF_);
         outer_it++;
     }
