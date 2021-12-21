@@ -6,8 +6,83 @@
 #include <iostream>
 #include <tbb/parallel_for.h>
 #include <vector>
+#include <igl/fast_winding_number.h>
+
 void MeshVoxel::readMesh(std::string filename) {
     igl::readOBJ(filename, meshV_, meshF_);
+}
+
+void MeshVoxel::voxelization_approximation(vector<double> &volumes,
+                                           vector<Eigen::Vector3i> &voxel_indices){
+    volumes.clear();
+    voxel_indices.clear();
+
+    int num_of_voxels = grids_size_ * grids_size_ * grids_size_;
+
+    volumes.resize(num_of_voxels);
+    voxel_indices.resize(num_of_voxels);
+
+    int num_of_sample = 10;
+
+    igl::FastWindingNumberBVH bvh;
+    igl::fast_winding_number(meshV_, meshF_, 2, bvh);
+
+    tbb::parallel_for( tbb::blocked_range<int>(0, num_of_voxels),
+                       [&](tbb::blocked_range<int> r) {
+        for (int id = r.begin(); id < r.end(); ++id)
+        {
+            Eigen::MatrixXd V;
+            Eigen::MatrixXi F;
+            Eigen::Vector3i index = digit_to_index(id);
+
+            Eigen::Vector3d corner(
+                    index[0] * grids_width_ + grids_origin_[0],
+                    index[1] * grids_width_ + grids_origin_[1],
+                    index[2] * grids_width_ + grids_origin_[2]);
+
+            Eigen::MatrixXd query_points(num_of_sample * num_of_sample * num_of_sample, 3);
+            for(int ix = 0; ix < num_of_sample; ix++)
+            {
+                for(int iy = 0; iy < num_of_sample; iy++)
+                {
+                    for(int iz = 0; iz < num_of_sample; iz++)
+                    {
+                        Eigen::Vector3d pt =
+                                corner + Eigen::Vector3d(ix * grids_width_ / num_of_sample,
+                                                         iy * grids_width_ / num_of_sample,
+                                                         iz * grids_width_ / num_of_sample);
+                        query_points.row(iz + iy * num_of_sample + ix * num_of_sample * num_of_sample) = pt;
+                    }
+                }
+            }
+
+            Eigen::VectorXd winding;
+            igl::fast_winding_number(bvh, 2, query_points, winding);
+
+            double count = 0;
+            for(int jd = 0; jd < winding.size(); jd++){
+                count += winding(jd) > 0.5 ? 1: 0;
+            }
+            volumes[id] = count / num_of_sample / num_of_sample / num_of_sample * (grids_width_ * grids_width_ * grids_width_);
+            voxel_indices[id] = index;
+        }
+    });
+
+    double min_volume = 1E-6;
+
+    vector<double> volumes_tmp;
+    vector<Eigen::Vector3i> voxel_indices_tmp;
+
+    for(int id = 0; id < volumes.size(); id++){
+        if(volumes[id] > min_volume){
+            volumes_tmp.push_back(volumes[id]);
+            voxel_indices_tmp.push_back(voxel_indices[id]);
+        }
+    }
+    volumes = volumes_tmp;
+    voxel_indices = voxel_indices_tmp;
+
+    return;
 }
 
 void MeshVoxel::voxelization(vector<Eigen::MatrixXd> &Vs,

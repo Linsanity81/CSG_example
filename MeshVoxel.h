@@ -76,6 +76,9 @@ public:
                       vector<vector<double>> &areas,
                       vector<Eigen::Vector3i> &voxel_indices);
 
+    void voxelization_approximation(vector<double> &volumes,
+                                    vector<Eigen::Vector3i> &voxel_indices);
+
     std::vector<double> compute_contacts(Eigen::Vector3i index,
                                          const Eigen::MatrixXd &V,
                                          const Eigen::MatrixXi &F);

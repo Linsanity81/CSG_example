@@ -5,62 +5,86 @@
 #ifndef MESHVOXEL_MESHVOXELARAP_SOLVER_H
 #define MESHVOXEL_MESHVOXELARAP_SOLVER_H
 
-#include "KNSolver.h"
-#include "KNProblem.h"
 #include "MeshVoxelARAP.h"
+#include "LBFGS.h"
 
-class MeshVoxelARAP_Solver : public knitro::KNProblem {
+class MeshVoxelARAP_Solver{
 public:
 
-    /*------------------------------------------------------------------*/
-    /*     FUNCTION callbackEvalFC                                      */
-    /*------------------------------------------------------------------*/
-    static int callbackEvalFCGA(KN_context_ptr kc,
-                              CB_context_ptr cb,
-                              KN_eval_request_ptr const evalRequest,
-                              KN_eval_result_ptr const evalResult,
-                              void *const userParams) {
-        const double *x;
-        double *obj;
-        double *c;
-        double *objGrad;
+    std::shared_ptr<MeshVoxelARAP> base_mesh_;
 
-        if (evalRequest->type != KN_RC_EVALFCGA)
+    int max_outer_it_time_;
+
+    int max_inner_it_time_;
+
+    vector<Eigen::MatrixXd> intermediate_results_;
+
+public:
+
+    void optimize(Eigen::MatrixXd &meshV1)
+    {
+        intermediate_results_.clear();
+        Eigen::MatrixXd meshV = base_mesh_->meshV_;
+        Eigen::VectorXi b;
+        base_mesh_->precompute_arap_data(b);
+
+        max_outer_it_time_ = 2;
+        max_inner_it_time_ = 5;
+
+        int outer_it;
+        while (outer_it < max_outer_it_time_)
         {
-            printf ("*** callbackEvalFC incorrectly called with eval type %d\n",
-                    evalRequest->type);
-            return( -1 );
+
+            if(max_outer_it_time_ - 1 == outer_it){
+                base_mesh_->shape_weight_ = .1;
+            }
+            else{
+                base_mesh_->shape_weight_ = 20;
+            }
+
+            vector<double> volumes;
+            vector<Eigen::Vector3i> voxel_indices;
+
+            base_mesh_->meshV_ = meshV1;
+            base_mesh_->voxelization_approximation(volumes, voxel_indices);
+            base_mesh_->computeSelectedVoxels(volumes, voxel_indices);
+            base_mesh_->meshV_ = meshV;
+
+            // Set up parameters
+            LBFGSpp::LBFGSParam<double> param;
+            param.epsilon = 1e-8;
+            param.max_iterations = 100;
+            param.max_linesearch = 100;
+
+            int inner_it = 0;
+            while (inner_it < max_inner_it_time_) {
+                base_mesh_->compute_rotation_matrices(meshV1);
+
+                // Create solver and function object
+                LBFGSpp::LBFGSSolver<double,
+                LBFGSpp::LineSearchBacktracking> solver(param);
+
+                // Initial guess
+                Eigen::VectorXd x;
+                base_mesh_->flatten(meshV1, x);
+
+                double fx;
+                int niter = solver.minimize(*base_mesh_, x, fx);
+                base_mesh_->reshape(x, meshV1);
+
+                Eigen::MatrixXd gradient;
+                base_mesh_->compute_point_to_selected_voxels_distance(meshV1, fx, gradient);
+
+                inner_it ++;
+            }
+            intermediate_results_.push_back(meshV1);
+            outer_it++;
         }
-
-        x = evalRequest->x;
-        objGrad = evalResult->objGrad;
-
-        Eigen::MatrixXd meshV1;
-        const MeshVoxelARAP* mesh = (const MeshVoxelARAP *)userParams;
-
-        Eigen::VectorXd x_vec(mesh->meshV_.size());
-        for(int id = 0; id < x_vec.size(); id++){
-            x_vec(id) = x[id];
-        }
-
-        Eigen::VectorXd grad;
-        *obj = (*mesh).operator()(x_vec, grad);
-
-        for(int id = 0; id < x_vec.size(); id++){
-            objGrad[id] = grad[id];
-        }
-
-        return 0;
     }
 
-    MeshVoxelARAP_Solver(std::shared_ptr<MeshVoxelARAP> mesh,
-                         Eigen::MatrixXd &meshV1)
-    : KNProblem(mesh->meshV_.size(),0) {
-        Eigen::VectorXd x;
-        mesh->flatten(meshV1, x);
-        vector<double> init_values(x.array().data(), x.array().data() + x.size());
-        this->setXInitial(init_values);
-        this->setObjEvalCallback(&MeshVoxelARAP_Solver::callbackEvalFCGA);
+public:
+    MeshVoxelARAP_Solver(std::shared_ptr<MeshVoxelARAP> mesh){
+            base_mesh_ = mesh;
     }
 };
 
