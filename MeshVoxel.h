@@ -69,12 +69,16 @@ public:
         }
 
     }
-
     void voxelization(vector<Eigen::MatrixXd> &Vs,
                       vector<Eigen::MatrixXi> &Fs,
                       vector<double> &volumes,
                       vector<vector<double>> &areas,
                       vector<Eigen::Vector3i> &voxel_indices);
+
+    void write_voxels(std::string filename);
+
+    void voxelization_approximation_with_empty_voxels(vector<double> &volumes,
+                                                      vector<Eigen::Vector3i> &voxel_indices);
 
     void voxelization_approximation(vector<double> &volumes,
                                     vector<Eigen::Vector3i> &voxel_indices);
@@ -84,6 +88,8 @@ public:
                                          const Eigen::MatrixXi &F);
 
     void computeSelectedVoxels(vector<double> &volumes, vector<Eigen::Vector3i> &voxel_indices);
+
+    int computePartialFullnTinyVoxels(vector<double> &volumes);
 
     double computeDistanceVoxelToVoxel(Eigen::Vector3i voxelA, Eigen::Vector3i voxelB) const;
 

@@ -7,13 +7,14 @@
 #include <tbb/parallel_for.h>
 #include <vector>
 #include <igl/fast_winding_number.h>
+#include <fstream>
 
 void MeshVoxel::readMesh(std::string filename) {
     igl::readOBJ(filename, meshV_, meshF_);
 }
 
-void MeshVoxel::voxelization_approximation(vector<double> &volumes,
-                                           vector<Eigen::Vector3i> &voxel_indices){
+void MeshVoxel::voxelization_approximation_with_empty_voxels(vector<double> &volumes,
+                                                  vector<Eigen::Vector3i> &voxel_indices){
     volumes.clear();
     voxel_indices.clear();
 
@@ -67,6 +68,12 @@ void MeshVoxel::voxelization_approximation(vector<double> &volumes,
             voxel_indices[id] = index;
         }
     });
+}
+
+void MeshVoxel::voxelization_approximation(vector<double> &volumes,
+                                           vector<Eigen::Vector3i> &voxel_indices){
+
+    voxelization_approximation_with_empty_voxels(volumes, voxel_indices);
 
     double min_volume = 1E-6;
 
@@ -244,6 +251,24 @@ void MeshVoxel::compute_voxel(Eigen::Vector3i index, Eigen::MatrixXd &V, Eigen::
     return;
 }
 
+void MeshVoxel::write_voxels(std::string filename)
+{
+    std::ofstream fout(filename);
+
+    fout << grids_origin_[0] << " " << grids_origin_[1] << " " << grids_origin_[2] << " " << grids_width_ << std::endl;
+    fout << grids_size_ << std::endl;
+
+    vector<double> volumes;
+    vector<Eigen::Vector3i> voxel_indices;
+    voxelization_approximation_with_empty_voxels(volumes, voxel_indices);
+
+    for(int id = 0; id < volumes.size(); id++){
+        fout << volumes[id] / grids_width_ / grids_width_ / grids_width_ << " ";
+    }
+    fout << std::endl;
+    fout.close();
+}
+
 double MeshVoxel::computeDistanceVoxelToVoxel(Eigen::Vector3i voxelA, Eigen::Vector3i voxelB) const{
     Eigen::Vector3i distance = voxelA - voxelB;
     double minimum_distance = 0;
@@ -260,10 +285,11 @@ void MeshVoxel::computeDiffDistancePointToVoxel(Eigen::Vector3d pt,
                                                    Eigen::Vector3d &gradient) const{
     distance = 0;
     gradient = Eigen::Vector3d(0, 0, 0);
+    double eps = grids_width_ * 1E-2;
     for(int kd = 0; kd < 3; kd++)
     {
-        double max_voxel_coord = grids_origin_[kd] + (voxel_index[kd] + 1) * grids_width_;
-        double min_voxel_coord = grids_origin_[kd] + voxel_index[kd] * grids_width_;
+        double max_voxel_coord = grids_origin_[kd] + (voxel_index[kd] + 1) * grids_width_ - eps;
+        double min_voxel_coord = grids_origin_[kd] + voxel_index[kd] * grids_width_ + eps;
 
         if(pt[kd] > max_voxel_coord)
         {
@@ -289,8 +315,20 @@ void MeshVoxel::computeSelectedVoxels(vector<double> &volumes, vector<Eigen::Vec
             selected_voxel_indices_.push_back(voxel_indices[id]);
         }
     }
-
     return;
+}
+
+int MeshVoxel::computePartialFullnTinyVoxels(vector<double> &volumes){
+    int count = 0;
+    for(int id = 0; id < volumes.size(); id++){
+        if(volumes[id] > minimum_volume_){
+            count++;
+        }
+        else if(volumes[id] < 0.05 * grids_width_ * grids_width_ * grids_width_){
+            count ++;
+        }
+    }
+    return count;
 }
 
 void MeshVoxel::cluster_points_to_voxel_groups(const Eigen::MatrixXd &tv,
