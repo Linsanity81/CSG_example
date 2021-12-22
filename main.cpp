@@ -9,8 +9,8 @@
 #include <igl/writeOBJ.h>
 
 #ifdef __linux__
-//    #include <filesystem>
-//    namespace fs = std::filesystem;
+    #include <filesystem>
+    namespace fs = std::filesystem;
 #else
     #include <filesystem>
     namespace fs = std::__fs::filesystem;
@@ -104,15 +104,15 @@ bool key_down(igl::opengl::glfw::Viewer& viewer, unsigned char key, int modifier
 }
 
 int main() {
-    //Eigen::Vector3d grids_origin = Eigen::Vector3d(-1.1, -1, -1.2);
+    Eigen::Vector3d grids_origin = Eigen::Vector3d(-1.1, -1, -1.2);
     //Eigen::Vector3d grids_origin = Eigen::Vector3d( -1, -1.2, -1.05);
-    Eigen::Vector3d grids_origin = Eigen::Vector3d( -1,-1, -1);
+    //Eigen::Vector3d grids_origin = Eigen::Vector3d( -1,-1, -1);
     //double grids_size = 8;
     double grids_size = 9;
     double grids_width = 0.25 ;
 
     meshVoxelArap = std::make_shared<MeshVoxelARAP>(grids_origin, grids_width, grids_size, 0.3);
-    std::string filename = "../data/Model/Organic/Pumpkin";
+    std::string filename = "../data/Model/Organic/Squirrel";
     meshVoxelArap->readMesh(filename + ".obj");
 
     Eigen::MatrixXd meshV1 = meshVoxelArap->meshV_;
@@ -121,13 +121,13 @@ int main() {
     Eigen::Vector3d opt_grids_origin;
     solver->optimize(meshV1, opt_grids_origin);
 
-    igl::writeOBJ("../Pumpkin_22_12_21/Pumpkin.obj", meshV1, meshVoxelArap->meshF_);
+    igl::writeOBJ("../Squirrel_22_12_21/Squirrel.obj", meshV1, meshVoxelArap->meshF_);
     meshVoxelArap->meshV_ = meshV1;
     meshVoxelArap->grids_origin_ = opt_grids_origin;
     meshVoxelArap->voxelization_approximation(volumes, voxel_indices);
     meshVoxelArap->computeSelectedVoxels(volumes, voxel_indices);
     std::cout << (double)meshVoxelArap->selected_voxel_indices_.size() / volumes.size() << std::endl;
-    meshVoxelArap->write_voxels("../Pumpkin_22_12_21/Pumpkin.puz");
+    meshVoxelArap->write_voxels("../Squirrel_22_12_21/Squirrel.puz");
 
 
 ////

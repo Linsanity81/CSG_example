@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 project(MeshVoxel)
-#set(CMAKE_CXX_STANDARD 17)
+
+set(CMAKE_CXX_STANDARD 17)
 
 list(PREPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 # Libigl
@@ -42,9 +43,9 @@ target_link_libraries(MeshVoxel PUBLIC
         ${KNITRO_LIBRARIES})
 
 # test
-add_executable(MeshVoxelTest ${SRC_FILES} test.cpp)
-target_link_libraries(MeshVoxelTest PUBLIC
-        igl::core igl::opengl_glfw igl::cgal
-        tbb tbbmalloc Catch2::Catch2WithMain
-        igl::tetgen
-        ${KNITRO_LIBRARIES})
+#add_executable(MeshVoxelTest ${SRC_FILES} test.cpp)
+#target_link_libraries(MeshVoxelTest PUBLIC
+#        igl::core igl::opengl_glfw igl::cgal
+#        tbb tbbmalloc Catch2::Catch2WithMain
+#        igl::tetgen
+#        ${KNITRO_LIBRARIES})

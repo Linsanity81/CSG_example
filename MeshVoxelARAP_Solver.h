@@ -61,9 +61,10 @@ public:
         Eigen::VectorXi b;
         base_mesh_->precompute_arap_data(b);
 
-        max_outer_it_time_ = 3;
-        max_inner_it_time_ = 3;
+        max_outer_it_time_ = 2;
+        max_inner_it_time_ = 5;
 
+        opt_grids_origin = base_mesh_->grids_origin_;
         Eigen::Vector3d base_origin = base_mesh_->grids_origin_;
 
         int outer_it = 0;
@@ -71,9 +72,16 @@ public:
         {
             base_mesh_->meshV_ = opt_meshV;
 
-            //update origin
-            opt_grids_origin = optimize_location(base_origin);
-            base_mesh_->grids_origin_ = opt_grids_origin;
+            if(outer_it == max_outer_it_time_ - 1){
+                base_mesh_->shape_weight_ = 0.1;
+            }
+            else{
+                base_mesh_->shape_weight_ = 20;
+            }
+
+//            //update origin
+//            opt_grids_origin = optimize_location(base_origin);
+//            base_mesh_->grids_origin_ = opt_grids_origin;
 
             //update selected voxels
             vector<double> volumes;
@@ -84,16 +92,17 @@ public:
 
             // Set up parameters
             LBFGSpp::LBFGSParam<double> param;
-            param.epsilon = 1e-4;
-            param.max_iterations = 50;
+            param.epsilon = 1e-8;
+            param.max_iterations = 100;
             //param.linesearch = LBFGSpp::LBFGS_LINESEARCH_BACKTRACKING_STRONG_WOLFE;
             param.max_linesearch = 100;
 
             int inner_it = 0;
-            base_mesh_->shape_weight_ = 1E-2;
 
             while (inner_it < max_inner_it_time_)
             {
+
+
 
                 base_mesh_->compute_rotation_matrices(opt_meshV);
 
