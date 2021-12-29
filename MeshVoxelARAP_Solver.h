@@ -62,7 +62,7 @@ public:
         base_mesh_->precompute_arap_data(b);
 
         max_outer_it_time_ = 2;
-        max_inner_it_time_ = 5;
+        max_inner_it_time_ = 3;
 
         opt_grids_origin = base_mesh_->grids_origin_;
         Eigen::Vector3d base_origin = base_mesh_->grids_origin_;
@@ -79,9 +79,9 @@ public:
                 base_mesh_->shape_weight_ = 20;
             }
 
-//            //update origin
-//            opt_grids_origin = optimize_location(base_origin);
-//            base_mesh_->grids_origin_ = opt_grids_origin;
+            //update origin
+            opt_grids_origin = optimize_location(base_origin);
+            base_mesh_->grids_origin_ = opt_grids_origin;
 
             //update selected voxels
             vector<double> volumes;
@@ -93,7 +93,7 @@ public:
             // Set up parameters
             LBFGSpp::LBFGSParam<double> param;
             param.epsilon = 1e-8;
-            param.max_iterations = 100;
+            param.max_iterations = 50;
             //param.linesearch = LBFGSpp::LBFGS_LINESEARCH_BACKTRACKING_STRONG_WOLFE;
             param.max_linesearch = 100;
 
@@ -101,8 +101,6 @@ public:
 
             while (inner_it < max_inner_it_time_)
             {
-
-
 
                 base_mesh_->compute_rotation_matrices(opt_meshV);
 

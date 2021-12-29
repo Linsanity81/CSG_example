@@ -41,18 +41,20 @@ void MeshVoxel::voxelization_approximation_with_empty_voxels(vector<double> &vol
                     index[1] * grids_width_ + grids_origin_[1],
                     index[2] * grids_width_ + grids_origin_[2]);
 
-            Eigen::MatrixXd query_points(num_of_sample * num_of_sample * num_of_sample, 3);
-            for(int ix = 0; ix < num_of_sample; ix++)
+            Eigen::MatrixXd query_points((num_of_sample - 1) * (num_of_sample - 1) * (num_of_sample - 1), 3);
+            int query_pt_index = 0;
+            for(int ix = 1; ix < num_of_sample; ix++)
             {
-                for(int iy = 0; iy < num_of_sample; iy++)
+                for(int iy = 1; iy < num_of_sample; iy++)
                 {
-                    for(int iz = 0; iz < num_of_sample; iz++)
+                    for(int iz = 1; iz < num_of_sample; iz++)
                     {
                         Eigen::Vector3d pt =
                                 corner + Eigen::Vector3d(ix * grids_width_ / num_of_sample,
                                                          iy * grids_width_ / num_of_sample,
                                                          iz * grids_width_ / num_of_sample);
-                        query_points.row(iz + iy * num_of_sample + ix * num_of_sample * num_of_sample) = pt;
+                        query_points.row(query_pt_index) = pt;
+                        query_pt_index++;
                     }
                 }
             }
@@ -64,7 +66,7 @@ void MeshVoxel::voxelization_approximation_with_empty_voxels(vector<double> &vol
             for(int jd = 0; jd < winding.size(); jd++){
                 count += winding(jd) > 0.5 ? 1: 0;
             }
-            volumes[id] = count / num_of_sample / num_of_sample / num_of_sample * (grids_width_ * grids_width_ * grids_width_);
+            volumes[id] = count / query_pt_index * (grids_width_ * grids_width_ * grids_width_);
             voxel_indices[id] = index;
         }
     });
