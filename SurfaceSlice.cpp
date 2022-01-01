@@ -5,16 +5,14 @@
 #include "SurfaceSlice.h"
 #include <map>
 #include "igl/ray_mesh_intersect.h"
+#include "igl/ray_box_intersect.h"
+#include <iostream>
 
 void SurfaceSlice::initSurface(Eigen::Vector3d grids_origin,
                                double grids_width,
                                int grids_size,
-                               const vector<Eigen::Vector3i> &voxel_indices,
-                               const vector<double> &xs)
+                               const vector<Eigen::Vector3i> &voxel_indices)
                                {
-
-    xs_ = xs;
-
     std::map<int, bool> selected_voxels;
 
     for(int id = 0; id < voxel_indices.size(); id++){
@@ -23,14 +21,11 @@ void SurfaceSlice::initSurface(Eigen::Vector3d grids_origin,
         selected_voxels[digit] = true;
     }
 
-    int num_angle = 32;
-
-    radius_.resize(xs.size());
-    for(int id = 0; id < xs.size(); id++){
-        radius_[id].resize(num_angle, std::numeric_limits<double>::max());
+    radius_.resize(xs_.size());
+    for(int id = 0; id < xs_.size(); id++){
+        radius_[id].resize(num_theta_sample_, std::numeric_limits<double>::max());
     }
-
-
+    
     for(int digit = 0; digit < grids_size * grids_size * grids_size; digit++)
     {
         if(selected_voxels[digit] == false){
@@ -41,34 +36,50 @@ void SurfaceSlice::initSurface(Eigen::Vector3d grids_origin,
             double x0 = ix * grids_width + grids_origin(0);
             double x1 = x0 + grids_width;
 
-            Eigen::MatrixXd V;
-            Eigen::MatrixXi F;
-            compute_voxel(index, grids_origin, grids_width, V,F);
-            Eigen::Vector3d pt(x0 + x1, 0, 0);
+            double y0 = iy * grids_width + grids_origin(1);
+            double y1 = y0 + grids_width;
+
+            double z0 = iz * grids_width + grids_origin(2);
+            double z1 = z0 + grids_width;
+
+            Eigen::Vector3d min_box(x0, y0, z0);
+            Eigen::Vector3d max_box(x1, y1, z1);
+            Eigen::AlignedBox<double, 3> box(min_box, max_box);
+
+
+//            Eigen::MatrixXd V;
+//            Eigen::MatrixXi F;
+//            compute_voxel(index, grids_origin, grids_width, V,F);
+
+            Eigen::Matrix<double, 1, 3, 1, 1, 3> pt((x0 + x1) / 2.0, 0, 0);
             vector<double> voxel_radius;
 
-            for(int id = 0; id < num_angle; id++){
-                double angle = 2 * M_PI / num_angle * id;
-                Eigen::Vector3d drt(0, cos(angle), sin(angle));
-                igl::Hit hit;
-                if(igl::ray_mesh_intersect(pt, drt, V, F, hit)){
-                    voxel_radius.push_back(hit.t);
+            for(int id = 0; id < num_theta_sample_; id++){
+                double angle = 2.0 * M_PI / num_theta_sample_ * id;
+                Eigen::Matrix<double, 1, 3, 1, 1, 3> drt(0, cos(angle), sin(angle));
+
+                const double t0 = 0.0;
+                const double t1 = 10.0;
+                double tmin, tmax;
+                if(igl::ray_box_intersect(pt, drt, box, t0, t1, tmin, tmax)){
+                    voxel_radius.push_back(tmin);
                 }
                 else{
                     voxel_radius.push_back(std::numeric_limits<double>::max());
                 }
             }
 
-            for(int id = 0; id < xs.size(); id++)
+
+            for(int id = 0; id < xs_.size(); id++)
             {
-                if(xs[id] >= x0 && xs[id] <= x1)
+                if(xs_[id] >= x0 && xs_[id] <= x1)
                 {
-                    for(int jd = 0; jd < num_angle; jd++){
+                    for(int jd = 0; jd < num_theta_sample_; jd++){
                         radius_[id][jd] = std::min(radius_[id][jd], voxel_radius[jd]);
                     }
                 }
 
-                if(xs[id] > x1){
+                if(xs_[id] > x1){
                     break;
                 }
             }
@@ -115,4 +126,66 @@ void SurfaceSlice::compute_voxel(Eigen::Vector3i index,
     }
 
     return;
+}
+
+void SurfaceSlice::computeMesh(Eigen::MatrixXd &V, Eigen::MatrixXi &F){
+
+    V = Eigen::MatrixXd::Zero(num_x_sample_ * num_theta_sample_ + 2, 3);
+
+    for(int id = 0; id  < num_x_sample_; id++)
+    {
+        for(int jd = 0; jd < num_theta_sample_; jd++)
+        {
+            double theta = M_PI * 2 / num_theta_sample_ * jd;
+            V(id * num_theta_sample_ + jd, 0) = xs_[id];
+            V(id * num_theta_sample_ + jd, 1) = std::cos(theta) * radius_[id][jd];
+            V(id * num_theta_sample_ + jd, 2) = std::sin(theta) * radius_[id][jd];
+        }
+    }
+    V(num_x_sample_ * num_theta_sample_, 0) = xs_.front();
+    V(num_x_sample_ * num_theta_sample_ + 1, 0) = xs_.back();
+
+    Eigen::MatrixXi LF = Eigen::MatrixXi(2 * (num_x_sample_ - 1) * num_theta_sample_, 3);
+
+    for(int id = 0; id + 1 < num_x_sample_; id++)
+    {
+        for(int jd = 0; jd < num_theta_sample_; jd++)
+        {
+            int iA = id * num_theta_sample_ + jd;
+            int iB = id * num_theta_sample_ + (jd + 1) % num_theta_sample_;
+            int iC = iA + num_theta_sample_;
+            int iD = iB + num_theta_sample_;
+
+            LF(id * num_theta_sample_ * 2 + 2 * jd, 0) = iA;
+            LF(id * num_theta_sample_ * 2 + 2 * jd, 1) = iD;
+            LF(id * num_theta_sample_ * 2 + 2 * jd, 2) = iC;
+
+            LF(id * num_theta_sample_ * 2 + 2 * jd + 1, 0) = iA;
+            LF(id * num_theta_sample_ * 2 + 2 * jd + 1, 1) = iB;
+            LF(id * num_theta_sample_ * 2 + 2 * jd + 1, 2) = iD;
+        }
+    }
+
+    Eigen::MatrixXi TF(num_theta_sample_, 3);
+    for(int jd = 0; jd < num_theta_sample_; jd++)
+    {
+        TF(jd, 0) = jd;
+        TF(jd, 2) = (jd + 1) % num_theta_sample_;
+        TF(jd, 1) = num_x_sample_ * num_theta_sample_;
+    }
+
+    Eigen::MatrixXi BF(num_theta_sample_, 3);
+    for(int jd = 0; jd < num_theta_sample_; jd++)
+    {
+        int index = num_theta_sample_ * (num_x_sample_ - 1);
+        BF(jd, 0) = jd + index;
+        BF(jd, 1) = (jd + 1) % num_theta_sample_ + index;
+        BF(jd, 2) = num_x_sample_ * num_theta_sample_ + 1;
+    }
+
+    F = Eigen::MatrixXi (TF.rows() + LF.rows() + BF.rows(), 3);
+    F.block(0, 0, LF.rows(), 3) = LF;
+    F.block(LF.rows(), 0, TF.rows(), 3) = TF;
+    F.block(LF.rows() + TF.rows(), 0, BF.rows(), 3) = BF;
+    //    F << LF, TF;
 }

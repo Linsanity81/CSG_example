@@ -15,6 +15,7 @@
     namespace fs = std::__fs::filesystem;
 #endif
 #include "MeshVoxelARAP_Solver.h"
+#include "SurfaceSlice.h"
 
 using std::vector;
 
@@ -104,79 +105,76 @@ bool key_down(igl::opengl::glfw::Viewer& viewer, unsigned char key, int modifier
 
 int main(){
 
-    vector<double> data_xs = {0, 0.25, 0.5, 0.75, 1,};
+    vector<double> data_xs = {0,
+                              0.3,
+                              0.4,
+                              0.6,
+                              1.1};
 
-    vector<double> data_yts = {0.3, 0, 0.4, 0, 0.5, 0, 0.4, 0, 0.3, 0};
+    vector<double> data_yts = {0.4, -1,
+                               0.3, 0.3,
+                               0.45, 0.3,
+                               0.45, -0.3,
+                               0.3, -0.3};
 
     Eigen::MatrixXd V;
     Eigen::MatrixXi F;
 
     SurfaceEvo surface(data_xs);
+    surface.computeMesh(data_yts, V, F);
 
-
-    double grids_size = 15;
-    double grids_width = 0.1;
+    double grids_size = 10;
+    double grids_width = 0.11;
     Eigen::Vector3d grids_origin = Eigen::Vector3d( 0,-grids_width * grids_size / 2, -grids_width * grids_size / 2);
 
-    int times = 5;
-    while(times --)
+
+    meshVoxelArap = std::make_shared<MeshVoxelARAP>(grids_origin, grids_width, grids_size, 0.3);
+    meshVoxelArap->meshV_ = V;
+    meshVoxelArap->meshF_ = F;
+    meshVoxelArap->voxelization_approximation(volumes, voxel_indices);
+    meshVoxelArap->computeSelectedVoxels(volumes, voxel_indices);
+
+    SurfaceSlice surfaceSlice(0, 1.1);
+    surfaceSlice.initSurface(grids_origin, grids_width, grids_size, meshVoxelArap->selected_voxel_indices_);
+
+    int NX = surfaceSlice.num_x_sample_;
+    int NT = surfaceSlice.num_theta_sample_;
+    int nvar = NX * NT;
+    int ncon = nvar + (NX - 2) * NT;
+
+    SurfaceSliceOpt instance = SurfaceSliceOpt(surfaceSlice.xs_, surfaceSlice.radius_, nvar, ncon, 50.0);
+
+    // Create a solver
+    knitro::KNSolver solver = knitro::KNSolver(&instance);
+    //solver.setParam(KN_PARAM_OUTLEV, 0);
+
+    solver.initProblem();
+    int solveStatus = solver.solve();
+
+    std::vector<double> lambda;
+    std::vector<double> x;
+
+    int nStatus = solver.getSolution(x, lambda);
+    vector<vector<double>> radius;
+    int iv = 0;
+    for(int id = 0; id < surfaceSlice.num_x_sample_; id++)
     {
-        surface.computeMesh(data_yts, V, F);
-        meshVoxelArap = std::make_shared<MeshVoxelARAP>(grids_origin, grids_width, grids_size, 0.3);
-        meshVoxelArap->meshV_ = V;
-        meshVoxelArap->meshF_ = F;
-        meshVoxelArap->voxelization_approximation(volumes, voxel_indices);
-        meshVoxelArap->computeSelectedVoxels(volumes, voxel_indices);
-        std::cout << meshVoxelArap->selected_voxel_indices_.size() / (double)volumes.size() << std::endl;
-
-        vector<double> xs;
-        int num_sample = 100;
-        for(int id = 0; id < num_sample; id++){
-            xs.push_back(1.0 / num_sample * id);
+        radius.push_back(vector<double>());
+        for(int jd = 0; jd < surfaceSlice.num_theta_sample_; jd++){
+            radius[id].push_back(x[iv]);
+            iv++;
         }
-
-        vector<double> radius;
-        surface.computeRadius(grids_origin,
-                              grids_width,
-                              grids_size,
-                              meshVoxelArap->selected_voxel_indices_,
-                              xs,
-                              radius);
-
-
-        Eigen::MatrixXd Mat;
-        Eigen::VectorXd b;
-        surface.compute_constraints(xs, radius, Mat, b);
-
-        // Create a problem instance.
-        SurfaceShrink instance = SurfaceShrink(data_xs, data_yts, xs, Mat, b, 1.0);
-
-        // Create a solver
-        knitro::KNSolver solver = knitro::KNSolver(&instance);
-        solver.setParam(KN_PARAM_OUTLEV, 0);
-
-        solver.initProblem();
-        int solveStatus = solver.solve();
-
-        std::vector<double> lambda;
-        std::vector<double> x;
-
-        int nStatus = solver.getSolution(x, lambda);
-        for(int id = 0; id < data_yts.size(); id++){
-            data_yts[id] = x[id];
-        }
-//        for(int id = data_yts.size(); id < x.size(); id++){
-//            std::cout << radius[id - data_yts.size()] << " " << x[id] << std::endl;
-//        }
     }
 
-    surface.computeMesh(data_yts, V, F);
-//    meshVoxelArap = std::make_shared<MeshVoxelARAP>(grids_origin, grids_width, grids_size, 0.3);
-//    meshVoxelArap->meshV_ = V;
-//    meshVoxelArap->meshF_ = F;
-//    meshVoxelArap->voxelization_approximation(volumes, voxel_indices);
-//    meshVoxelArap->computeSelectedVoxels(volumes, voxel_indices);
-//    std::cout << meshVoxelArap->selected_voxel_indices_.size() / (double)volumes.size() << std::endl;
+    surfaceSlice.radius_ = radius;
+    surfaceSlice.computeMesh(V, F);
+
+    meshVoxelArap = std::make_shared<MeshVoxelARAP>(grids_origin, grids_width, grids_size, 0.3);
+    meshVoxelArap->meshV_ = V;
+    meshVoxelArap->meshF_ = F;
+    meshVoxelArap->voxelization_approximation(volumes, voxel_indices);
+    meshVoxelArap->computeSelectedVoxels(volumes, voxel_indices);
+    std::cout << meshVoxelArap->selected_voxel_indices_.size() / (double)volumes.size() << std::endl;
 
     igl::opengl::glfw::Viewer viewer;
     viewer.data().set_mesh(V, F);
@@ -184,7 +182,97 @@ int main(){
     viewer.launch();
 }
 
+//int main(){
+//
+//    vector<double> data_xs = {0,
+//                              0.3,
+//                              0.4,
+//                              0.6,
+//                              1.1};
+//
+//    vector<double> data_yts = {0.4, -1,
+//                               0.3, 0.3,
+//                               0.45, 0.3,
+//                               0.45, -0.3,
+//                               0.3, -0.3};
+//
+//    Eigen::MatrixXd V;
+//    Eigen::MatrixXi F;
+//
+//    SurfaceEvo surface(data_xs);
+//
+//
+//    double grids_size = 10;
+//    double grids_width = 0.13;
+//    Eigen::Vector3d grids_origin = Eigen::Vector3d( 0,-grids_width * grids_size / 2, -grids_width * grids_size / 2);
+//
+//    int times = 2;
+//    while(times --)
+//    {
+//        surface.computeMesh(data_yts, V, F);
+//        meshVoxelArap = std::make_shared<MeshVoxelARAP>(grids_origin, grids_width, grids_size, 0.2);
+//        meshVoxelArap->meshV_ = V;
+//        meshVoxelArap->meshF_ = F;
+//        meshVoxelArap->voxelization_approximation(volumes, voxel_indices);
+//        meshVoxelArap->computeSelectedVoxels(volumes, voxel_indices);
+//        std::cout << meshVoxelArap->selected_voxel_indices_.size() / (double)volumes.size() << std::endl;
+//
+//        vector<double> xs;
+//        int num_sample = 100;
+//        for(int id = 0; id < num_sample; id++){
+//            xs.push_back(1.1 / num_sample * id);
+//        }
+//
+//        vector<double> radius;
+//        surface.computeRadius(grids_origin,
+//                              grids_width,
+//                              grids_size,
+//                              meshVoxelArap->selected_voxel_indices_,
+//                              xs,
+//                              radius);
+//
+//
+//        Eigen::MatrixXd Mat;
+//        Eigen::VectorXd b;
+//        surface.compute_constraints(xs, radius, Mat, b);
+//
+//        // Create a problem instance.
+//        SurfaceShrink instance = SurfaceShrink(data_xs, data_yts, xs, Mat, b, 1.0);
+//
+//        // Create a solver
+//        knitro::KNSolver solver = knitro::KNSolver(&instance);
+//        solver.setParam(KN_PARAM_OUTLEV, 0);
+//
+//        solver.initProblem();
+//        int solveStatus = solver.solve();
+//
+//        std::vector<double> lambda;
+//        std::vector<double> x;
+//
+//        int nStatus = solver.getSolution(x, lambda);
+//        for(int id = 0; id < data_yts.size(); id++){
+//            data_yts[id] = x[id];
+//        }
+////        for(int id = data_yts.size(); id < x.size(); id++){
+////            std::cout << radius[id - data_yts.size()] << " " << x[id] << std::endl;
+////        }
+//    }
+//
+//    surface.computeMesh(data_yts, V, F);
+//    meshVoxelArap = std::make_shared<MeshVoxelARAP>(grids_origin, grids_width, grids_size, 0.3);
+//    meshVoxelArap->meshV_ = V;
+//    meshVoxelArap->meshF_ = F;
+//    meshVoxelArap->voxelization_approximation(volumes, voxel_indices);
+//    meshVoxelArap->computeSelectedVoxels(volumes, voxel_indices);
+//    std::cout << meshVoxelArap->selected_voxel_indices_.size() / (double)volumes.size() << std::endl;
+//
+//    igl::opengl::glfw::Viewer viewer;
+//    viewer.data().set_mesh(V, F);
+//    add_edges(viewer);
+//    viewer.launch();
+//}
 
+//
 //int main() {
 //    //Eigen::Vector3d grids_origin = Eigen::Vector3d(-1.1, -1, -1.2);
 //    //Eigen::Vector3d grids_origin = Eigen::Vector3d( -1, -1.2, -1.05);
