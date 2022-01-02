@@ -14,6 +14,9 @@ option(LIBIGL_WITH_CGAL              "Use CGAL"           ON)
 option(LIBIGL_USE_STATIC_LIBRARY     "Use libIGL as static librarie" ON)
 include(libigl)
 
+# mosek
+find_package(MOSET)
+
 #tbb
 add_subdirectory(ext/tbb)
 
@@ -41,11 +44,13 @@ target_link_libraries(MeshVoxel PUBLIC
         igl::opengl_glfw
         igl::cgal
         tbb tbbmalloc
-        ${KNITRO_LIBRARIES})
+        ${KNITRO_LIBRARIES}
+        ${MOSEK_LIBRARIES})
 
 # test
 add_executable(MeshVoxelTest ${SRC_FILES} test.cpp)
 target_link_libraries(MeshVoxelTest PUBLIC
         igl::core igl::opengl_glfw igl::cgal
         tbb tbbmalloc Catch2::Catch2WithMain
-        ${KNITRO_LIBRARIES})
+        ${KNITRO_LIBRARIES}
+        ${MOSEK_LIBRARIES})
