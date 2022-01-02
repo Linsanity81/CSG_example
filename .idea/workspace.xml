@@ -1,0 +1,987 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
+    <generated>
+      <config projectName="MeshVoxel" targetName="tbb_test_aligned_space" />
+      <config projectName="MeshVoxel" targetName="ContinuousCoverage" />
+      <config projectName="MeshVoxel" targetName="NightlyTest" />
+      <config projectName="MeshVoxel" targetName="tbb_static" />
+      <config projectName="MeshVoxel" targetName="tbb_test_cilk_interop" />
+      <config projectName="MeshVoxel" targetName="igl_cgal" />
+      <config projectName="MeshVoxel" targetName="tbb_test_async_node" />
+      <config projectName="MeshVoxel" targetName="igl_opengl_glfw" />
+      <config projectName="MeshVoxel" targetName="tbb_test_malloc_pools" />
+      <config projectName="MeshVoxel" targetName="tbb_test_mutex" />
+      <config projectName="MeshVoxel" targetName="tbb_test_priority_queue_node" />
+      <config projectName="MeshVoxel" targetName="tbb_def_files" />
+      <config projectName="MeshVoxel" targetName="tbb_test_concurrent_queue" />
+      <config projectName="MeshVoxel" targetName="tbb_test_concurrent_unordered_map" />
+      <config projectName="MeshVoxel" targetName="ContinuousStart" />
+      <config projectName="MeshVoxel" targetName="tbb_test_task" />
+      <config projectName="MeshVoxel" targetName="tbbmalloc_proxy_static" />
+      <config projectName="MeshVoxel" targetName="glad" />
+      <config projectName="MeshVoxel" targetName="tbb_test_blocked_range" />
+      <config projectName="MeshVoxel" targetName="tbb_test_concurrent_vector" />
+      <config projectName="MeshVoxel" targetName="tbb_test_examples_common_utility" />
+      <config projectName="MeshVoxel" targetName="tbb_test_task_group" />
+      <config projectName="MeshVoxel" targetName="tbb_test_std_thread" />
+      <config projectName="MeshVoxel" targetName="tbb_test_tbb_fork" />
+      <config projectName="MeshVoxel" targetName="ContinuousBuild" />
+      <config projectName="MeshVoxel" targetName="tbb_test_task_steal_limit" />
+      <config projectName="MeshVoxel" targetName="tbb_test_tick_count" />
+      <config projectName="MeshVoxel" targetName="MeshVoxel" />
+      <config projectName="MeshVoxel" targetName="ContinuousSubmit" />
+      <config projectName="MeshVoxel" targetName="tbb_test_split_node" />
+      <config projectName="MeshVoxel" targetName="tbb_test_blocked_range3d" />
+      <config projectName="MeshVoxel" targetName="tbb_test_tbb_condition_variable" />
+      <config projectName="MeshVoxel" targetName="ExperimentalBuild" />
+      <config projectName="MeshVoxel" targetName="tbb_test_critical_section" />
+      <config projectName="MeshVoxel" targetName="tbb_test_flow_graph" />
+      <config projectName="MeshVoxel" targetName="tbb_test_combinable" />
+      <config projectName="MeshVoxel" targetName="tbb_test_rwm_upgrade_downgrade" />
+      <config projectName="MeshVoxel" targetName="tbb_test_static_assert" />
+      <config projectName="MeshVoxel" targetName="tbb_test_composite_node" />
+      <config projectName="MeshVoxel" targetName="tbb_test_yield" />
+      <config projectName="MeshVoxel" targetName="Catch2WithMain" />
+      <config projectName="MeshVoxel" targetName="tbb_test_ScalableAllocator_STL" />
+      <config projectName="MeshVoxel" targetName="tbb_test_blocked_range2d" />
+      <config projectName="MeshVoxel" targetName="tbb_test_handle_perror" />
+      <config projectName="MeshVoxel" targetName="tbb_test_intrusive_list" />
+      <config projectName="MeshVoxel" targetName="tbb_test_pipeline" />
+      <config projectName="MeshVoxel" targetName="tbb_test_write_once_node" />
+      <config projectName="MeshVoxel" targetName="tbb_test_concurrent_lru_cache" />
+      <config projectName="MeshVoxel" targetName="ExperimentalStart" />
+      <config projectName="MeshVoxel" targetName="ExperimentalSubmit" />
+      <config projectName="MeshVoxel" targetName="tbb_test_parallel_while" />
+      <config projectName="MeshVoxel" targetName="tbb_test_tuple" />
+      <config projectName="MeshVoxel" targetName="tbb_test_cache_aligned_allocator" />
+      <config projectName="MeshVoxel" targetName="tbb_test_parallel_pipeline" />
+      <config projectName="MeshVoxel" targetName="tbb_test_dynamic_link" />
+      <config projectName="MeshVoxel" targetName="ExperimentalConfigure" />
+      <config projectName="MeshVoxel" targetName="tbb_test_tagged_msg" />
+      <config projectName="MeshVoxel" targetName="tbb_test_malloc_regression" />
+      <config projectName="MeshVoxel" targetName="tbb_test_async_msg" />
+      <config projectName="MeshVoxel" targetName="ExperimentalTest" />
+      <config projectName="MeshVoxel" targetName="tbb_test_ittnotify" />
+      <config projectName="MeshVoxel" targetName="tbb_test_broadcast_node" />
+      <config projectName="MeshVoxel" targetName="tbb_test_flow_graph_whitebox" />
+      <config projectName="MeshVoxel" targetName="tbb_test_cache_aligned_allocator_STL" />
+      <config projectName="MeshVoxel" targetName="tbb_test_parallel_reduce" />
+      <config projectName="MeshVoxel" targetName="tbb_test_task_auto_init" />
+      <config projectName="MeshVoxel" targetName="tbb_test_task_scheduler_observer" />
+      <config projectName="MeshVoxel" targetName="NightlyCoverage" />
+      <config projectName="MeshVoxel" targetName="tbb_test_aggregator" />
+      <config projectName="MeshVoxel" targetName="tbb_test_overwrite_node" />
+      <config projectName="MeshVoxel" targetName="tbb_test_lambda" />
+      <config projectName="MeshVoxel" targetName="tbb_test_assembly" />
+      <config projectName="MeshVoxel" targetName="ExperimentalMemCheck" />
+      <config projectName="MeshVoxel" targetName="tbb_test_parallel_for_each" />
+      <config projectName="MeshVoxel" targetName="NightlyUpdate" />
+      <config projectName="MeshVoxel" targetName="tbb_test_reader_writer_lock" />
+      <config projectName="MeshVoxel" targetName="tbb_test_queue_node" />
+      <config projectName="MeshVoxel" targetName="igl" />
+      <config projectName="MeshVoxel" targetName="tbb_test_tbb_thread" />
+      <config projectName="MeshVoxel" targetName="tbb_test_parallel_invoke" />
+      <config projectName="MeshVoxel" targetName="ExperimentalUpdate" />
+      <config projectName="MeshVoxel" targetName="tbbmalloc_static" />
+      <config projectName="MeshVoxel" targetName="tbb_test_indexer_node" />
+      <config projectName="MeshVoxel" targetName="tbb_test_semaphore" />
+      <config projectName="MeshVoxel" targetName="ExperimentalCoverage" />
+      <config projectName="MeshVoxel" targetName="MeshVoxelTest" />
+      <config projectName="MeshVoxel" targetName="tbb_test_cilk_dynamic_load" />
+      <config projectName="MeshVoxel" targetName="NightlyConfigure" />
+      <config projectName="MeshVoxel" targetName="tbbmalloc" />
+      <config projectName="MeshVoxel" targetName="tbb_test_inits_loop" />
+      <config projectName="MeshVoxel" targetName="ContinuousMemCheck" />
+      <config projectName="MeshVoxel" targetName="tbb_test_buffer_node" />
+      <config projectName="MeshVoxel" targetName="tbb_test_halt" />
+      <config projectName="MeshVoxel" targetName="tbb" />
+      <config projectName="MeshVoxel" targetName="NightlyMemCheck" />
+      <config projectName="MeshVoxel" targetName="NightlyStart" />
+      <config projectName="MeshVoxel" targetName="NightlyBuild" />
+      <config projectName="MeshVoxel" targetName="tbb_test_parallel_for_vectorization" />
+      <config projectName="MeshVoxel" targetName="ContinuousUpdate" />
+      <config projectName="MeshVoxel" targetName="tbb_test_model_plugin" />
+      <config projectName="MeshVoxel" targetName="igl_opengl" />
+      <config projectName="MeshVoxel" targetName="Continuous" />
+      <config projectName="MeshVoxel" targetName="glfw" />
+      <config projectName="MeshVoxel" targetName="tbb_test_parallel_scan" />
+      <config projectName="MeshVoxel" targetName="tbbmalloc_proxy" />
+      <config projectName="MeshVoxel" targetName="tbb_test_source_node" />
+      <config projectName="MeshVoxel" targetName="tbb_test_concurrent_hash_map" />
+      <config projectName="MeshVoxel" targetName="tbb_test_malloc_init_shutdown" />
+      <config projectName="MeshVoxel" targetName="ContinuousTest" />
+      <config projectName="MeshVoxel" targetName="NightlyMemoryCheck" />
+      <config projectName="MeshVoxel" targetName="ContinuousConfigure" />
+      <config projectName="MeshVoxel" targetName="tbb_test_continue_node" />
+      <config projectName="MeshVoxel" targetName="Catch2" />
+      <config projectName="MeshVoxel" targetName="Experimental" />
+      <config projectName="MeshVoxel" targetName="Nightly" />
+      <config projectName="MeshVoxel" targetName="tbb_test_mutex_native_threads" />
+      <config projectName="MeshVoxel" targetName="tbb_test_eh_flow_graph" />
+      <config projectName="MeshVoxel" targetName="tbb_test_parallel_for" />
+      <config projectName="MeshVoxel" targetName="NightlySubmit" />
+      <config projectName="MeshVoxel" targetName="tbb_test_parallel_sort" />
+      <config projectName="MeshVoxel" targetName="tbb_test_limiter_node" />
+      <config projectName="MeshVoxel" targetName="tbb_test_enumerable_thread_specific" />
+    </generated>
+  </component>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="Release" CONFIG_NAME="Release" ENABLED="true">
+        <ADDITIONAL_GENERATION_ENVIRONMENT>
+          <envs>
+            <env name="ARTELYS_LICENSE_NETWORK_ADDR" value="128.178.78.2:8349" />
+            <env name="KNITRODIR " value="/opt/knitro" />
+          </envs>
+        </ADDITIONAL_GENERATION_ENVIRONMENT>
+      </configuration>
+    </configurations>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="8a2651ff-f3d9-4ce0-b446-22ec6236b01d" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/cmake/FindMOSET.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/deployment.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deployment.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/test.cpp" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Release" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="ProjectId" id="20xYRpKB2j01ynqN7YyWuCGWglv" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="true" />
+    <property name="WebServerToolWindowPanel.toolwindow.highlight.mappings" value="true" />
+    <property name="WebServerToolWindowPanel.toolwindow.highlight.symlinks" value="true" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.date" value="false" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
+    <property name="cf.first.check.clang-format" value="false" />
+    <property name="cidr.known.project.marker" value="true" />
+    <property name="cmake.loaded.for.project" value="true" />
+    <property name="ctest.advertisement.all.test.configuration.is.created" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/cmake" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="CMakeSettings" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/cmake" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/cmake" />
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
+  <component name="RunManager" selected="CMake Application.MeshVoxelTest">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Catch2" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="Catch2" CONFIG_NAME="Release">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Catch2WithMain" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="Catch2WithMain" CONFIG_NAME="Release">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Continuous" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="Continuous" CONFIG_NAME="Release">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ContinuousBuild" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="ContinuousBuild" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="ContinuousBuild">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ContinuousConfigure" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="ContinuousConfigure" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="ContinuousConfigure">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ContinuousCoverage" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="ContinuousCoverage" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="ContinuousCoverage">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ContinuousMemCheck" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="ContinuousMemCheck" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="ContinuousMemCheck">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ContinuousStart" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="ContinuousStart" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="ContinuousStart">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ContinuousSubmit" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="ContinuousSubmit" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="ContinuousSubmit">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ContinuousTest" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="ContinuousTest" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="ContinuousTest">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ContinuousUpdate" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="ContinuousUpdate" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="ContinuousUpdate">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Experimental" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="Experimental" CONFIG_NAME="Release">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ExperimentalBuild" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="ExperimentalBuild" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="ExperimentalBuild">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ExperimentalConfigure" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="ExperimentalConfigure" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="ExperimentalConfigure">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ExperimentalCoverage" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="ExperimentalCoverage" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="ExperimentalCoverage">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ExperimentalMemCheck" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="ExperimentalMemCheck" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="ExperimentalMemCheck">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ExperimentalStart" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="ExperimentalStart" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="ExperimentalStart">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ExperimentalSubmit" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="ExperimentalSubmit" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="ExperimentalSubmit">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ExperimentalTest" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="ExperimentalTest" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="ExperimentalTest">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ExperimentalUpdate" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="ExperimentalUpdate" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="ExperimentalUpdate">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MeshVoxel" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="MeshVoxel" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="MeshVoxel">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MeshVoxelTest" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="MeshVoxelTest" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="MeshVoxelTest">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Nightly" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="Nightly" CONFIG_NAME="Release">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="NightlyBuild" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="NightlyBuild" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="NightlyBuild">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="NightlyConfigure" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="NightlyConfigure" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="NightlyConfigure">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="NightlyCoverage" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="NightlyCoverage" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="NightlyCoverage">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="NightlyMemCheck" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="NightlyMemCheck" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="NightlyMemCheck">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="NightlyMemoryCheck" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="NightlyMemoryCheck" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="NightlyMemoryCheck">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="NightlyStart" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="NightlyStart" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="NightlyStart">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="NightlySubmit" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="NightlySubmit" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="NightlySubmit">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="NightlyTest" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="NightlyTest" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="NightlyTest">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="NightlyUpdate" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="NightlyUpdate" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="NightlyUpdate">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="glad" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="glad" CONFIG_NAME="Release">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="glfw" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="glfw" CONFIG_NAME="Release">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="igl" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="igl" CONFIG_NAME="Release">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="igl_cgal" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="igl_cgal" CONFIG_NAME="Release">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="igl_opengl" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="igl_opengl" CONFIG_NAME="Release">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="igl_opengl_glfw" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="igl_opengl_glfw" CONFIG_NAME="Release">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb" CONFIG_NAME="Release">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_def_files" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_def_files" CONFIG_NAME="Release">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_static" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_static" CONFIG_NAME="Release">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_ScalableAllocator_STL" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_ScalableAllocator_STL" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_ScalableAllocator_STL">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_aggregator" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_aggregator" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_aggregator">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_aligned_space" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_aligned_space" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_aligned_space">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_assembly" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_assembly" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_assembly">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_async_msg" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_async_msg" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_async_msg">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_async_node" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_async_node" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_async_node">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_blocked_range" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_blocked_range" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_blocked_range">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_blocked_range2d" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_blocked_range2d" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_blocked_range2d">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_blocked_range3d" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_blocked_range3d" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_blocked_range3d">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_broadcast_node" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_broadcast_node" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_broadcast_node">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_buffer_node" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_buffer_node" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_buffer_node">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_cache_aligned_allocator" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_cache_aligned_allocator" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_cache_aligned_allocator">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_cache_aligned_allocator_STL" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_cache_aligned_allocator_STL" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_cache_aligned_allocator_STL">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_cilk_dynamic_load" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_cilk_dynamic_load" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_cilk_dynamic_load">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_cilk_interop" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_cilk_interop" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_cilk_interop">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_combinable" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_combinable" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_combinable">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_composite_node" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_composite_node" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_composite_node">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_concurrent_hash_map" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_concurrent_hash_map" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_concurrent_hash_map">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_concurrent_lru_cache" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_concurrent_lru_cache" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_concurrent_lru_cache">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_concurrent_queue" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_concurrent_queue" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_concurrent_queue">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_concurrent_unordered_map" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_concurrent_unordered_map" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_concurrent_unordered_map">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_concurrent_vector" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_concurrent_vector" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_concurrent_vector">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_continue_node" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_continue_node" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_continue_node">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_critical_section" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_critical_section" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_critical_section">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_dynamic_link" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_dynamic_link" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_dynamic_link">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_eh_flow_graph" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_eh_flow_graph" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_eh_flow_graph">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_enumerable_thread_specific" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_enumerable_thread_specific" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_enumerable_thread_specific">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_examples_common_utility" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_examples_common_utility" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_examples_common_utility">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_flow_graph" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_flow_graph" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_flow_graph">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_flow_graph_whitebox" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_flow_graph_whitebox" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_flow_graph_whitebox">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_halt" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_halt" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_halt">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_handle_perror" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_handle_perror" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_handle_perror">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_indexer_node" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_indexer_node" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_indexer_node">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_inits_loop" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_inits_loop" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_inits_loop">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_intrusive_list" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_intrusive_list" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_intrusive_list">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_ittnotify" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_ittnotify" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_ittnotify">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_lambda" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_lambda" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_lambda">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_limiter_node" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_limiter_node" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_limiter_node">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_malloc_init_shutdown" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_malloc_init_shutdown" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_malloc_init_shutdown">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_malloc_pools" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_malloc_pools" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_malloc_pools">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_malloc_regression" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_malloc_regression" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_malloc_regression">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_model_plugin" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_model_plugin" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_model_plugin">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_mutex" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_mutex" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_mutex">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_mutex_native_threads" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_mutex_native_threads" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_mutex_native_threads">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_overwrite_node" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_overwrite_node" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_overwrite_node">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_parallel_for" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_parallel_for" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_parallel_for">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_parallel_for_each" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_parallel_for_each" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_parallel_for_each">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_parallel_for_vectorization" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_parallel_for_vectorization" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_parallel_for_vectorization">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_parallel_invoke" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_parallel_invoke" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_parallel_invoke">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_parallel_pipeline" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_parallel_pipeline" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_parallel_pipeline">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_parallel_reduce" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_parallel_reduce" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_parallel_reduce">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_parallel_scan" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_parallel_scan" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_parallel_scan">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_parallel_sort" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_parallel_sort" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_parallel_sort">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_parallel_while" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_parallel_while" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_parallel_while">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_pipeline" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_pipeline" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_pipeline">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_priority_queue_node" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_priority_queue_node" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_priority_queue_node">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_queue_node" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_queue_node" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_queue_node">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_reader_writer_lock" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_reader_writer_lock" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_reader_writer_lock">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_rwm_upgrade_downgrade" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_rwm_upgrade_downgrade" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_rwm_upgrade_downgrade">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_semaphore" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_semaphore" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_semaphore">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_source_node" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_source_node" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_source_node">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_split_node" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_split_node" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_split_node">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_static_assert" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_static_assert" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_static_assert">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_std_thread" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_std_thread" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_std_thread">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_tagged_msg" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_tagged_msg" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_tagged_msg">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_task" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_task" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_task">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_task_auto_init" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_task_auto_init" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_task_auto_init">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_task_group" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_task_group" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_task_group">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_task_scheduler_observer" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_task_scheduler_observer" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_task_scheduler_observer">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_task_steal_limit" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_task_steal_limit" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_task_steal_limit">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_tbb_condition_variable" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_tbb_condition_variable" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_tbb_condition_variable">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_tbb_fork" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_tbb_fork" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_tbb_fork">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_tbb_thread" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_tbb_thread" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_tbb_thread">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_tick_count" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_tick_count" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_tick_count">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_tuple" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_tuple" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_tuple">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_write_once_node" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_write_once_node" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_write_once_node">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_test_yield" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbb_test_yield" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="MeshVoxel" RUN_TARGET_NAME="tbb_test_yield">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbbmalloc" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbbmalloc" CONFIG_NAME="Release">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbbmalloc_proxy" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbbmalloc_proxy" CONFIG_NAME="Release">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbbmalloc_proxy_static" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbbmalloc_proxy_static" CONFIG_NAME="Release">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbbmalloc_static" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="tbbmalloc_static" CONFIG_NAME="Release">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="All CTest" type="CTestRunConfiguration" factoryName="CTestRun" PROGRAM_PARAMS="--extra-verbose" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" WORKING_DIR="file://$CMakeCurrentLocalGenerationDir$" PASS_PARENT_ENVS_2="true" CONFIG_NAME="Release" RUN_PATH="$CTestCurrentExecutableName$" EXPLICIT_BUILD_TARGET_NAME="all" TEST_MODE="SUITE_TEST">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+        <option name="BeforeTestRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="com.jetbrains.cidr.cpp.gradle.execution.GradleNativeBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="CMake Application.Continuous" />
+      <item itemvalue="CMake Application.ContinuousBuild" />
+      <item itemvalue="CMake Application.ContinuousConfigure" />
+      <item itemvalue="CMake Application.ContinuousCoverage" />
+      <item itemvalue="CMake Application.ContinuousMemCheck" />
+      <item itemvalue="CMake Application.ContinuousStart" />
+      <item itemvalue="CMake Application.ContinuousSubmit" />
+      <item itemvalue="CMake Application.ContinuousTest" />
+      <item itemvalue="CMake Application.ContinuousUpdate" />
+      <item itemvalue="CMake Application.Experimental" />
+      <item itemvalue="CMake Application.ExperimentalBuild" />
+      <item itemvalue="CMake Application.ExperimentalConfigure" />
+      <item itemvalue="CMake Application.ExperimentalCoverage" />
+      <item itemvalue="CMake Application.ExperimentalMemCheck" />
+      <item itemvalue="CMake Application.ExperimentalStart" />
+      <item itemvalue="CMake Application.ExperimentalSubmit" />
+      <item itemvalue="CMake Application.ExperimentalTest" />
+      <item itemvalue="CMake Application.ExperimentalUpdate" />
+      <item itemvalue="CMake Application.igl" />
+      <item itemvalue="CMake Application.igl_cgal" />
+      <item itemvalue="CMake Application.igl_opengl" />
+      <item itemvalue="CMake Application.igl_opengl_glfw" />
+      <item itemvalue="CMake Application.MeshVoxel" />
+      <item itemvalue="CMake Application.MeshVoxelTest" />
+      <item itemvalue="CMake Application.Nightly" />
+      <item itemvalue="CMake Application.NightlyBuild" />
+      <item itemvalue="CMake Application.NightlyConfigure" />
+      <item itemvalue="CMake Application.NightlyCoverage" />
+      <item itemvalue="CMake Application.NightlyMemCheck" />
+      <item itemvalue="CMake Application.NightlyMemoryCheck" />
+      <item itemvalue="CMake Application.NightlyStart" />
+      <item itemvalue="CMake Application.NightlySubmit" />
+      <item itemvalue="CMake Application.NightlyTest" />
+      <item itemvalue="CMake Application.NightlyUpdate" />
+      <item itemvalue="CMake Application.glad" />
+      <item itemvalue="CMake Application.glfw" />
+      <item itemvalue="CMake Application.Catch2" />
+      <item itemvalue="CMake Application.Catch2WithMain" />
+      <item itemvalue="CMake Application.tbb" />
+      <item itemvalue="CMake Application.tbb_def_files" />
+      <item itemvalue="CMake Application.tbb_static" />
+      <item itemvalue="CMake Application.tbb_test_aggregator" />
+      <item itemvalue="CMake Application.tbb_test_aligned_space" />
+      <item itemvalue="CMake Application.tbb_test_assembly" />
+      <item itemvalue="CMake Application.tbb_test_async_msg" />
+      <item itemvalue="CMake Application.tbb_test_async_node" />
+      <item itemvalue="CMake Application.tbb_test_blocked_range" />
+      <item itemvalue="CMake Application.tbb_test_blocked_range2d" />
+      <item itemvalue="CMake Application.tbb_test_blocked_range3d" />
+      <item itemvalue="CMake Application.tbb_test_broadcast_node" />
+      <item itemvalue="CMake Application.tbb_test_buffer_node" />
+      <item itemvalue="CMake Application.tbb_test_cache_aligned_allocator" />
+      <item itemvalue="CMake Application.tbb_test_cache_aligned_allocator_STL" />
+      <item itemvalue="CMake Application.tbb_test_cilk_dynamic_load" />
+      <item itemvalue="CMake Application.tbb_test_cilk_interop" />
+      <item itemvalue="CMake Application.tbb_test_combinable" />
+      <item itemvalue="CMake Application.tbb_test_composite_node" />
+      <item itemvalue="CMake Application.tbb_test_concurrent_hash_map" />
+      <item itemvalue="CMake Application.tbb_test_concurrent_lru_cache" />
+      <item itemvalue="CMake Application.tbb_test_concurrent_queue" />
+      <item itemvalue="CMake Application.tbb_test_concurrent_unordered_map" />
+      <item itemvalue="CMake Application.tbb_test_concurrent_vector" />
+      <item itemvalue="CMake Application.tbb_test_continue_node" />
+      <item itemvalue="CMake Application.tbb_test_critical_section" />
+      <item itemvalue="CMake Application.tbb_test_dynamic_link" />
+      <item itemvalue="CMake Application.tbb_test_eh_flow_graph" />
+      <item itemvalue="CMake Application.tbb_test_enumerable_thread_specific" />
+      <item itemvalue="CMake Application.tbb_test_examples_common_utility" />
+      <item itemvalue="CMake Application.tbb_test_flow_graph" />
+      <item itemvalue="CMake Application.tbb_test_flow_graph_whitebox" />
+      <item itemvalue="CMake Application.tbb_test_halt" />
+      <item itemvalue="CMake Application.tbb_test_handle_perror" />
+      <item itemvalue="CMake Application.tbb_test_indexer_node" />
+      <item itemvalue="CMake Application.tbb_test_inits_loop" />
+      <item itemvalue="CMake Application.tbb_test_intrusive_list" />
+      <item itemvalue="CMake Application.tbb_test_ittnotify" />
+      <item itemvalue="CMake Application.tbb_test_lambda" />
+      <item itemvalue="CMake Application.tbb_test_limiter_node" />
+      <item itemvalue="CMake Application.tbb_test_malloc_init_shutdown" />
+      <item itemvalue="CMake Application.tbb_test_malloc_pools" />
+      <item itemvalue="CMake Application.tbb_test_malloc_regression" />
+      <item itemvalue="CMake Application.tbb_test_model_plugin" />
+      <item itemvalue="CMake Application.tbb_test_mutex" />
+      <item itemvalue="CMake Application.tbb_test_mutex_native_threads" />
+      <item itemvalue="CMake Application.tbb_test_overwrite_node" />
+      <item itemvalue="CMake Application.tbb_test_parallel_for" />
+      <item itemvalue="CMake Application.tbb_test_parallel_for_each" />
+      <item itemvalue="CMake Application.tbb_test_parallel_for_vectorization" />
+      <item itemvalue="CMake Application.tbb_test_parallel_invoke" />
+      <item itemvalue="CMake Application.tbb_test_parallel_pipeline" />
+      <item itemvalue="CMake Application.tbb_test_parallel_reduce" />
+      <item itemvalue="CMake Application.tbb_test_parallel_scan" />
+      <item itemvalue="CMake Application.tbb_test_parallel_sort" />
+      <item itemvalue="CMake Application.tbb_test_parallel_while" />
+      <item itemvalue="CMake Application.tbb_test_pipeline" />
+      <item itemvalue="CMake Application.tbb_test_priority_queue_node" />
+      <item itemvalue="CMake Application.tbb_test_queue_node" />
+      <item itemvalue="CMake Application.tbb_test_reader_writer_lock" />
+      <item itemvalue="CMake Application.tbb_test_rwm_upgrade_downgrade" />
+      <item itemvalue="CMake Application.tbb_test_ScalableAllocator_STL" />
+      <item itemvalue="CMake Application.tbb_test_semaphore" />
+      <item itemvalue="CMake Application.tbb_test_source_node" />
+      <item itemvalue="CMake Application.tbb_test_split_node" />
+      <item itemvalue="CMake Application.tbb_test_static_assert" />
+      <item itemvalue="CMake Application.tbb_test_std_thread" />
+      <item itemvalue="CMake Application.tbb_test_tagged_msg" />
+      <item itemvalue="CMake Application.tbb_test_task" />
+      <item itemvalue="CMake Application.tbb_test_task_auto_init" />
+      <item itemvalue="CMake Application.tbb_test_task_group" />
+      <item itemvalue="CMake Application.tbb_test_task_scheduler_observer" />
+      <item itemvalue="CMake Application.tbb_test_task_steal_limit" />
+      <item itemvalue="CMake Application.tbb_test_tbb_condition_variable" />
+      <item itemvalue="CMake Application.tbb_test_tbb_fork" />
+      <item itemvalue="CMake Application.tbb_test_tbb_thread" />
+      <item itemvalue="CMake Application.tbb_test_tick_count" />
+      <item itemvalue="CMake Application.tbb_test_tuple" />
+      <item itemvalue="CMake Application.tbb_test_write_once_node" />
+      <item itemvalue="CMake Application.tbb_test_yield" />
+      <item itemvalue="CMake Application.tbbmalloc" />
+      <item itemvalue="CMake Application.tbbmalloc_proxy" />
+      <item itemvalue="CMake Application.tbbmalloc_proxy_static" />
+      <item itemvalue="CMake Application.tbbmalloc_static" />
+      <item itemvalue="CTest Application.All CTest" />
+    </list>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="8a2651ff-f3d9-4ce0-b446-22ec6236b01d" name="Default Changelist" comment="" />
+      <created>1636987700968</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1636987700968</updated>
+      <workItem from="1636987706273" duration="3336000" />
+      <workItem from="1637072369679" duration="6750000" />
+      <workItem from="1637140843487" duration="3160000" />
+      <workItem from="1637328490529" duration="74000" />
+      <workItem from="1638437781348" duration="327000" />
+      <workItem from="1638458938648" duration="3915000" />
+      <workItem from="1639040338153" duration="1083000" />
+      <workItem from="1639406698054" duration="13687000" />
+      <workItem from="1639509773199" duration="495000" />
+      <workItem from="1639556089399" duration="22186000" />
+      <workItem from="1639649227520" duration="1947000" />
+      <workItem from="1639651344162" duration="1591000" />
+      <workItem from="1639658076087" duration="9204000" />
+      <workItem from="1641043465692" duration="476000" />
+      <workItem from="1641043947453" duration="1109000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
