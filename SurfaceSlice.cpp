@@ -189,3 +189,90 @@ void SurfaceSlice::computeMesh(Eigen::MatrixXd &V, Eigen::MatrixXi &F){
     F.block(LF.rows() + TF.rows(), 0, BF.rows(), 3) = BF;
     //    F << LF, TF;
 }
+
+void SurfaceSlice::optimize(double weight, vector<vector<double>> &new_radius){
+    int NX = num_x_sample_;
+    int NT = num_theta_sample_;
+    int nvar = NX * NT;
+
+    vector<double> radius_upper_bound;
+    for(int id = 0; id < radius_.size(); id++){
+        for(int jd = 0; jd < radius_[id].size(); jd++){
+            radius_upper_bound.push_back(radius_[id][jd]);
+        }
+    }
+
+    auto mosek_radius_upper_bound = monty::new_array_ptr<double>(radius_upper_bound);
+
+    mosek::fusion::Model::t M = new mosek::fusion::Model("quadratic");
+    auto _M = monty::finally([&]() { M->dispose(); });
+
+    mosek::fusion::Variable::t var_r  = M->variable("radius", nvar, mosek::fusion::Domain::inRange(0.0, mosek_radius_upper_bound));
+    mosek::fusion::Variable::t var_g = M->variable("gap", nvar);
+    M->constraint("con_gap", mosek::fusion::Expr::add(var_r, var_g), mosek::fusion::Domain::equalsTo(mosek_radius_upper_bound));
+
+    mosek::fusion::Variable::t var_sh = M->variable("smooth_horizontal", nvar);
+    mosek::fusion::Variable::t var_sv = M->variable("smooth_vertical", (NX - 2) * NT);
+
+    int icon = 0;
+    for(int id = 0; id < NX; id++)
+    {
+        for(int jd = 0; jd < NT; jd++)
+        {
+            int prev_iv = id * NT + (jd - 1 + NT) % NT;
+            int next_iv = id * NT + (jd + 1) % NT;
+            int iv = id * NT + jd;
+            auto expression = mosek::fusion::Expr::add(var_r->index(prev_iv), var_r->index(next_iv));
+            expression = mosek::fusion::Expr::sub(expression, mosek::fusion::Expr::mul(2.0, var_r->index(iv)));
+            expression = mosek::fusion::Expr::mul(expression, sqrt(weight));
+            expression = mosek::fusion::Expr::sub(expression, var_sh->index(iv));
+            std::string con_str = "contraints_hortizontal_" + std::to_string(icon);
+            M->constraint(con_str, expression, mosek::fusion::Domain::equalsTo(0.0));
+            icon++;
+        }
+    }
+
+    icon = 0;
+    for(int id = 1; id + 1 < NX; id++)
+    {
+        for(int jd = 0; jd < NT; jd++)
+        {
+            int prev_iv = (id - 1) * NT + jd;
+            int next_iv = (id + 1) * NT + jd;
+            int iv = id * NT + jd;
+
+            auto expression = mosek::fusion::Expr::add(var_r->index(prev_iv), var_r->index(next_iv));
+            expression = mosek::fusion::Expr::sub(expression, mosek::fusion::Expr::mul(2.0, var_r->index(iv)));
+            expression = mosek::fusion::Expr::mul(expression, sqrt(weight));
+            expression = mosek::fusion::Expr::sub(expression, var_sv->index(icon));
+            std::string con_str = "contraints_vertical_" + std::to_string(icon);
+            M->constraint(con_str, expression, mosek::fusion::Domain::equalsTo(0.0));
+            icon++;
+        }
+    }
+
+    mosek::fusion::Variable::t var_obj = M->variable(1);
+    std::shared_ptr<monty::ndarray<mosek::fusion::Variable::t,1>> varlist
+                                                    = monty::new_array_ptr<mosek::fusion::Variable::t,1>({var_obj, var_g, var_sh, var_sv});
+
+    mosek::fusion::Variable::t stack_var = mosek::fusion::Var::vstack(varlist);
+
+    M->constraint("obj_contrain", stack_var, mosek::fusion::Domain::inQCone());
+
+    M->objective("obj", mosek::fusion::ObjectiveSense::Minimize, var_obj);
+
+    M->solve();
+
+    monty::ndarray<double, 1> var_radius   = *(var_r->level());
+    new_radius.clear();
+    for(int id = 0; id < NX; id++)
+    {
+        new_radius.push_back(vector<double>());
+        for(int jd = 0; jd < NT; jd++){
+            int iv = id * NT + jd;
+            new_radius[id].push_back(var_radius[iv]);
+        }
+    }
+
+    return;
+}

@@ -6,8 +6,6 @@
 #define EXAMPLE_MESHVOXEL_H
 #include <Eigen/Dense>
 #include <igl/readOBJ.h>
-#include <igl/copyleft/cgal/mesh_boolean.h>
-#include <igl/volume.h>
 #include <vector>
 using std::vector;
 class MeshVoxel {
@@ -69,11 +67,6 @@ public:
         }
 
     }
-    void voxelization(vector<Eigen::MatrixXd> &Vs,
-                      vector<Eigen::MatrixXi> &Fs,
-                      vector<double> &volumes,
-                      vector<vector<double>> &areas,
-                      vector<Eigen::Vector3i> &voxel_indices);
 
     void write_voxels(std::string filename);
 
@@ -82,10 +75,6 @@ public:
 
     void voxelization_approximation(vector<double> &volumes,
                                     vector<Eigen::Vector3i> &voxel_indices);
-
-    std::vector<double> compute_contacts(Eigen::Vector3i index,
-                                         const Eigen::MatrixXd &V,
-                                         const Eigen::MatrixXi &F);
 
     void computeSelectedVoxels(vector<double> &volumes, vector<Eigen::Vector3i> &voxel_indices);
 
@@ -116,8 +105,6 @@ public:
                                                       double &distance,
                                                       Eigen::MatrixXd &gradient) const;
 
-
-    double compute_intersec(Eigen::Vector3i index, Eigen::MatrixXd &V, Eigen::MatrixXi &F);
 
     void compute_voxel(Eigen::Vector3i index, Eigen::MatrixXd &V, Eigen::MatrixXi &F);
 
