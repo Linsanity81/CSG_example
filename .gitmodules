@@ -1,0 +1,9 @@
+[submodule "ext/tbb"]
+	path = ext/tbb
+	url = https://github.com/wjakob/tbb
+[submodule "ext/Catch2"]
+	path = ext/Catch2
+	url = https://github.com/catchorg/Catch2.git
+[submodule "ext/LBFGSpp"]
+	path = ext/LBFGSpp
+	url = https://github.com/yixuan/LBFGSpp.git

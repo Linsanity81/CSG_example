@@ -1,0 +1,15 @@
+<!DOCTYPE MeshLabDocument>
+<MeshLabProject>
+ <MeshGroup>
+  <MLMesh label="Bunny_12x12x9.obj" filename="Bunny_12x12x9.obj" visible="1">
+   <MLMatrix44>
+1 0 0 0 
+0 1 0 0 
+0 0 1 0 
+0 0 0 1 
+</MLMatrix44>
+   <RenderingOption boxColor="234 234 234 255" wireWidth="1" wireColor="64 64 64 255" solidColor="192 192 192 255" pointColor="131 149 69 255" pointSize="3">110001000000000000000110000001011000001010100000010100111011110000001001</RenderingOption>
+  </MLMesh>
+ </MeshGroup>
+ <RasterGroup/>
+</MeshLabProject>

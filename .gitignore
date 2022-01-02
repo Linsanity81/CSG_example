@@ -2,7 +2,7 @@
 *.slo
 *.lo
 *.o
-*.obj
+#*.obj
 
 # Precompiled Headers
 *.gch
@@ -32,5 +32,9 @@
 *.swp
 
 build/*
-
 Cmake-build-*/
+cmake-build-release/*
+Cmake-build-debug/*
+cmake-build-release-remote-host/*
+cmake-build-debug-remote-host/*
+output/*
