@@ -10,14 +10,36 @@
 
 void SurfaceSlice::initSurface(Eigen::Vector3d grids_origin,
                                double grids_width,
-                               int grids_size,
                                const vector<Eigen::Vector3i> &voxel_indices)
                                {
     std::map<int, bool> selected_voxels;
 
+    int max_index[3] ={0, 0, 0};
+    int min_index[3] = {std::numeric_limits<int>::max(),
+                        std::numeric_limits<int>::max(),
+                        std::numeric_limits<int>::max()};
+
+    for(int id = 0; id < voxel_indices.size(); id++)
+    {
+        Eigen::Vector3i index = voxel_indices[id];
+        for(int jd = 0; jd < 3; jd++){
+            max_index[jd] = std::max(max_index[jd], index[jd]);
+            min_index[jd] = std::min(min_index[jd], index[jd]);
+        }
+    }
+
+    //both end add 1 voxels
+    Eigen::Vector3i grids_size(max_index[0] - min_index[0] + 3,
+                               max_index[1] - min_index[1] + 3,
+                               max_index[2] - min_index[2] + 3);
+
+    Eigen::Vector3i delta_index(min_index[0] - 1,
+                                min_index[1] - 1,
+                                min_index[2] - 1);
+
     for(int id = 0; id < voxel_indices.size(); id++){
         Eigen::Vector3i index = voxel_indices[id];
-        int digit = index(0) + index(1) * grids_size + index(2) * grids_size * grids_size;
+        int digit = index_to_digit(index - delta_index, grids_size);
         selected_voxels[digit] = true;
     }
 
@@ -26,13 +48,17 @@ void SurfaceSlice::initSurface(Eigen::Vector3d grids_origin,
         radius_[id].resize(num_theta_sample_, std::numeric_limits<double>::max());
     }
     
-    for(int digit = 0; digit < grids_size * grids_size * grids_size; digit++)
+    for(int digit = 0; digit < grids_size[0] * grids_size[1] * grids_size[2]; digit++)
     {
-        if(selected_voxels[digit] == false){
-            int ix = digit % grids_size;
-            int iy = ((digit - ix) / grids_size) % grids_size;
-            int iz = (digit - ix - iy * grids_size) / (grids_size * grids_size);
-            Eigen::Vector3i index(ix, iy, iz);
+        if(selected_voxels[digit] == false)
+        {
+            Eigen::Vector3i index = digit_to_index(digit, grids_size);
+            index = index + delta_index;
+
+            int ix = index(0);
+            int iy = index(1);
+            int iz = index(2);
+
             double x0 = ix * grids_width + grids_origin(0);
             double x1 = x0 + grids_width;
 
@@ -46,15 +72,11 @@ void SurfaceSlice::initSurface(Eigen::Vector3d grids_origin,
             Eigen::Vector3d max_box(x1, y1, z1);
             Eigen::AlignedBox<double, 3> box(min_box, max_box);
 
-
-//            Eigen::MatrixXd V;
-//            Eigen::MatrixXi F;
-//            compute_voxel(index, grids_origin, grids_width, V,F);
-
             Eigen::Matrix<double, 1, 3, 1, 1, 3> pt((x0 + x1) / 2.0, 0, 0);
             vector<double> voxel_radius;
 
-            for(int id = 0; id < num_theta_sample_; id++){
+            for(int id = 0; id < num_theta_sample_; id++)
+            {
                 double angle = 2.0 * M_PI / num_theta_sample_ * id;
                 Eigen::Matrix<double, 1, 3, 1, 1, 3> drt(0, cos(angle), sin(angle));
 
@@ -68,7 +90,6 @@ void SurfaceSlice::initSurface(Eigen::Vector3d grids_origin,
                     voxel_radius.push_back(std::numeric_limits<double>::max());
                 }
             }
-
 
             for(int id = 0; id < xs_.size(); id++)
             {

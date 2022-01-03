@@ -33,11 +33,13 @@
       <config projectName="MeshVoxel" targetName="tbb_test_blocked_range" />
       <config projectName="MeshVoxel" targetName="tbb_test_concurrent_vector" />
       <config projectName="MeshVoxel" targetName="tbb_test_examples_common_utility" />
-      <config projectName="MeshVoxel" targetName="tbb_test_task_group" />
       <config projectName="MeshVoxel" targetName="tbb_test_reader_writer_lock" />
+      <config projectName="MeshVoxel" targetName="tbb_test_task_group" />
       <config projectName="MeshVoxel" targetName="tbb_test_queue_node" />
       <config projectName="MeshVoxel" targetName="tbb_test_tbb_thread" />
+      <config projectName="MeshVoxel" targetName="imgui" />
       <config projectName="MeshVoxel" targetName="tbb_test_parallel_invoke" />
+      <config projectName="MeshVoxel" targetName="imguizmo" />
       <config projectName="MeshVoxel" targetName="tbbmalloc_static" />
       <config projectName="MeshVoxel" targetName="tbb_test_indexer_node" />
       <config projectName="MeshVoxel" targetName="tbb_test_std_thread" />
@@ -74,8 +76,8 @@
       <config projectName="MeshVoxel" targetName="tbb_test_composite_node" />
       <config projectName="MeshVoxel" targetName="tbb_test_yield" />
       <config projectName="MeshVoxel" targetName="Catch2WithMain" />
-      <config projectName="MeshVoxel" targetName="tbb_test_ScalableAllocator_STL" />
       <config projectName="MeshVoxel" targetName="tbb_test_mutex_native_threads" />
+      <config projectName="MeshVoxel" targetName="tbb_test_ScalableAllocator_STL" />
       <config projectName="MeshVoxel" targetName="tbb_test_blocked_range2d" />
       <config projectName="MeshVoxel" targetName="tbb_test_handle_perror" />
       <config projectName="MeshVoxel" targetName="tbb_test_intrusive_list" />
@@ -111,28 +113,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8a2651ff-f3d9-4ce0-b446-22ec6236b01d" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Duck.obj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MeshVoxel.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/MeshVoxel.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MeshVoxel.h" beforeDir="false" afterPath="$PROJECT_DIR$/MeshVoxel.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MeshVoxelARAP.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MeshVoxelARAP.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MeshVoxelARAP_Solver.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pumpkin_1.obj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pumpkin_22_12_21/Pumpkin.obj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pumpkin_22_12_21/Pumpkin.puz" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Squirrel_22_12_21/Squirrel.obj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Squirrel_22_12_21/Squirrel.puz" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SurfaceEvo.h" beforeDir="false" afterPath="$PROJECT_DIR$/SurfaceEvo.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SurfaceSlice.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/SurfaceSlice.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SurfaceSlice.h" beforeDir="false" afterPath="$PROJECT_DIR$/SurfaceSlice.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Teddy_22_12_21/Teddy.obj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Teddy_22_12_21/Teddy.puz" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bunny.obj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/intersection.obj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake/FindKnitro.cmake" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/test.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -220,6 +207,16 @@
       </method>
     </configuration>
     <configuration name="glfw" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="glfw" CONFIG_NAME="Release">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="imgui" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="imgui" CONFIG_NAME="Release">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="imguizmo" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MeshVoxel" TARGET_NAME="imguizmo" CONFIG_NAME="Release">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -656,10 +653,12 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="CMake Application.imguizmo" />
       <item itemvalue="CMake Application.MeshVoxel" />
       <item itemvalue="CMake Application.MeshVoxelTest" />
       <item itemvalue="CMake Application.glad" />
       <item itemvalue="CMake Application.glfw" />
+      <item itemvalue="CMake Application.imgui" />
       <item itemvalue="CMake Application.Catch2" />
       <item itemvalue="CMake Application.Catch2WithMain" />
       <item itemvalue="CMake Application.tbb" />
