@@ -17,12 +17,24 @@ public:
 
     int max_inner_it_time_;
 
+    int num_location_sample_;
+
+    double shape_weight_;
+
+    double shape_weight_last_iteration_;
+
+    double lbfgs_eps_;
+
+    int lbfgs_iterations_;
+
+    int lbfgs_linesearch_iterations_;
+
     vector<Eigen::MatrixXd> intermediate_results_;
 
 public:
 
     Eigen::Vector3d optimize_location(Eigen::Vector3d base_origin){
-        int nsample = 5;
+        int nsample = num_location_sample_;
         Eigen::Vector3d optimal_origin(0, 0, 0);
         double optimal_ratio = 0;
 
@@ -61,9 +73,6 @@ public:
         Eigen::VectorXi b;
         base_mesh_->precompute_arap_data(b);
 
-        max_outer_it_time_ = 2;
-        max_inner_it_time_ = 3;
-
         opt_grids_origin = base_mesh_->grids_origin_;
         Eigen::Vector3d base_origin = base_mesh_->grids_origin_;
 
@@ -73,10 +82,10 @@ public:
             base_mesh_->meshV_ = opt_meshV;
 
             if(outer_it == max_outer_it_time_ - 1){
-                base_mesh_->shape_weight_ = 0.1;
+                base_mesh_->shape_weight_ = shape_weight_last_iteration_;
             }
             else{
-                base_mesh_->shape_weight_ = 20;
+                base_mesh_->shape_weight_ = shape_weight_;
             }
 
             //update origin
@@ -92,10 +101,10 @@ public:
 
             // Set up parameters
             LBFGSpp::LBFGSParam<double> param;
-            param.epsilon = 1e-8;
-            param.max_iterations = 50;
+            param.epsilon = lbfgs_eps_;
+            param.max_iterations = lbfgs_iterations_;
             //param.linesearch = LBFGSpp::LBFGS_LINESEARCH_BACKTRACKING_STRONG_WOLFE;
-            param.max_linesearch = 100;
+            param.max_linesearch = lbfgs_linesearch_iterations_;
 
             int inner_it = 0;
 
@@ -119,8 +128,6 @@ public:
                 Eigen::MatrixXd gradient;
                 base_mesh_->compute_point_to_selected_voxels_distance(opt_meshV, fx, gradient);
 
-                //base_mesh_->shape_weight_ /= 10;
-
                 inner_it ++;
             }
             intermediate_results_.push_back(opt_meshV);
@@ -132,7 +139,15 @@ public:
 
 public:
     MeshVoxelARAP_Solver(std::shared_ptr<MeshVoxelARAP> mesh){
-            base_mesh_ = mesh;
+        base_mesh_ = mesh;
+        num_location_sample_ = 5;
+        max_outer_it_time_ = 2;
+        max_inner_it_time_ = 3;
+        shape_weight_ = 20.0;
+        shape_weight_last_iteration_ = 0.1;
+        lbfgs_eps_ = 1E-8;
+        lbfgs_iterations_ = 50;
+        lbfgs_linesearch_iterations_ = 100;
     }
 };
 

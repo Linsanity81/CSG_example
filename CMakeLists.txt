@@ -10,6 +10,7 @@ list(PREPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 option(LIBIGL_WITH_EIGEN             "Use Eigen"          ON)
 option(LIBIGL_WITH_OPENGL            "Use OpenGL"         ON)
 option(LIBIGL_WITH_OPENGL_GLFW       "Use GLFW"           ON)
+option(LIBIGL_WITH_OPENGL_GLFW_IMGUI "Uuse IMGUI"         ON)
 include(libigl)
 
 #tbb
@@ -30,10 +31,14 @@ add_executable(MeshVoxel ${SRC_FILES} main.cpp)
 target_link_libraries(MeshVoxel PUBLIC
         igl::core
         igl::opengl_glfw
+        igl::opengl_glfw_imgui
         tbb tbbmalloc)
 
 # test
 add_executable(MeshVoxelTest ${SRC_FILES} test.cpp)
 target_link_libraries(MeshVoxelTest PUBLIC
-        igl::core igl::opengl_glfw
-        tbb tbbmalloc Catch2::Catch2WithMain)
+        igl::core
+        igl::opengl_glfw
+        igl::opengl_glfw_imgui
+        tbb tbbmalloc
+        Catch2::Catch2WithMain)
