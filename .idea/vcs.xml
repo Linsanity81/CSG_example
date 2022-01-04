@@ -25,6 +25,9 @@
     <mapping directory="$PROJECT_DIR$/cmake-build-release/_deps/libigl-src/external/eigen" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/cmake-build-release/_deps/libigl-src/external/glad" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/cmake-build-release/_deps/libigl-src/external/glfw" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/cmake-build-release/_deps/libigl-src/external/imgui" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/cmake-build-release/_deps/libigl-src/external/imguizmo" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/cmake-build-release/_deps/libigl-src/external/libigl-imgui" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/cmake-build-release/_deps/libigl-src/external/tetgen" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/ext/Catch2" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/ext/LBFGSpp" vcs="Git" />
