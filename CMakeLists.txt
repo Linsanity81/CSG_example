@@ -10,12 +10,7 @@ list(PREPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 option(LIBIGL_WITH_EIGEN             "Use Eigen"          ON)
 option(LIBIGL_WITH_OPENGL            "Use OpenGL"         ON)
 option(LIBIGL_WITH_OPENGL_GLFW       "Use GLFW"           ON)
-option(LIBIGL_WITH_CGAL              "Use CGAL"           ON)
-option(LIBIGL_USE_STATIC_LIBRARY     "Use libIGL as static librarie" ON)
 include(libigl)
-
-# mosek
-find_package(MOSET)
 
 #tbb
 add_subdirectory(ext/tbb)
@@ -25,32 +20,20 @@ add_subdirectory(ext/Catch2)
 
 #lbfgs
 include_directories(ext/LBFGSpp/include)
-
-#Kintro
-find_package(Knitro QUIET)
-include_directories(${KNITRO_INCLUDE_DIRS} ${MOSEK_INCLUDE_DIRS})
-
 # main code
 set(SRC_FILES
         MeshVoxel.cpp MeshVoxel.h
         MeshVoxelARAP.cpp MeshVoxelARAP.h
-        MeshVoxelARAP_Solver.h
-        SurfaceEvo.cpp SurfaceEvo.h
-        SurfaceSlice.h SurfaceSlice.cpp)
+        MeshVoxelARAP_Solver.h)
 
 add_executable(MeshVoxel ${SRC_FILES} main.cpp)
 target_link_libraries(MeshVoxel PUBLIC
         igl::core
         igl::opengl_glfw
-        igl::cgal
-        tbb tbbmalloc
-        ${KNITRO_LIBRARIES}
-        ${MOSEK_LIBRARIES})
+        tbb tbbmalloc)
 
 # test
 add_executable(MeshVoxelTest ${SRC_FILES} test.cpp)
 target_link_libraries(MeshVoxelTest PUBLIC
-        igl::core igl::opengl_glfw igl::cgal
-        tbb tbbmalloc Catch2::Catch2WithMain
-        ${KNITRO_LIBRARIES}
-        ${MOSEK_LIBRARIES})
+        igl::core igl::opengl_glfw
+        tbb tbbmalloc Catch2::Catch2WithMain)
