@@ -11,6 +11,7 @@
 #include <igl/opengl/glfw/imgui/ImGuiHelpers.h>
 #include <imgui/imgui.h>
 #include "igl/file_dialog_save.h"
+#include "igl/file_dialog_open.h"
 using std::vector;
 
 void add_edges(igl::opengl::glfw::Viewer& viewer, std::shared_ptr<MeshVoxel> meshVoxel)
@@ -33,6 +34,33 @@ void add_edges(igl::opengl::glfw::Viewer& viewer, std::shared_ptr<MeshVoxel> mes
 
         viewer.data().add_edges(P1, P2, Eigen::RowVector3d(1, 1, 1));
     }
+}
+
+void read_revolution_surface(std::string filename,
+                             Eigen::MatrixXd &V,
+                             Eigen::MatrixXi &F){
+    std::ifstream fin(filename);
+    int num_point = 0;
+    fin >> num_point;
+
+    vector<double> data_xs;
+    vector<double> data_yts;
+
+    for(int id = 0; id < num_point; id++)
+    {
+        double x, y, t;
+        fin >> x >> y >> t;
+        data_xs.push_back(x);
+        data_yts.push_back(y);
+        data_yts.push_back(t);
+    }
+
+    fin.close();
+
+    SurfaceEvo surface(data_xs);
+    surface.computeMesh(data_yts, V, F);
+
+    return;
 }
 
 void generate_evolution_surface(Eigen::MatrixXd &V, Eigen::MatrixXi &F){
@@ -176,9 +204,20 @@ int main()
 
         if (ImGui::CollapsingHeader("Inputs", ImGuiTreeNodeFlags_DefaultOpen)) {
             // Expose variable directly ...
-            if (ImGui::Button("Generate Evolution Surface", ImVec2(-1,0)))
+            if (ImGui::Button("Generate Revolution Surface", ImVec2(-1,0)))
             {
                 generate_evolution_surface(input_V, input_F);
+                drawing_V = input_V;
+                drawing_F = input_F;
+                viewer.data().clear();
+                viewer.core().align_camera_center(drawing_V, drawing_F);
+                viewer.data().set_mesh(drawing_V, drawing_F);
+            }
+
+            if (ImGui::Button("Open Surface", ImVec2(-1,0)))
+            {
+                std::string filename = igl::file_dialog_open();
+                read_revolution_surface(filename, input_V, input_F);
                 drawing_V = input_V;
                 drawing_F = input_F;
                 viewer.data().clear();
