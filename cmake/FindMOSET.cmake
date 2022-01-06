@@ -10,7 +10,9 @@
 # Hardcoded search paths
 set(SEARCH_PATHS
   /usr/local/mosek/9.3/tools/platform/osx64x86
+  /usr/local/mosek/9.2/tools/platform/osx64x86
 )
+
 
 find_path(MOSEK_INCLUDE_DIR mosek.h
   PATHS ${SEARCH_PATHS}
@@ -44,7 +46,7 @@ set(MOSEK_LIBRARIES ${MOSEK_LIBRARIES} ${MOSEK_FUSION_LIBRARIES})
 # Check that Mosek was successfully found
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(
-  MOSEK DEFAULT_MSG MOSEK_LIBRARIES MOSEK_INCLUDE_DIR
+  MOSET DEFAULT_MSG MOSEK_LIBRARIES MOSEK_INCLUDE_DIR
 )
 set(MOSEK_INCLUDE_DIRS ${MOSEK_INCLUDE_DIR})
 # Hide variables from CMake-Gui options
