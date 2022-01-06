@@ -2,7 +2,7 @@
 <project version="4">
   <component name="PublishConfigData" remoteFilesAllowedToDisappearOnAutoupload="false" showExcludedInSync="true">
     <serverData>
-      <paths name="Remote Host (ace40a9a-84a9-49ab-8f05-2d65f0081851)">
+      <paths name="Remote Host (661b7065-240a-401a-9208-8199e1e2860b)">
         <serverdata>
           <mappings>
             <mapping deploy="/tmp/CSG_example" local="$PROJECT_DIR$" />

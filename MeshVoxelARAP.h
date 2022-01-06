@@ -16,14 +16,20 @@ public:
 
     double shape_weight_;
 
+    double gap_;
+
     igl::ARAPData arap_data_;
 
     Eigen::MatrixXd R_;
 
+    vector<Eigen::Vector3i> core_voxels;
+
+    vector<Eigen::Vector3i> boundary_voxels;
+
 public:
 
-    MeshVoxelARAP(Eigen::Vector3d ori, double width, int size, double ratio)
-    : MeshVoxel(ori, width, size, ratio){
+    MeshVoxelARAP(Eigen::Vector3d ori, double width, int size)
+    : MeshVoxel(ori, width, size){
         shape_weight_ = 10.0;
     }
 
@@ -40,6 +46,13 @@ public:
                               Eigen::MatrixXd &gradient) const;
 
     void compute_energy(const Eigen::MatrixXd &meshV1,
+                        double &E,
+                        Eigen::MatrixXd &gradient) const;
+
+    void compute_energy(const Eigen::MatrixXd &meshV1,
+                        const vector<Eigen::Vector3i> &boundary_voxels,
+                        const vector<Eigen::Vector3i> &core_voxels,
+                        double tolerance,
                         double &E,
                         Eigen::MatrixXd &gradient) const;
 

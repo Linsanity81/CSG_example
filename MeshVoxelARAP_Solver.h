@@ -21,6 +21,8 @@ public:
 
     double shape_weight_;
 
+    double gap_;
+
     double shape_weight_last_iteration_;
 
     double lbfgs_eps_;
@@ -30,6 +32,12 @@ public:
     int lbfgs_linesearch_iterations_;
 
     vector<Eigen::MatrixXd> intermediate_results_;
+
+    double full_voxel_ratio_;
+
+    double core_voxel_ratio_;
+
+    bool use_location_optimization_;
 
 public:
 
@@ -52,7 +60,7 @@ public:
                     vector<double> volumes;
                     vector<Eigen::Vector3i> voxel_indices;
                     base_mesh_->voxelization_approximation(volumes, voxel_indices);
-                    double ratio = (double)base_mesh_->computePartialFullnTinyVoxels(volumes) / volumes.size();
+                    double ratio = (double)base_mesh_->computePartialFullnTinyVoxels(volumes, full_voxel_ratio_) / volumes.size();
                     std::cout << base_mesh_->grids_origin_.transpose() << ", " << ratio << std::endl;
                     if(ratio > optimal_ratio){
                         optimal_origin = base_origin - delta;
@@ -68,6 +76,8 @@ public:
     void optimize(Eigen::MatrixXd &opt_meshV, Eigen::Vector3d &opt_grids_origin)
     {
         intermediate_results_.clear();
+
+        base_mesh_->gap_ = gap_;
 
         Eigen::MatrixXd meshV = base_mesh_->meshV_;
         Eigen::VectorXi b;
@@ -89,15 +99,20 @@ public:
             }
 
             //update origin
-            opt_grids_origin = optimize_location(base_origin);
-            base_mesh_->grids_origin_ = opt_grids_origin;
+            if(use_location_optimization_){
+                opt_grids_origin = optimize_location(base_origin);
+                base_mesh_->grids_origin_ = opt_grids_origin;
+            }
 
             //update selected voxels
             vector<double> volumes;
             vector<Eigen::Vector3i> voxel_indices;
             base_mesh_->voxelization_approximation(volumes, voxel_indices);
-            base_mesh_->computeSelectedVoxels(volumes, voxel_indices);
+            base_mesh_->computeSelectedVoxels(volumes, voxel_indices, core_voxel_ratio_);
             base_mesh_->meshV_ = meshV;
+
+            base_mesh_->core_voxels = base_mesh_->selected_voxel_indices_;
+            base_mesh_->expansion_voxels(base_mesh_->core_voxels, base_mesh_->boundary_voxels);
 
             // Set up parameters
             LBFGSpp::LBFGSParam<double> param;

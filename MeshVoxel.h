@@ -31,15 +31,11 @@ public:
 
     vector<Eigen::Vector3i> selected_voxel_indices_;
 
-    double minimum_volume_;
-
 public:
-
-    MeshVoxel(Eigen::Vector3d ori, double width, int size, double ratio){
+    MeshVoxel(Eigen::Vector3d ori, double width, int size){
         grids_origin_ = ori;
         grids_width_ = width;
         grids_size_ = size;
-        minimum_volume_ = width * width * width * ratio;
     }
 
 public:
@@ -77,11 +73,14 @@ public:
     void voxelization_approximation(vector<double> &volumes,
                                     vector<Eigen::Vector3i> &voxel_indices);
 
-    void computeSelectedVoxels(vector<double> &volumes, vector<Eigen::Vector3i> &voxel_indices);
+    void computeSelectedVoxels(vector<double> &volumes, vector<Eigen::Vector3i> &voxel_indices, double ratio);
 
-    int computePartialFullnTinyVoxels(vector<double> &volumes);
+    int computePartialFullnTinyVoxels(vector<double> &volumes, double ratio);
 
     double computeDistanceVoxelToVoxel(Eigen::Vector3i voxelA, Eigen::Vector3i voxelB) const;
+
+    void expansion_voxels(const vector<Eigen::Vector3i> &input_voxels,
+                            vector<Eigen::Vector3i> &expension_voxels);
 
     Eigen::Vector3i point_to_voxel_index(Eigen::Vector3d pt) const;
 
@@ -94,13 +93,28 @@ public:
                                         vector<vector<int>> &group_pts,
                                         vector<Eigen::Vector3i> &group_voxel_indices) const;
 
-    void sort_selected_voxel_given_voxel_group(Eigen::Vector3i voxel_group_index,
-                                               vector<Eigen::Vector3i> &sorted_selected_voxels,
-                                               vector<double> &distance) const;
+    void sort_input_voxels_respect_to_distance_to_given_voxel_group(Eigen::Vector3i voxel_group_index,
+                                                                    const vector<Eigen::Vector3i> &input_voxels,
+                                                                    vector<Eigen::Vector3i> &sorted_selected_voxels,
+                                                                    vector<double> &distance) const;
 
     void compute_point_to_selected_voxels_distance(const Eigen::MatrixXd &tv,
                                                    double &distance,
                                                    Eigen::MatrixXd &gradient) const;
+
+    void compute_point_to_voxels_distance(const Eigen::MatrixXd &tv,
+                                          const vector<Eigen::Vector3i> &boundary_voxels,
+                                          const vector<Eigen::Vector3i> &core_voxels,
+                                          double tolerance,
+                                          double &distance,
+                                          Eigen::MatrixXd &gradient) const;
+
+    void compute_triangle_to_voxels_distance(const Eigen::MatrixXd &meshV1,
+                                        const vector<Eigen::Vector3i> &boundary_voxels,
+                                        const vector<Eigen::Vector3i> &core_voxels,
+                                        double tolerance,
+                                        double &distance,
+                                        Eigen::MatrixXd &gradient) const;
 
     void compute_triangle_to_selected_voxels_distance(const Eigen::MatrixXd &meshV1,
                                                       double &distance,

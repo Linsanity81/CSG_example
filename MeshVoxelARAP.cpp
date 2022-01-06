@@ -77,6 +77,12 @@ void MeshVoxelARAP::compute_rhs_vectors(Eigen::MatrixXd &rhs) {
     return;
 }
 
+void compute_distance_energy(const Eigen::MatrixXd &meshV1,
+                             double &E,
+                             Eigen::MatrixXd &gradient){
+
+}
+
 void MeshVoxelARAP::compute_energy(const Eigen::MatrixXd &meshV1,
                                    double &E,
                                    Eigen::MatrixXd &gradient) const {
@@ -93,6 +99,33 @@ void MeshVoxelARAP::compute_energy(const Eigen::MatrixXd &meshV1,
     compute_shape_enegry(meshV1, shape, gradientShape);
 
     //E = shape * shape_weight_ + pt_distance;
+    E = shape * shape_weight_ + pt_distance + tri_distance;
+    std::cout << shape << ", " << pt_distance << ", " << tri_distance << std::endl;
+
+    //gradient = gradientShape * shape_weight_ + pt_gradientDistance;
+    gradient = gradientShape * shape_weight_ + pt_gradientDistance + tri_gradientDistance;
+}
+
+void MeshVoxelARAP::compute_energy(const Eigen::MatrixXd &meshV1,
+                                   const vector<Eigen::Vector3i> &boundary_voxels,
+                                   const vector<Eigen::Vector3i> &core_voxels,
+                                   double tolerance,
+                                   double &E,
+                                   Eigen::MatrixXd &gradient) const{
+    Eigen::MatrixXd pt_gradientDistance;
+    double pt_distance = 0;
+    compute_point_to_voxels_distance(meshV1, boundary_voxels, core_voxels, tolerance, pt_distance, pt_gradientDistance);
+
+    Eigen::MatrixXd tri_gradientDistance;
+    double tri_distance = 0;
+    compute_triangle_to_voxels_distance(meshV1, boundary_voxels, core_voxels, tolerance, tri_distance, tri_gradientDistance);
+
+    Eigen::MatrixXd gradientShape;
+    double shape = 0;
+    compute_shape_enegry(meshV1, shape, gradientShape);
+
+//    E = shape * shape_weight_ + pt_distance;
+//    std::cout << shape << ", " << pt_distance << std::endl;
     E = shape * shape_weight_ + pt_distance + tri_distance;
     std::cout << shape << ", " << pt_distance << ", " << tri_distance << std::endl;
 
@@ -130,7 +163,7 @@ double MeshVoxelARAP::operator()(const Eigen::VectorXd& x, Eigen::VectorXd& grad
 
     Eigen::MatrixXd gradient;
     double energy;
-    compute_energy(tv, energy, gradient);
+    compute_energy(tv, boundary_voxels, core_voxels, gap_, energy, gradient);
 
     flatten(gradient, grad);
 

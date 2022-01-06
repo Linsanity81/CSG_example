@@ -15,13 +15,16 @@
 
 using std::vector;
 
-void add_edges(igl::opengl::glfw::Viewer& viewer,  std::shared_ptr<MeshVoxelARAP> meshVoxel)
+void add_voxels(igl::opengl::glfw::Viewer& viewer,
+                std::shared_ptr<MeshVoxel> meshVoxel,
+                const std::vector<Eigen::Vector3i> &voxel_indices
+                )
 {
-    for(int id = 0; id < meshVoxel->selected_voxel_indices_.size(); id++)
+    for(int id = 0; id < voxel_indices.size(); id++)
     {
         Eigen::MatrixXd V;
         Eigen::MatrixXi F;
-        meshVoxel->compute_voxel(meshVoxel->selected_voxel_indices_[id], V, F);
+        meshVoxel->compute_voxel(voxel_indices[id], V, F);
 
         Eigen::MatrixXi E;
         igl::edges(F, E);
@@ -45,18 +48,22 @@ int main()
     double grids_width = 0.25;
     float grids_origin[3]
     = {-1, -1, -1};
-    double voxel_ratio = 0.3;
+    double full_voxel_ratio = 0.3;
+    double core_voxel_ratio = 0.9;
 
 
-    double shape_weight = 20.0;
-    double shape_weight_last_iteration = 0.1;
+    double gap = 0.5;
+    double shape_weight = 200.0;
+    double shape_weight_last_iteration = 200.0;
+
+    bool location_optimization = false;
 
     int num_location_sample = 5;
-    int num_outer_iterations = 2;
-    int num_inner_iterations = 3;
+    int num_outer_iterations = 1;
+    int num_inner_iterations = 10;
 
     double lbfgs_eps = 1E-8;
-    int lbfgs_iterations = 50;
+    int lbfgs_iterations = 30;
     int lbfgs_linesearch_iterations = 100;
 
     Eigen::MatrixXd input_V;
@@ -78,11 +85,11 @@ int main()
         vector<double> volumes;
         vector<Eigen::Vector3i> voxel_indices;
         meshVoxel->voxelization_approximation(volumes, voxel_indices);
-        meshVoxel->computeSelectedVoxels(volumes, voxel_indices);
+        meshVoxel->computeSelectedVoxels(volumes, voxel_indices, full_voxel_ratio);
         viewer.data().clear();
         viewer.data().set_mesh(drawing_V, drawing_F);
         viewer.core().align_camera_center(drawing_V, drawing_F);
-        add_edges(viewer, meshVoxel);
+        add_voxels(viewer, meshVoxel, meshVoxel->selected_voxel_indices_);
         std::cout << "Full Voxel Percentage:\t" << meshVoxel->selected_voxel_indices_.size() / (double) volumes.size() << std::endl;
     };
 
@@ -98,10 +105,15 @@ int main()
             ImGui::InputInt("Grids Size", &grids_size, 1, 1);
             ImGui::InputDouble("Grids Width", &grids_width, 0.01, 0.02, "%.2f");
             ImGui::InputFloat3("Grids Origin", grids_origin);
-            ImGui::InputDouble("Full Voxel Ratio", &voxel_ratio, 0.025, 0.1, "%.2f");
+            ImGui::InputDouble("Full Voxel Ratio", &full_voxel_ratio, 0.025, 0.1, "%.2f");
+            ImGui::InputDouble("Core Voxel Ratio", &core_voxel_ratio, 0.025, 0.1, "%.2f");
+
         }
 
         if(ImGui::CollapsingHeader("Opt Para", ImGuiTreeNodeFlags_DefaultOpen)){
+            ImGui::Checkbox("Location Optimization", &location_optimization);
+
+            ImGui::InputDouble("Gap", &gap);
             ImGui::InputDouble("Shape Weight", &shape_weight);
             ImGui::InputDouble("Shape Weight Last", &shape_weight_last_iteration);
 
@@ -134,7 +146,7 @@ int main()
             {
                 Eigen::Vector3d origin(grids_origin[0], grids_origin[1], grids_origin[2]);
 
-                meshVoxel = std::make_shared<MeshVoxelARAP>(origin, grids_width, grids_size, voxel_ratio);
+                meshVoxel = std::make_shared<MeshVoxelARAP>(origin, grids_width, grids_size);
                 meshVoxel->meshV_ = input_V;
                 meshVoxel->meshF_ = input_F;
                 drawing_F = input_F;
@@ -142,11 +154,24 @@ int main()
                 voxelization();
             }
 
+            if (ImGui::Button("Expension", ImVec2(-1,0)))
+            {
+                if(meshVoxel){
+                    vector<Eigen::Vector3i> expension_voxels;
+                    meshVoxel->expansion_voxels(meshVoxel->selected_voxel_indices_, expension_voxels);
+                    viewer.data().clear();
+                    drawing_F = meshVoxel->meshF_;
+                    drawing_V = meshVoxel->meshV_;
+                    viewer.data().set_mesh(drawing_V, drawing_F);
+                    add_voxels(viewer, meshVoxel, expension_voxels);
+                }
+            }
+
             if (ImGui::Button("Optimize Location", ImVec2(-1,0)))
             {
                 if(input_F.rows() != 0){
                     Eigen::Vector3d origin(grids_origin[0], grids_origin[1], grids_origin[2]);
-                    meshVoxel = std::make_shared<MeshVoxelARAP>(origin, grids_width, grids_size, voxel_ratio);
+                    meshVoxel = std::make_shared<MeshVoxelARAP>(origin, grids_width, grids_size);
                     meshVoxel->meshV_ = input_V;
                     meshVoxel->meshF_ = input_F;
 
@@ -164,11 +189,11 @@ int main()
                 }
             }
 
-            if (ImGui::Button("Optimize Mesh Location", ImVec2(-1,0)))
+            if (ImGui::Button("Optimize", ImVec2(-1,0)))
             {
                 if(input_F.rows() != 0){
                     Eigen::Vector3d origin(grids_origin[0], grids_origin[1], grids_origin[2]);
-                    meshVoxel = std::make_shared<MeshVoxelARAP>(origin, grids_width, grids_size, voxel_ratio);
+                    meshVoxel = std::make_shared<MeshVoxelARAP>(origin, grids_width, grids_size);
                     meshVoxel->meshV_ = input_V;
                     meshVoxel->meshF_ = input_F;
 
@@ -185,6 +210,12 @@ int main()
 
                     solver->shape_weight_last_iteration_ = shape_weight_last_iteration;
                     solver->shape_weight_ = shape_weight;
+                    solver->gap_ = gap;
+
+                    solver->use_location_optimization_ = location_optimization;
+
+                    solver->full_voxel_ratio_ = full_voxel_ratio;
+                    solver->core_voxel_ratio_ = core_voxel_ratio;
 
                     Eigen::MatrixXd meshV1 = input_V;
 

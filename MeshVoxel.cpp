@@ -8,6 +8,7 @@
 #include <vector>
 #include <igl/fast_winding_number.h>
 #include <fstream>
+#include <map>
 
 void MeshVoxel::readMesh(std::string filename) {
     igl::readOBJ(filename, meshV_, meshF_);
@@ -187,21 +188,23 @@ void MeshVoxel::computeDiffDistancePointToVoxel(Eigen::Vector3d pt,
     }
 }
 
-void MeshVoxel::computeSelectedVoxels(vector<double> &volumes, vector<Eigen::Vector3i> &voxel_indices)
+void MeshVoxel::computeSelectedVoxels(vector<double> &volumes, vector<Eigen::Vector3i> &voxel_indices, double ratio)
 {
+    double minimum_volume = ratio * grids_width_ * grids_width_ * grids_width_;
     selected_voxel_indices_.clear();
     for(int id = 0; id < volumes.size(); id++){
-        if(volumes[id] > minimum_volume_){
+        if(volumes[id] > minimum_volume){
             selected_voxel_indices_.push_back(voxel_indices[id]);
         }
     }
     return;
 }
 
-int MeshVoxel::computePartialFullnTinyVoxels(vector<double> &volumes){
+int MeshVoxel::computePartialFullnTinyVoxels(vector<double> &volumes, double ratio){
     int count = 0;
+    double minimum_volume = ratio * grids_width_ * grids_width_ * grids_width_;
     for(int id = 0; id < volumes.size(); id++){
-        if(volumes[id] > minimum_volume_){
+        if(volumes[id] > minimum_volume){
             count++;
         }
         else if(volumes[id] < 0.05 * grids_width_ * grids_width_ * grids_width_){
@@ -209,6 +212,53 @@ int MeshVoxel::computePartialFullnTinyVoxels(vector<double> &volumes){
         }
     }
     return count;
+}
+
+void MeshVoxel::expansion_voxels(const vector<Eigen::Vector3i> &input_voxels,
+                                 vector<Eigen::Vector3i> &expension_voxels){
+    expension_voxels.clear();
+
+    auto comp = [](const Eigen::Vector3i &a, const Eigen::Vector3i &b){
+        if(a[0] < b[0])
+        {
+            return true;
+        }
+        else if(a[0] == b[0] && a[1] < b[1]){
+            return true;
+        }
+        else if(a[0] == b[0] && a[1] == b[1] && a[2] < b[2]){
+            return true;
+        }
+        return false;
+    };
+
+    std::map<Eigen::Vector3i, bool, decltype(comp)> voxel_visited(comp);
+
+    for(int id = 0; id < input_voxels.size(); id++){
+        voxel_visited[input_voxels[id]] = true;
+    }
+
+    for(int id = 0; id < input_voxels.size(); id++)
+    {
+        Eigen::Vector3i index = input_voxels[id];
+        for(int ix = -1; ix <= 1; ix++)
+        {
+            for(int iy = -1; iy <= 1; iy ++)
+            {
+                for(int iz = -1; iz <= 1; iz++)
+                {
+//                    if(abs(ix) + abs(iy) + abs(iz) <= 1){
+                        Eigen::Vector3i new_index = index + Eigen::Vector3i(ix, iy, iz);
+                        if(voxel_visited.find(new_index) == voxel_visited.end()){
+                            expension_voxels.push_back(new_index);
+                            voxel_visited[new_index] = true;
+//                        }
+                    }
+                }
+            }
+        }
+    }
+
 }
 
 void MeshVoxel::cluster_points_to_voxel_groups(const Eigen::MatrixXd &tv,
@@ -255,16 +305,16 @@ void MeshVoxel::cluster_points_to_voxel_groups(const Eigen::MatrixXd &tv,
     }
 }
 
-void MeshVoxel::sort_selected_voxel_given_voxel_group(Eigen::Vector3i voxel_group_index,
-                                                      vector<Eigen::Vector3i> &sorted_selected_voxels,
-                                                      vector<double> &distance) const
-                                                      {
-
+void MeshVoxel::sort_input_voxels_respect_to_distance_to_given_voxel_group(Eigen::Vector3i voxel_group_index,
+                                                                          const vector<Eigen::Vector3i> &input_voxels,
+                                                                          vector<Eigen::Vector3i> &output_voxels,
+                                                                          vector<double> &distance) const
+                                                                          {
     vector<std::pair<int, double>> datas;
 
-    for(int id = 0; id < selected_voxel_indices_.size(); id++){
-        Eigen::Vector3i selected_voxel_index = selected_voxel_indices_[id];
-        double distance = computeDistanceVoxelToVoxel(voxel_group_index, selected_voxel_index);
+    for(int id = 0; id < input_voxels.size(); id++){
+        Eigen::Vector3i input_voxel_index = input_voxels[id];
+        double distance = computeDistanceVoxelToVoxel(voxel_group_index, input_voxel_index);
         datas.push_back({id, distance});
     }
 
@@ -273,64 +323,8 @@ void MeshVoxel::sort_selected_voxel_given_voxel_group(Eigen::Vector3i voxel_grou
     });
 
     for(int id = 0; id < datas.size(); id++){
-        sorted_selected_voxels.push_back(selected_voxel_indices_[datas[id].first]);
+        output_voxels.push_back(input_voxels[datas[id].first]);
         distance.push_back(datas[id].second);
-    }
-
-    return;
-}
-
-void MeshVoxel::compute_point_to_selected_voxels_distance(const Eigen::MatrixXd &tv,
-                                                          double &distance,
-                                                          Eigen::MatrixXd &gradient) const{
-
-    vector<vector<int>> group_pts;
-    vector<Eigen::Vector3i> group_voxel_indices;
-
-    cluster_points_to_voxel_groups(tv, group_pts, group_voxel_indices);
-
-    distance = 0;
-    gradient = Eigen::MatrixXd::Zero(tv.rows(), 3);
-
-    for(int id = 0; id < group_voxel_indices.size(); id++)
-    {
-        vector<Eigen::Vector3i> sorted_selected_voxels;
-        vector<double> distances;
-        sort_selected_voxel_given_voxel_group(group_voxel_indices[id],
-                                              sorted_selected_voxels,
-                                              distances);
-
-        for(int iv = 0; iv < group_pts[id].size(); iv++)
-        {
-            int point_id = group_pts[id][iv];
-            Eigen::Vector3d pt = tv.row(point_id);
-            double point_distance = std::numeric_limits<double>::max();
-            Eigen::Vector3d point_gradient;
-
-            for(int jd = 0; jd < sorted_selected_voxels.size(); jd++)
-            {
-                if(point_distance < distances[jd]){
-                    break;
-                }
-
-                Eigen::Vector3i selected_voxel_index = sorted_selected_voxels[jd];
-
-                double curr_point_voxel_distance;
-                Eigen::Vector3d curr_point_voxel_distance_graident;
-                computeDiffDistancePointToVoxel(pt,
-                                                selected_voxel_index,
-                                                curr_point_voxel_distance,
-                                                curr_point_voxel_distance_graident);
-
-                if(curr_point_voxel_distance < point_distance){
-                    point_distance = curr_point_voxel_distance;
-                    point_gradient = curr_point_voxel_distance_graident;
-                }
-            }
-
-            distance += point_distance;
-            gradient.row(point_id) = point_gradient;
-        }
     }
 
     return;
@@ -411,6 +405,63 @@ void MeshVoxel::flatten(const Eigen::MatrixXd &mat, Eigen::VectorXd &vec) const 
     }
 }
 
+void MeshVoxel::compute_point_to_selected_voxels_distance(const Eigen::MatrixXd &tv,
+                                                          double &distance,
+                                                          Eigen::MatrixXd &gradient) const{
+
+    vector<vector<int>> group_pts;
+    vector<Eigen::Vector3i> group_voxel_indices;
+
+    cluster_points_to_voxel_groups(tv, group_pts, group_voxel_indices);
+
+    distance = 0;
+    gradient = Eigen::MatrixXd::Zero(tv.rows(), 3);
+
+    for(int id = 0; id < group_voxel_indices.size(); id++)
+    {
+        vector<Eigen::Vector3i> sorted_selected_voxels;
+        vector<double> distances;
+        sort_input_voxels_respect_to_distance_to_given_voxel_group(group_voxel_indices[id],
+                                                                   selected_voxel_indices_,
+                                                                   sorted_selected_voxels,
+                                                                   distances);
+
+        for(int iv = 0; iv < group_pts[id].size(); iv++)
+        {
+            int point_id = group_pts[id][iv];
+            Eigen::Vector3d pt = tv.row(point_id);
+            double point_distance = std::numeric_limits<double>::max();
+            Eigen::Vector3d point_gradient;
+
+            for(int jd = 0; jd < sorted_selected_voxels.size(); jd++)
+            {
+                if(point_distance < distances[jd]){
+                    break;
+                }
+
+                Eigen::Vector3i selected_voxel_index = sorted_selected_voxels[jd];
+
+                double curr_point_voxel_distance;
+                Eigen::Vector3d curr_point_voxel_distance_graident;
+                computeDiffDistancePointToVoxel(pt,
+                                                selected_voxel_index,
+                                                curr_point_voxel_distance,
+                                                curr_point_voxel_distance_graident);
+
+                if(curr_point_voxel_distance < point_distance){
+                    point_distance = curr_point_voxel_distance;
+                    point_gradient = curr_point_voxel_distance_graident;
+                }
+            }
+
+            distance += point_distance;
+            gradient.row(point_id) = point_gradient;
+        }
+    }
+
+    return;
+}
+
 void MeshVoxel::compute_triangle_to_selected_voxels_distance(const Eigen::MatrixXd &meshV1,
                                                              double &distance,
                                                              Eigen::MatrixXd &gradient) const {
@@ -461,3 +512,185 @@ void MeshVoxel::compute_triangle_to_selected_voxels_distance(const Eigen::Matrix
 }
 
 
+void MeshVoxel::compute_point_to_voxels_distance(const Eigen::MatrixXd &tv,
+                                                 const vector<Eigen::Vector3i> &boundary_voxels,
+                                                 const vector<Eigen::Vector3i> &core_voxels,
+                                                 double tolerance,
+                                                 double &distance,
+                                                 Eigen::MatrixXd &gradient) const{
+
+    vector<vector<int>> group_pts;
+    vector<Eigen::Vector3i> group_voxel_indices;
+    cluster_points_to_voxel_groups(tv, group_pts, group_voxel_indices);
+
+    double gap = tolerance * grids_width_;
+
+    auto comp = [](const Eigen::Vector3i &a, const Eigen::Vector3i &b){
+        if(a[0] < b[0])
+        {
+            return true;
+        }
+        else if(a[0] == b[0] && a[1] < b[1]){
+            return true;
+        }
+        else if(a[0] == b[0] && a[1] == b[1] && a[2] < b[2]){
+            return true;
+        }
+        return false;
+    };
+
+    std::map<Eigen::Vector3i, bool, decltype(comp)> map_boundary_voxels(comp), map_core_voxels(comp);
+
+    vector<Eigen::Vector3i> all_voxels;
+    for(int id = 0; id < boundary_voxels.size(); id++){
+        map_boundary_voxels[boundary_voxels[id]] = true;
+        all_voxels.push_back(boundary_voxels[id]);
+    }
+
+    for(int id = 0; id < core_voxels.size(); id++){
+        map_core_voxels[core_voxels[id]] = true;
+        all_voxels.push_back(core_voxels[id]);
+    }
+
+    gradient = Eigen::MatrixXd::Zero(tv.rows(), 3);
+    distance = 0;
+
+    for(int id = 0; id < group_voxel_indices.size(); id++)
+    {
+        vector<Eigen::Vector3i> sorted_voxels;
+        vector<double> distances;
+        int group_voxel_type = -1;
+
+        if(map_boundary_voxels.find(group_voxel_indices[id]) != map_boundary_voxels.end()){
+            //boundary
+            sort_input_voxels_respect_to_distance_to_given_voxel_group(group_voxel_indices[id],
+                                                                       core_voxels,
+                                                                       sorted_voxels,
+                                                                       distances);
+            group_voxel_type = 0;
+        }
+        else if(map_core_voxels.find(group_voxel_indices[id]) != map_core_voxels.end()){
+            //core
+            sort_input_voxels_respect_to_distance_to_given_voxel_group(group_voxel_indices[id],
+                                                                       boundary_voxels,
+                                                                       sorted_voxels,
+                                                                       distances);
+            group_voxel_type = 1;
+        }
+        else{
+            //outer space
+            sort_input_voxels_respect_to_distance_to_given_voxel_group(group_voxel_indices[id],
+                                                                       all_voxels,
+                                                                       sorted_voxels,
+                                                                       distances);
+            group_voxel_type = 2;
+        }
+
+        for(int iv = 0; iv < group_pts[id].size(); iv++)
+        {
+            int point_id = group_pts[id][iv];
+            Eigen::Vector3d pt = tv.row(point_id);
+            double point_distance = std::numeric_limits<double>::max();
+            Eigen::Vector3d point_gradient;
+            Eigen::Vector3i closest_voxel;
+
+            for(int jd = 0; jd < sorted_voxels.size(); jd++)
+            {
+                if(point_distance < distances[jd]){
+                    break;
+                }
+
+                Eigen::Vector3i selected_voxel_index = sorted_voxels[jd];
+
+                double curr_point_voxel_distance;
+                Eigen::Vector3d curr_point_voxel_distance_graident;
+                computeDiffDistancePointToVoxel(pt,
+                                                selected_voxel_index,
+                                                curr_point_voxel_distance,
+                                                curr_point_voxel_distance_graident);
+
+                if(curr_point_voxel_distance < point_distance){
+                    point_distance = curr_point_voxel_distance;
+                    point_gradient = curr_point_voxel_distance_graident;
+                    closest_voxel = selected_voxel_index;
+                }
+            }
+
+            if(group_voxel_type == 0){
+                //boundary
+                if(point_distance < gap * gap){
+                    //gap * gap - point_distance
+                    distance += gap * gap - point_distance;
+                    gradient.row(point_id) = -point_gradient;
+                }
+            }
+            else if(group_voxel_type == 1){
+                distance += gap * gap + point_distance;
+                gradient.row(point_id) = point_gradient;
+
+//                std::cout << group_voxel_indices[id].transpose() << std::endl;
+//                std::cout << pt.transpose() << std::endl;
+//                std::cout << closest_voxel.transpose() << std::endl;
+//                std::cout << point_distance << std::endl;
+//                std::cout << point_gradient.transpose() << std::endl;
+//                std::cout << std::endl;
+            }
+            else{
+                distance += point_distance;
+                gradient.row(point_id) = point_gradient;
+            }
+        }
+    }
+}
+
+void MeshVoxel::compute_triangle_to_voxels_distance(const Eigen::MatrixXd &meshV1,
+                                                    const vector<Eigen::Vector3i> &boundary_voxels,
+                                                    const vector<Eigen::Vector3i> &core_voxels,
+                                                    double tolerance,
+                                                    double &distance,
+                                                    Eigen::MatrixXd &gradient) const{
+    vector<Eigen::Vector3d> bary_coords;
+    vector<int> bary_coords_faceID;
+    for(int id = 0; id < meshF_.rows(); id++){
+        Eigen::MatrixXd bary_coord(3, 3);
+
+        bary_coord << 1, 0, 0,
+        0, 1, 0,
+        0, 0, 1;
+
+        subdivide_triangle(id,
+                           meshV1,
+                           bary_coord,
+                           bary_coords,
+                           bary_coords_faceID);
+    }
+
+    Eigen::MatrixXd tv(bary_coords.size(), 3);
+    for(int id = 0;id < bary_coords.size(); id++)
+    {
+        Eigen::Vector3d pt(0, 0, 0);
+        for(int jd = 0; jd < 3; jd++)
+        {
+            int fID = bary_coords_faceID[id];
+            int vID = meshF_(fID, jd);
+            pt += meshV1.row(vID) * bary_coords[id][jd];
+        }
+        tv.row(id) = pt;
+    }
+
+    distance = 0;
+    Eigen::MatrixXd grad_wrt_bary;
+    compute_point_to_voxels_distance(tv, boundary_voxels, core_voxels, tolerance, distance, grad_wrt_bary);
+
+    gradient = Eigen::MatrixXd::Zero(meshV1.rows(), 3);
+
+    for(int id = 0; id < bary_coords.size(); id++)
+    {
+        for(int jd = 0; jd < 3; jd++)
+        {
+            int fID = bary_coords_faceID[id];
+            int vID = meshF_(fID, jd);
+            gradient.row(vID) += grad_wrt_bary.row(id) * bary_coords[id][jd];
+        }
+    }
+}
