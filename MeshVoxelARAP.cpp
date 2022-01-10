@@ -163,6 +163,7 @@ double MeshVoxelARAP::operator()(const Eigen::VectorXd& x, Eigen::VectorXd& grad
 
     Eigen::MatrixXd gradient;
     double energy;
+
     compute_energy(tv, boundary_voxels, core_voxels, gap_, energy, gradient);
 
     flatten(gradient, grad);

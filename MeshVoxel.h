@@ -67,6 +67,8 @@ public:
 
     void write_voxels(std::string filename);
 
+    void write_voxels_full_volume(std::string filename);
+
     void voxelization_approximation_with_empty_voxels(vector<double> &volumes,
                                                       vector<Eigen::Vector3i> &voxel_indices);
 

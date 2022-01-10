@@ -237,6 +237,7 @@ int main()
                 std::string filename = igl::file_dialog_save();
                 igl::writeOBJ(filename + ".obj", drawing_V, drawing_F);
                 meshVoxel->write_voxels(filename + ".puz");
+                meshVoxel->write_voxels_full_volume(filename + "_full_volume.puz");
             }
         }
 

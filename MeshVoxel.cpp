@@ -78,7 +78,8 @@ void MeshVoxel::voxelization_approximation(vector<double> &volumes,
 
     voxelization_approximation_with_empty_voxels(volumes, voxel_indices);
 
-    double min_volume = 1E-6;
+//    double min_volume = 1E-6;
+    double min_volume = 0;
 
     vector<double> volumes_tmp;
     vector<Eigen::Vector3i> voxel_indices_tmp;
@@ -146,6 +147,28 @@ void MeshVoxel::write_voxels(std::string filename)
     for(int id = 0; id < volumes.size(); id++){
         fout << volumes[id] / grids_width_ / grids_width_ / grids_width_ << " ";
     }
+
+    fout << std::endl;
+    fout.close();
+}
+
+void MeshVoxel::write_voxels_full_volume(std::string filename)
+{
+    std::ofstream fout(filename);
+
+    fout << grids_origin_[0] << " " << grids_origin_[1] << " " << grids_origin_[2] << " " << grids_width_ << std::endl;
+    fout << grids_size_ << std::endl;
+
+    vector<double> volumes;
+    vector<Eigen::Vector3i> voxel_indices;
+//    voxelization_approximation_with_empty_voxels(volumes, voxel_indices);
+    voxelization_approximation(volumes, voxel_indices);
+//    computeSelectedVoxels(volumes, voxel_indices, 0);
+
+    for(int id = 0; id < volumes.size(); id++){
+        fout << volumes[id] / grids_width_ / grids_width_ / grids_width_ << " ";
+    }
+
     fout << std::endl;
     fout.close();
 }
