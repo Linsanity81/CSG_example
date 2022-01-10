@@ -7,6 +7,7 @@
 
 #include "MeshVoxelARAP.h"
 #include "LBFGS.h"
+#include "MeshVoxelARAP_dlibSolver.h"
 
 class MeshVoxelARAP_Solver{
 public:
@@ -128,21 +129,35 @@ public:
 
                 base_mesh_->compute_rotation_matrices(opt_meshV);
 
-                // Create solver and function object
-                LBFGSpp::LBFGSSolver<double,
-                LBFGSpp::LineSearchBacktracking> solver(param);
-
+//                // Create solver and function object
+//                LBFGSpp::LBFGSSolver<double,
+//                LBFGSpp::LineSearchBacktracking> solver(param);
+//
                 // Initial guess
                 Eigen::VectorXd x;
                 base_mesh_->flatten(opt_meshV, x);
+//
+//                double fx;
+//                int niter = solver.minimize(*base_mesh_, x, fx);
 
-                double fx;
-                int niter = solver.minimize(*base_mesh_, x, fx);
+
+                MeshVoxelARAP_dlib func;
+                func.meshARAP = base_mesh_;
+
+                MeshVoxelARAP_derivatives_dlib derivative;
+                derivative.meshARAP = base_mesh_;
+
+                column_vector starting_point;
+                convert_from_eigen_to_dlib(x, starting_point);
+
+                dlib::find_min(dlib::lbfgs_search_strategy(x.rows()),  // The 10 here is basically a measure of how much memory L-BFGS will use.
+                         dlib::objective_delta_stop_strategy(lbfgs_eps_).be_verbose(),  // Adding be_verbose() causes a message to be
+                        // printed for each iteration of optimization.
+                         func, derivative, starting_point, std::numeric_limits<double>::lowest());
+
+                convert_from_dlib_to_eigen(starting_point, x);
+
                 base_mesh_->reshape(x, opt_meshV);
-
-                Eigen::MatrixXd gradient;
-                base_mesh_->compute_point_to_selected_voxels_distance(opt_meshV, fx, gradient);
-
                 inner_it ++;
             }
             intermediate_results_.push_back(opt_meshV);
