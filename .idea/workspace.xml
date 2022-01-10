@@ -114,7 +114,14 @@
   <component name="ChangeListManager">
     <list default="true" id="8a2651ff-f3d9-4ce0-b446-22ec6236b01d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Result/Vase2.obj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Result/Vase2.puz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Result/mushroom.obj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Result/mushroom.puz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Result/table.obj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Result/table.puz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Result/vase1.obj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Result/vase1.puz" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
