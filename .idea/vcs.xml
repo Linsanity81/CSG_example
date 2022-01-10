@@ -8,6 +8,7 @@
     <mapping directory="$PROJECT_DIR$/cmake-build-debug-remote-host/_deps/libigl-src/external/glad" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/cmake-build-debug-remote-host/_deps/libigl-src/external/glfw" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/cmake-build-debug-remote-host/_deps/libigl-src/external/tetgen" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/cmake-build-debug/_deps/dlib-src" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/cmake-build-debug/_deps/libigl-src" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/cmake-build-debug/_deps/libigl-src/external/cgal" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/cmake-build-debug/_deps/libigl-src/external/eigen" vcs="Git" />
@@ -23,6 +24,7 @@
     <mapping directory="$PROJECT_DIR$/cmake-build-release-remote-host/_deps/libigl-src/external/glad" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/cmake-build-release-remote-host/_deps/libigl-src/external/glfw" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/cmake-build-release-remote-host/_deps/libigl-src/external/tetgen" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/cmake-build-release/_deps/dlib-src" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/cmake-build-release/_deps/libigl-src" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/cmake-build-release/_deps/libigl-src/external/cgal" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/cmake-build-release/_deps/libigl-src/external/eigen" vcs="Git" />

@@ -67,6 +67,7 @@ void MeshVoxel::voxelization_approximation_with_empty_voxels(vector<double> &vol
             for(int jd = 0; jd < winding.size(); jd++){
                 count += winding(jd) > 0.5 ? 1: 0;
             }
+
             volumes[id] = count / query_pt_index * (grids_width_ * grids_width_ * grids_width_);
             voxel_indices[id] = index;
         }
@@ -137,6 +138,7 @@ void MeshVoxel::write_voxels(std::string filename)
 {
     std::ofstream fout(filename);
 
+    fout << "S" << std::endl;
     fout << grids_origin_[0] << " " << grids_origin_[1] << " " << grids_origin_[2] << " " << grids_width_ << std::endl;
     fout << grids_size_ << std::endl;
 
@@ -156,6 +158,7 @@ void MeshVoxel::write_voxels_full_volume(std::string filename)
 {
     std::ofstream fout(filename);
 
+    fout << "S" << std::endl;
     fout << grids_origin_[0] << " " << grids_origin_[1] << " " << grids_origin_[2] << " " << grids_width_ << std::endl;
     fout << grids_size_ << std::endl;
 
@@ -163,10 +166,24 @@ void MeshVoxel::write_voxels_full_volume(std::string filename)
     vector<Eigen::Vector3i> voxel_indices;
 //    voxelization_approximation_with_empty_voxels(volumes, voxel_indices);
     voxelization_approximation(volumes, voxel_indices);
-//    computeSelectedVoxels(volumes, voxel_indices, 0);
+    computeSelectedVoxels(volumes, voxel_indices, 0);
 
-    for(int id = 0; id < volumes.size(); id++){
-        fout << volumes[id] / grids_width_ / grids_width_ / grids_width_ << " ";
+    vector<int> voxel_digits;
+    for (int i = 0; i < voxel_indices.size(); ++i)
+    {
+        voxel_digits.push_back(index_to_digit(voxel_indices[i]));
+    }
+
+    for (int i = 0; i <  grids_size_ * grids_size_ * grids_size_; ++i)
+    {
+        if (std::find(voxel_digits.begin(), voxel_digits.end(), i) != voxel_digits.end())
+        {
+            fout << volumes[std::find(voxel_digits.begin(), voxel_digits.end(), i) - voxel_digits.begin()] / grids_width_ / grids_width_ / grids_width_ << " ";
+        }
+        else
+        {
+            fout << 0 << " ";
+        }
     }
 
     fout << std::endl;
