@@ -66,17 +66,17 @@ void read_revolution_surface(std::string filename,
 void generate_evolution_surface(Eigen::MatrixXd &V, Eigen::MatrixXi &F){
 
     //Vase1
-//    vector<double> data_xs = {0,
-//                              0.3,
-//                              0.4,
-//                              0.6,
-//                              1.1};
-//
-//    vector<double> data_yts = {0.4, -1,
-//                               0.3, 0.3,
-//                               0.45, 0.3,
-//                               0.45, -0.3,
-//                               0.3, -0.3};
+    vector<double> data_xs = {0,
+                              0.3,
+                              0.4,
+                              0.6,
+                              1.1};
+
+    vector<double> data_yts = {0.4, -1,
+                               0.3, 0.3,
+                               0.45, 0.3,
+                               0.45, -0.3,
+                               0.3, -0.3};
 
 
     //Vase 2
@@ -101,19 +101,19 @@ void generate_evolution_surface(Eigen::MatrixXd &V, Eigen::MatrixXi &F){
 //                               0.35, 1};
 
     //Table
-        vector<double> data_xs = {0,
-                              0.2,
-                              0.3,
-                              0.7,
-                              0.8,
-                              1.0};
-
-    vector<double> data_yts = {0.5, 0,
-                               0.5, 0,
-                               0.2, 0.0,
-                               0.2, 0.0,
-                               0.5, 0.0,
-                               0.5, 0.0};
+//        vector<double> data_xs = {0,
+//                              0.2,
+//                              0.3,
+//                              0.7,
+//                              0.8,
+//                              1.0};
+//
+//    vector<double> data_yts = {0.5, 0,
+//                               0.5, 0,
+//                               0.2, 0.0,
+//                               0.2, 0.0,
+//                               0.5, 0.0,
+//                               0.5, 0.0};
 
     SurfaceEvo surface(data_xs);
     surface.computeMesh(data_yts, V, F);
