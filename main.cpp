@@ -44,7 +44,9 @@ int main()
 {
     std::shared_ptr<MeshVoxelARAP> meshVoxel;
 
-    int grids_size = 9;
+    vector<Eigen::MatrixXd> intermediate_results_;
+
+    int grids_size = 10;
     double grids_width = 0.25;
     float grids_origin[3]
     = {-1, -1, -1};
@@ -229,6 +231,8 @@ int main()
                     meshVoxel->meshF_ = drawing_F = input_F;
                     meshVoxel->meshV_ = drawing_V = meshV1;
 
+                    intermediate_results_ = solver->intermediate_results_;
+
                     voxelization();
                 }
             }
@@ -237,8 +241,16 @@ int main()
                 std::string filename = igl::file_dialog_save();
                 igl::writeOBJ(filename + ".obj", drawing_V, drawing_F);
                 meshVoxel->write_voxels(filename + ".puz");
-                meshVoxel->write_voxels_full_volume(filename + "_full_volume.puz");
+
+                for (int i = 0; i < intermediate_results_.size(); i += 10)
+                {
+                    std::string intermediateFileName = filename + "_" + std::to_string(i);
+                    igl::writeOBJ(intermediateFileName + ".obj", intermediate_results_[i], drawing_F);
+                }
+//                meshVoxel->write_voxels_full_volume(filename + "_full_volume.puz");
             }
+
+
         }
 
         ImGui::End();

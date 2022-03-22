@@ -75,12 +75,18 @@ void MeshVoxel::voxelization_approximation_with_empty_voxels(vector<double> &vol
 }
 
 void MeshVoxel::voxelization_approximation(vector<double> &volumes,
-                                           vector<Eigen::Vector3i> &voxel_indices){
+                                           vector<Eigen::Vector3i> &voxel_indices, bool isNeedTinyVoxel){
 
     voxelization_approximation_with_empty_voxels(volumes, voxel_indices);
 
-//    double min_volume = 1E-6;
-    double min_volume = 0;
+    double min_volume;
+
+    if (isNeedTinyVoxel)
+        min_volume = 0;
+    else
+        min_volume = 1E-6;
+
+    //    double min_volume = 1E-6;
 
     vector<double> volumes_tmp;
     vector<Eigen::Vector3i> voxel_indices_tmp;
@@ -165,7 +171,7 @@ void MeshVoxel::write_voxels_full_volume(std::string filename)
     vector<double> volumes;
     vector<Eigen::Vector3i> voxel_indices;
 //    voxelization_approximation_with_empty_voxels(volumes, voxel_indices);
-    voxelization_approximation(volumes, voxel_indices);
+    voxelization_approximation(volumes, voxel_indices, true);
     computeSelectedVoxels(volumes, voxel_indices, 0);
 
     vector<int> voxel_digits;

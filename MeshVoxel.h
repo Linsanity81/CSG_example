@@ -73,7 +73,7 @@ public:
                                                       vector<Eigen::Vector3i> &voxel_indices);
 
     void voxelization_approximation(vector<double> &volumes,
-                                    vector<Eigen::Vector3i> &voxel_indices);
+                                    vector<Eigen::Vector3i> &voxel_indices, bool isNeedTinyVoxel = true);
 
     void computeSelectedVoxels(vector<double> &volumes, vector<Eigen::Vector3i> &voxel_indices, double ratio);
 
